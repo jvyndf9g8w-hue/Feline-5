@@ -313,6 +313,10 @@ svg#board{display:block;width:100%;height:auto;max-height:88vh;touch-action:none
 .tok .body{fill:none!important;stroke:none!important}
 .shadow{fill:rgba(0,0,0,.28)}
 .torsoA{fill:url(#gjA);stroke:#7a1040;stroke-width:.07}
+.tok[data-id="GX"] .torsoD{fill:#39ff14;stroke:#0b5a00}
+.tok[data-id="GX"] .sleeveD{stroke:#2fe010}
+.tok[data-id="GX"] .body{fill:#39ff14;stroke:#0b5a00}
+.tok[data-id="GX"] .lab{fill:#06330a;stroke:rgba(230,255,220,.9)}
 .torsoD{fill:url(#gjD);stroke:#050a14;stroke-width:.07}
 .sleeveA{fill:none;stroke:#e8478f;stroke-width:.36;stroke-linecap:round}
 .sleeveD{fill:none;stroke:#1c2c4a;stroke-width:.36;stroke-linecap:round}
@@ -1427,7 +1431,8 @@ var walk3={};
 var COL3={
   A:{j:'#dd3b82',jd:'#8a1450',sh:'#151c44',tr:'#18215c'},
   D:{j:'#2a3c96',jd:'#121c52',sh:'#141b40',tr:'#e8509c'},
-  G:{j:'#23252b',jd:'#0e0f12',sh:'#16181d',tr:'#e8509c'}
+  G:{j:'#23252b',jd:'#0e0f12',sh:'#16181d',tr:'#e8509c'},
+  GX:{j:'#39ff14',jd:'#1aa300',sh:'#16181d',tr:'#e8509c'}
 };
 function goalPts(r,G){
   var pts=[],i,n=14,t;
@@ -1526,7 +1531,7 @@ function draw3c(){
   ALL.forEach(function(id){
     if(defHidden(id)||(id==='GK'&&camName==='gk'))return;
     var p=v.pos[id],a=(v.ang&&typeof v.ang[id]==='number'?v.ang[id]:angOf(null,id))*Math.PI/180;
-    var isG=id==='GK'||id==='GX',isA=IDS_A.indexOf(id)>=0,co=isG?COL3.G:(isA?COL3.A:COL3.D);
+    var isG=id==='GK'||id==='GX',isA=IDS_A.indexOf(id)>=0,co=id==='GX'?COL3.GX:(isG?COL3.G:(isA?COL3.A:COL3.D));
     var f=[Math.cos(a),Math.sin(a)],s=[-f[1],f[0]];
     var wk=walk3[id]||(walk3[id]={x:p[0],y:p[1],ph:0,t:0,mv:false});
     var dd=Math.hypot(p[0]-wk.x,p[1]-wk.y);
@@ -1837,7 +1842,7 @@ function drawGL(){
   ALL.forEach(function(id,ix){
     if(defHidden(id)||(id==='GK'&&camName==='gk'))return;
     var p=v.pos[id],a=(v.ang&&typeof v.ang[id]==='number'?v.ang[id]:angOf(null,id))*Math.PI/180;
-    var isG=id==='GK'||id==='GX',isA=IDS_A.indexOf(id)>=0,co=isG?COL3.G:(isA?COL3.A:COL3.D),hair=HAIR[ix%HAIR.length],SK=SKT[(ix*3+1)%4];
+    var isG=id==='GK'||id==='GX',isA=IDS_A.indexOf(id)>=0,co=id==='GX'?COL3.GX:(isG?COL3.G:(isA?COL3.A:COL3.D)),hair=HAIR[ix%HAIR.length],SK=SKT[(ix*3+1)%4];
     var f=[Math.cos(a),Math.sin(a)],s=[-f[1],f[0]];
     var wk=walk3[id]||(walk3[id]={x:p[0],y:p[1],ph:0,t:0,mv:false});
     var dd=Math.hypot(p[0]-wk.x,p[1]-wk.y);
