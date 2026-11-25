@@ -818,11 +818,11 @@ var VIEWER=false, shared=readShared();
 var S=defaults(), saved=shared?null:load();
 if(saved){for(var key in saved)S[key]=saved[key];}
 if(shared){
-  VIEWER=true;S.mode=shared.mode;S.defense=shared.defense;S.defLabels=shared.defLabels;S.frames=shared.frames;S.dt=+shared.dt||0;
+  VIEWER=true;S.mode=shared.mode;S.defense=shared.defense;S.defLabels=shared.defLabels;S.frames=shared.frames;S.dt=+shared.dt||0;S.extra=shared.extra||{AX:false,GX:false};
   S.title=shared.title;S.libId=null;S.cur=0;S.loop=true;S.speed=1;S.trails=false;
   document.body.classList.add('viewer');
 }
-if(S.smooth!==false)S.smooth=true;
+if(S.smooth!==false)S.smooth=true;window.__hbS=S;
 S.dt=+S.dt||0;
 if(typeof S.vt0!=='number'||!isFinite(S.vt0))S.vt0=null;
 if(typeof S.vt1!=='number'||!isFinite(S.vt1))S.vt1=null;
@@ -2343,7 +2343,7 @@ function writeLib(){
 }
 function byId(id){for(var i=0;i<LIB.length;i++){if(LIB[i].id===id)return LIB[i];}return null;}
 function snapshot(title,id){
-  return {id:id||uid(),title:title,mode:S.mode,defense:S.defense,defLabels:S.defLabels.slice(),frames:clone(S.frames),paths:(function(){pathsBind();return S.paths.length>1?clone(S.paths):null;})(),pi:S.pi,updated:Date.now(),locked:false,dt:S.dt||0,vt0:(S.vt0==null?null:S.vt0),vt1:(S.vt1==null?null:S.vt1)};
+  return {id:id||uid(),title:title,mode:S.mode,defense:S.defense,defLabels:S.defLabels.slice(),frames:clone(S.frames),paths:(function(){pathsBind();return S.paths.length>1?clone(S.paths):null;})(),pi:S.pi,updated:Date.now(),locked:false,dt:S.dt||0,extra:{AX:!!(S.extra&&S.extra.AX),GX:!!(S.extra&&S.extra.GX)},vt0:(S.vt0==null?null:S.vt0),vt1:(S.vt1==null?null:S.vt1)};
 }
 function syncTitle(){titleIn.value=S.title||'';}
 function fmtDate(ts){try{return new Date(ts).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});}catch(e){return '';}}
@@ -2418,7 +2418,7 @@ function openEntry(id){
   S.mode=e.mode==='full'?'full':'half';
   S.defense=e.defense||'0-6';
   S.defLabels=(e.defLabels&&e.defLabels.length===6)?e.defLabels.slice():FORMS['0-6'].lab.slice();
-  S.frames=clone(e.frames);pathsReset();if(e.paths&&e.paths.length>1&&e.paths[e.pi||0]&&e.paths[e.pi||0].frames){S.paths=clone(e.paths);S.pi=e.pi||0;S.frames=S.paths[S.pi].frames;}S.libId=e.id;S.title=e.title;S.dt=+e.dt||0;S.vt0=(typeof e.vt0==='number')?e.vt0:null;S.vt1=(typeof e.vt1==='number')?e.vt1:null;
+  S.frames=clone(e.frames);pathsReset();if(e.paths&&e.paths.length>1&&e.paths[e.pi||0]&&e.paths[e.pi||0].frames){S.paths=clone(e.paths);S.pi=e.pi||0;S.frames=S.paths[S.pi].frames;}S.libId=e.id;S.title=e.title;S.dt=+e.dt||0;S.extra={AX:!!(e.extra&&e.extra.AX),GX:!!(e.extra&&e.extra.GX)};if(typeof syncExtraUI==='function')syncExtraUI();S.vt0=(typeof e.vt0==='number')?e.vt0:null;S.vt1=(typeof e.vt1==='number')?e.vt1:null;
   $('#selDef').value=S.defense;syncTitle();setMode();setCur(0);refresh();save();renderLib();syncEditUI();
   hint("« "+e.title+" » ouverte. Tes modifications ne sont enregistrées dans la bibliothèque qu'avec « Mettre à jour ».");
   libHint('');
@@ -2522,16 +2522,17 @@ function dqx(b){return b/5-1;}
 function dqy(b){return b/10-1;}
 function hasCurves(e){return e.frames.some(function(f){return f.curve&&Object.keys(f.curve).length;});}
 function hasAngs(e){return e.frames.some(function(f){return f.ang&&Object.keys(f.ang).length;});}
+function exMask(e){var x=e&&e.extra;return x?((x.AX?1:0)|(x.GX?2:0)):0;}
 function packEntry(e,withNotes){
   var enc=new TextEncoder();
   var title=Array.from(e.title||'Sans titre').slice(0,50).join('');
   var tb=enc.encode(title);
-  var out=[2,(e.mode==='full'?1:0)|(Math.max(0,DEFS.indexOf(e.defense))<<1)|(withNotes?16:0)|(hasCurves(e)?32:0)|(e.dt?64:0)|(hasAngs(e)?128:0),Math.min(255,e.frames.length),tb.length];
+  var out=[2,(e.mode==='full'?1:0)|(Math.max(0,DEFS.indexOf(e.defense))<<1)|(withNotes?16:0)|(hasCurves(e)?32:0)|(e.dt?64:0)|(hasAngs(e)?128:0)|(exMask(e)?8:0),Math.min(255,e.frames.length),tb.length];
   var i;
   for(i=0;i<tb.length;i++)out.push(tb[i]);
   e.frames.slice(0,255).forEach(function(f){
     CORE.forEach(function(id){out.push(qx(f.pos[id][0]),qy(f.pos[id][1]));});
-    if(f.holder)out.push(CORE.indexOf(f.holder));else out.push(255,qx(f.bx||0),qy(f.by||0));
+    if(f.holder)out.push(Math.max(0,ALL.indexOf(f.holder)));else out.push(255,qx(f.bx||0),qy(f.by||0));
   });
   if(e.dt)out.push(Math.max(1,Math.min(255,Math.round(e.dt/20))));
   if(hasCurves(e)){
@@ -2546,6 +2547,12 @@ function packEntry(e,withNotes){
       var as=[];
       CORE.forEach(function(id,ix){if(f.ang&&typeof f.ang[id]==='number'){as.push(ix,Math.round((((f.ang[id]%360)+360)%360)/360*255)%256);}});
       out.push(as.length/2);for(i=0;i<as.length;i++)out.push(as[i]);
+    });
+  }
+  if(exMask(e)){
+    var mk=exMask(e);out.push(mk);
+    e.frames.slice(0,255).forEach(function(f){
+      ['AX','GX'].forEach(function(id,ix){if(mk&(1<<ix)){var q=(f.pos&&f.pos[id])||XD[id];out.push(qx(q[0]),qy(q[1]));}});
     });
   }
   if(withNotes){
@@ -2575,7 +2582,7 @@ function unpackBytes0(a){
     if(p>=a.length)return null;
     var h=a[p++],holder=null,bx=0,by=0;
     if(h===255){if(p+1>=a.length)return null;bx=dqx(a[p]);by=dqy(a[p+1]);p+=2;}
-    else{if(!CORE[h])return null;holder=CORE[h];}
+    else{if(!ALL[h])return null;holder=ALL[h];}
     frames.push({pos:pos,holder:holder,bx:bx,by:by,note:''});
   }
   var dtv=0;
@@ -2602,12 +2609,21 @@ function unpackBytes0(a){
       }
     }
   }
+  var extra={AX:false,GX:false};
+  if(flags&8){
+    if(p>=a.length)return null;
+    var mk=a[p++];extra.AX=!!(mk&1);extra.GX=!!(mk&2);
+    for(var j3=0;j3<n;j3++){
+      ['AX','GX'].forEach(function(id,ix){if(mk&(1<<ix)){if(p+1>=a.length){p=a.length+9;return;}frames[j3].pos[id]=[dqx(a[p]),dqy(a[p+1])];p+=2;}});
+      if(p>a.length)return null;
+    }
+  }
   if(withNotes){
     var notes=new TextDecoder().decode(a.slice(p)).split('\u0001');
     frames.forEach(function(f,i){f.note=notes[i]||'';});
   }
   var labs=(defense==='none'?FORMS['0-6']:FORMS[defense]).lab.slice();
-  return {title:title||'Séquence',mode:mode,defense:defense,defLabels:labs,frames:frames,dt:dtv};
+  return {title:title||'Séquence',mode:mode,defense:defense,defLabels:labs,frames:frames,dt:dtv,extra:extra};
 }
 /* anciens liens (format texte, plus longs) */
 function unpackLegacy(d){
