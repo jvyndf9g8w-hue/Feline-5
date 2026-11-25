@@ -2099,8 +2099,8 @@ clearBtn.addEventListener('click',function(){
 });
 window.addEventListener('pagehide',save);
 setTimeout(function(){
-  if(window.__sharedErr){
-    var m='Le lien reçu est incomplet ou illisible (il a peut-être été coupé à l\u2019envoi). Demande à l\u2019expéditeur de le renvoyer.';
+  if(window.__sharedErr||window.__sharedPartial){
+    var m=window.__sharedPartial?'Le lien reçu était coupé : seules les premières étapes ont pu être lues. Demande à l\u2019expéditeur de renvoyer le lien (idéalement avec le bouton Copier le lien).':'Le lien reçu est incomplet ou illisible (code '+(window.__sharedInfo||'?')+'). Demande à l\u2019expéditeur de le renvoyer.';
     try{hint(m);}catch(_){}
     try{fsToast(m);}catch(_){}
     try{alert(m);}catch(_){}
@@ -2554,12 +2554,18 @@ function packEntry(e,withNotes){
   }
   return new Uint8Array(out);
 }
+var __pf=null;
 function unpackBytes(a){
+  __pf=null;var r=unpackBytes0(a);
+  if(!r&&__pf&&__pf.fr.length){var fr=__pf.fr;r={title:__pf.title||'Séquence (incomplète)',mode:__pf.mode,defense:__pf.defense,defLabels:(__pf.defense==='none'?FORMS['0-6']:FORMS[__pf.defense]).lab.slice(),frames:fr,dt:0};window.__sharedPartial=true;}
+  return r;
+}
+function unpackBytes0(a){
   if(a[0]!==2||a.length<5)return null;
   var flags=a[1],mode=(flags&1)?'full':'half',defense=DEFS[(flags>>1)&3],withNotes=!!(flags&16),n=a[2],tl=a[3],p=4;
   if(!n||p+tl>a.length)return null;
   var title=new TextDecoder().decode(a.slice(p,p+tl));p+=tl;
-  var frames=[];
+  var frames=[];__pf={fr:frames,title:title,mode:mode,defense:defense};
   for(var i=0;i<n;i++){
     var pos={};
     for(var k=0;k<CORE.length;k++){
@@ -2628,7 +2634,7 @@ function readShared(){
     var m=/[#&?]s=([A-Za-z0-9_-]+)/.exec(location.hash||'')||/[?&]s=([A-Za-z0-9_-]+)/.exec(location.search||'');
     if(!m)return null;
     window.__sharedSeen=true;
-    var a=toBytes(m[1]);
+    var a=toBytes(m[1]);window.__sharedInfo=m[1].length+'/'+a[0];
     var r=(a[0]===123)?unpackLegacy(JSON.parse(new TextDecoder().decode(a))):unpackBytes(a);
     if(!r)window.__sharedErr=true;
     return r;
