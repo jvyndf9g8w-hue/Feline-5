@@ -1001,15 +1001,16 @@ function viewAng(p,wdeg){
 }
 function lerp(a,b,p){return a+(b-a)*p;}
 function curveK(f,id){return (f&&f.curve&&f.curve[id])||0;}
-function ctrlPt(p,q,k){var dx=q[0]-p[0],dy=q[1]-p[1];return [(p[0]+q[0])/2-dy*k,(p[1]+q[1])/2+dx*k];}
-function pathAt(p,q,k,u){
+function curveU(f,id){var u=f&&f.cu&&f.cu[id];return (typeof u==='number')?u:0.5;}
+function ctrlPt(p,q,k,cu){var dx=q[0]-p[0],dy=q[1]-p[1],u=(typeof cu==='number')?cu:0.5;return [p[0]+dx*u-dy*k,p[1]+dy*u+dx*k];}
+function pathAt(p,q,k,u,cu){
   if(!k)return [lerp(p[0],q[0],u),lerp(p[1],q[1],u)];
-  var c=ctrlPt(p,q,k),w=1-u;
+  var c=ctrlPt(p,q,k,cu),w=1-u;
   return [w*w*p[0]+2*w*u*c[0]+u*u*q[0],w*w*p[1]+2*w*u*c[1]+u*u*q[1]];
 }
 function lerpFrames(a,b,p){
   var pos={};
-  ALL.forEach(function(id){pos[id]=pathAt(a.pos[id],b.pos[id],curveK(b,id),p);});
+  ALL.forEach(function(id){pos[id]=pathAt(a.pos[id],b.pos[id],curveK(b,id),p,curveU(b,id));});
   var A=ballOf(a.pos,a),B=ballOf(b.pos,b),ball;
   if(a.holder&&a.holder===b.holder){var hp=pos[a.holder];ball={x:hp[0],y:hp[1],h:1};}
   else ball={x:lerp(A.x,B.x,p),y:lerp(A.y,B.y,p),h:lerp(A.h,B.h,p)};
@@ -1083,13 +1084,13 @@ function drawTrails(){
     var col=isA?'var(--att)':'var(--def-trail)';
     el('circle',{cx:P[0],cy:P[1],r:R,style:'fill:none;stroke:'+col+';stroke-width:.14;stroke-dasharray:.3 .25;opacity:.85'},trailsG);
     var kk=curveK(b,id);
-    var hp=pathAt(p,q,kk,0.5),HV=V(hp[0],hp[1]);
+    var hp=pathAt(p,q,kk,0.5,curveU(b,id)),HV=V(hp[0],hp[1]);
     if(!VIEWER&&canEdit()){
       el('circle',{cx:HV[0],cy:HV[1],r:1.1,'data-curve':id,style:'fill:transparent;pointer-events:all;cursor:grab;touch-action:none'},trailsG);
       el('circle',{cx:HV[0],cy:HV[1],r:.42,style:'fill:#fff;stroke:'+col+';stroke-width:.16;pointer-events:none;opacity:.95'},trailsG);
     }
     if(kk){
-      var cw=ctrlPt(p,q,kk),C=V(cw[0],cw[1]);
+      var cw=ctrlPt(p,q,kk,curveU(b,id)),C=V(cw[0],cw[1]);
       var d1=Math.hypot(C[0]-P[0],C[1]-P[1])||1,d2=Math.hypot(Q[0]-C[0],Q[1]-C[1])||1;
       var sx=P[0]+(C[0]-P[0])/d1*R,sy=P[1]+(C[1]-P[1])/d1*R,ex=Q[0]-(Q[0]-C[0])/d2*(R+0.15),ey=Q[1]-(Q[1]-C[1])/d2*(R+0.15);
       el('path',{d:'M'+sx+' '+sy+' Q'+C[0]+' '+C[1]+' '+ex+' '+ey,style:'fill:none;stroke:'+col+';stroke-width:.2;stroke-linecap:round','marker-end':'url(#'+(isA?'mA':'mD')+')'},trailsG);
@@ -1349,12 +1350,17 @@ svg.addEventListener('pointermove',function(e){
   var f=S.frames[S.cur],a=S.frames[S.cur-1];if(!a)return;
   var p=a.pos[curveDrag],q=f.pos[curveDrag],pv=pt(e),w=W(pv[0],pv[1]);
   var dx=q[0]-p[0],dy=q[1]-p[1],d2=dx*dx+dy*dy;if(d2<0.01)return;
-  var mx=(p[0]+q[0])/2,my=(p[1]+q[1])/2;
-  var k=2*((w[0]-mx)*(-dy)+(w[1]-my)*dx)/d2;
+  /* le point blanc suit le doigt : la courbe passe par lui (point de contrôle libre) */
+  var cxw=2*w[0]-(p[0]+q[0])/2,cyw=2*w[1]-(p[1]+q[1])/2,rx=cxw-p[0],ry=cyw-p[1];
+  var k=(rx*(-dy)+ry*dx)/d2,u=(rx*dx+ry*dy)/d2;
   k=Math.max(-1.6,Math.min(1.6,Math.round(k*50)/50));
-  if(Math.abs(k)<0.12)k=0;
+  u=Math.max(0.05,Math.min(0.95,Math.round(u*50)/50));
+  if(Math.abs(u-0.5)<0.06)u=0.5;
+  if(Math.abs(k)<0.12){k=0;u=0.5;}
   if(k){f.curve=f.curve||{};f.curve[curveDrag]=k;}
   else if(f.curve){delete f.curve[curveDrag];if(!Object.keys(f.curve).length)delete f.curve;}
+  if(k&&u!==0.5){f.cu=f.cu||{};f.cu[curveDrag]=u;}
+  else if(f.cu){delete f.cu[curveDrag];if(!Object.keys(f.cu).length)delete f.cu;}
   drawTrails();
 });
 function endCurve(){if(!curveDrag)return;curveDrag=null;save();drawTrails();}
@@ -1570,7 +1576,7 @@ function draw3c(){
       if(defHidden(id))return;
       var p=fa.pos[id],q=fb.pos[id];if(Math.hypot(q[0]-p[0],q[1]-p[1])<.6)return;
       var kk=curveK(fb,id),pts=[],j;
-      for(j=0;j<=16;j++){var w=pathAt(p,q,kk,j/16);pts.push([w[0],20-w[1],.03]);}
+      for(j=0;j<=16;j++){var w=pathAt(p,q,kk,j/16,curveU(fb,id));pts.push([w[0],20-w[1],.03]);}
       var col=IDS_A.indexOf(id)>=0?'#ff8fc2':'#d5e3f5';
       poly(pts,null,col,Math.max(2,.13*sT),[Math.max(4,.4*sT),Math.max(3,.28*sT)]);
       var l1=pts[15],l2=pts[16],dx=l2[0]-l1[0],dy=l2[1]-l1[1],dl=Math.hypot(dx,dy)||1;dx/=dl;dy/=dl;
@@ -1872,7 +1878,7 @@ function drawGL(){
       if(defHidden(id))return;
       var p0=fa.pos[id],q0=fb.pos[id];if(Math.hypot(q0[0]-p0[0],q0[1]-p0[1])<.6)return;
       var kk=curveK(fb,id),pts=[],j,col=IDS_A.indexOf(id)>=0?'#ff9cc9':'#e3edf9';
-      for(j=0;j<=24;j++){var w0=pathAt(p0,q0,kk,j/24);pts.push([w0[0],20-w0[1]]);}
+      for(j=0;j<=24;j++){var w0=pathAt(p0,q0,kk,j/24,curveU(fb,id));pts.push([w0[0],20-w0[1]]);}
       for(j=0;j<24;j++){if(j%3===2)continue;var A=pts[j],B=pts[j+1],dx=B[0]-A[0],dy=B[1]-A[1],dl=Math.hypot(dx,dy)||1e-4,wd=.16;
         cm('quad',[dx*1.15,dy*1.15,0],[-dy/dl*wd,dx/dl*wd,0],[0,0,1],[A[0]+dy/dl*wd/2,A[1]-dx/dl*wd/2,.015],col,{lit:0,sh:0});}
       var l1=pts[22],l2=pts[24],dx2=l2[0]-l1[0],dy2=l2[1]-l1[1],dl2=Math.hypot(dx2,dy2)||1e-4,ux=dx2/dl2,uy=dy2/dl2;
@@ -2090,7 +2096,7 @@ $('#chkLoop').addEventListener('change',function(e){S.loop=e.target.checked;save
 $('#chkSmooth').addEventListener('change',function(e){S.smooth=e.target.checked;save();});
 $('#btnAdd').addEventListener('click',function(){
   stop();
-  var nf=clone(S.frames[S.cur]);nf.note='';delete nf.curve;
+  var nf=clone(S.frames[S.cur]);nf.note='';delete nf.curve;delete nf.cu;
   S.frames.splice(S.cur+1,0,nf);
   setCur(S.cur+1);refresh();save();
   hint("Étape "+(S.cur+1)+" créée à partir de la précédente. Déplace les joueuses pour la construire.");
@@ -2173,6 +2179,7 @@ Array.prototype.forEach.call(document.querySelectorAll('#pathP [data-k]'),functi
     var f=S.frames[S.cur],k=parseFloat(b.dataset.k);
     if(k){f.curve=f.curve||{};f.curve[pathSel]=k;}
     else if(f.curve){delete f.curve[pathSel];if(!Object.keys(f.curve).length)delete f.curve;}
+    if(f.cu){delete f.cu[pathSel];if(!Object.keys(f.cu).length)delete f.cu;}
     Array.prototype.forEach.call(document.querySelectorAll('#pathP [data-k]'),function(x){x.setAttribute('aria-pressed',String(x===b));});
     save();drawTrails();
   });
@@ -2597,8 +2604,10 @@ function packEntry(e,withNotes){
   if(hasCurves(e)){
     e.frames.slice(0,255).forEach(function(f){
       var ks=[];
-      CORE.forEach(function(id,ix){var k=curveK(f,id);if(k){ks.push(ix,Math.max(31,Math.min(223,Math.round(k*60)+127)));}});
-      out.push(ks.length/2);for(i=0;i<ks.length;i++)out.push(ks[i]);
+      var kn=0;
+      CORE.forEach(function(id,ix){var k=curveK(f,id);if(k){kn++;var kb=Math.max(31,Math.min(223,Math.round(k*60)+127)),cu=curveU(f,id);
+        if(Math.abs(cu-0.5)>0.01)ks.push(ix+64,kb,Math.max(0,Math.min(200,Math.round((cu+0.5)*100))));else ks.push(ix,kb);}});
+      out.push(kn);for(i=0;i<ks.length;i++)out.push(ks[i]);
     });
   }
   if(hasAngs(e)){
@@ -2652,8 +2661,9 @@ function unpackBytes0(a){
       var cn=a[p++];
       for(var m=0;m<cn;m++){
         if(p+1>=a.length)return null;
-        var cid=CORE[a[p]],cb=a[p+1],ck=cb<=4?KCODE[cb]:(cb-127)/60;p+=2;
-        if(cid&&ck){frames[j].curve=frames[j].curve||{};frames[j].curve[cid]=ck;}
+        var hasU=a[p]>=64,cid=CORE[a[p]&63],cb=a[p+1],ck=cb<=4?KCODE[cb]:(cb-127)/60,cuv=null;p+=2;
+        if(hasU){if(p>=a.length)return null;cuv=a[p++]/100-0.5;}
+        if(cid&&ck){frames[j].curve=frames[j].curve||{};frames[j].curve[cid]=ck;if(cuv!==null){frames[j].cu=frames[j].cu||{};frames[j].cu[cid]=cuv;}}
       }
     }
   }
@@ -4191,7 +4201,7 @@ $('#chkLoop').checked=!!S.loop;
 $('#chkSmooth').checked=S.smooth;
 Array.prototype.forEach.call(document.querySelectorAll('#segSpeed button'),function(b){b.setAttribute('aria-pressed',String(parseFloat(b.dataset.v)===S.speed));});
 setMode();setCur(S.cur);playUI();refresh();initLib();startViewer();syncSpeedUI();
-hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle pour construire la suite. Tire le point blanc au milieu d'une flèche pour la courber.");
+hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle pour construire la suite. Tire le point blanc d'une flèche dans tous les sens pour courber la course où tu veux.");
 })();
 </script>
 <script>
