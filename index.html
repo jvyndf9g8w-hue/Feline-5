@@ -457,8 +457,46 @@ body.swork #sessBanner{display:none!important}
 #sessRun .rb svg{width:100%;border-radius:10px}
 #sessRun .rb p{margin:0 0 8px;font-size:1.15em;white-space:pre-wrap}
 #sessRun .btn{min-height:52px;font-size:1.05em}
+#sessRun .btn{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
+#sessRun .btn.primary{background:var(--accent);border-color:var(--accent)}
 #sessRun .rrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 #sessPrint{display:none}
+.tl-i{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-left:6px solid var(--tc,#888);border-radius:10px;background:var(--bg);list-style:none}
+.tl-i svg{width:120px;height:auto;border-radius:6px;border:1px solid var(--line)}
+.tl-i .ic{width:120px;height:60px;display:flex;align-items:center;justify-content:center;font-size:28px;border:1px dashed var(--line);border-radius:6px}
+.tl-i .tb{display:grid;gap:4px;min-width:0}
+.tl-i .tt{font-weight:800}
+.tl-i .tm{opacity:.75;font-size:.9em}
+.tl-i .ta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tl-i .btn,.tl-i select{min-height:40px;padding:0 10px}
+.tl-i select{border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--fg);font:inherit}
+#tlSearch,#tlNewTheme{min-height:44px;padding:0 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--bg);color:var(--fg)}
+.rgrid{display:grid;gap:14px;grid-template-columns:minmax(260px,1fr) minmax(300px,1.1fr);align-items:start}
+@media (max-width:900px){.rgrid{grid-template-columns:1fr}}
+.rtimer{display:grid;gap:8px;padding:10px;border-radius:14px;background:rgba(255,255,255,.06)}
+.rtimer .rt{font-size:clamp(54px,12vw,120px)}
+.sb{display:grid;gap:10px;padding:10px;border-radius:14px;background:rgba(255,255,255,.06)}
+.sbh{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.sbt{display:grid;gap:6px;justify-items:center}
+.sbt input{width:100%;max-width:200px;min-height:40px;text-align:center;font:800 18px/1 var(--disp);text-transform:uppercase;border:1px solid rgba(255,255,255,.25);border-radius:8px;background:transparent;color:#fff}
+.sbn{font:800 clamp(56px,11vw,110px)/1 ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.sbc{display:flex;gap:6px;align-items:center;justify-content:center}
+.sbc button{min-width:54px;min-height:54px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:800 24px/1 system-ui}
+.sbc button.p{background:var(--accent);border-color:var(--accent);color:#fff}
+.stt{display:grid;gap:6px}
+.str{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:6px 8px;border-radius:10px;background:rgba(255,255,255,.05)}
+.str .sl{font-weight:700}
+.str .sc{display:flex;gap:4px;align-items:center}
+.str .sc button{min-width:44px;min-height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:800 20px/1 system-ui}
+.str .sc b{min-width:30px;text-align:center;font:800 24px/1 ui-monospace,Menlo,monospace}
+.str.hd{background:transparent;font-size:.85em;opacity:.8}
+.str.hd span{min-width:144px;text-align:center}
+.sbadd{display:flex;gap:6px}
+.sbadd input{flex:1;min-height:44px;padding:0 10px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;font:inherit}
+#sessRun table{border-collapse:collapse;width:100%}
+#sessRun td,#sessRun th{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,.15);text-align:center}
+#sessRun td:first-child,#sessRun th:first-child{text-align:left}
+
 @media print{
   body.printing>*:not(#sessPrint){display:none!important}
   body.printing #sessPrint{display:block;color:#000;background:#fff;font:13px/1.35 system-ui,sans-serif;padding:0}
@@ -838,7 +876,9 @@ body.swork #sessBanner{display:none!important}
       <div style="display:grid;gap:10px" id="sEx"></div>
       <div class="autorow">
         <button type="button" class="btn primary" id="sRun">&#9654; Lancer la séance (mode terrain)</button>
-        <button type="button" class="btn" id="sPrint">Imprimer / PDF</button>
+        <button type="button" class="btn primary" id="sPdf">PDF (envoi WhatsApp)</button>
+        <button type="button" class="btn" id="sPrint">Imprimer</button>
+        <button type="button" class="btn" id="sToLib">Enregistrer la séance en bibliothèque</button>
         <a class="btn wa" id="sWa" target="_blank" rel="noopener">Résumé WhatsApp</a>
         <button type="button" class="btn" id="sCopy">Copier le résumé</button>
         <button type="button" class="btn" id="sDup">Dupliquer la séance</button>
@@ -846,6 +886,20 @@ body.swork #sessBanner{display:none!important}
       </div>
       <p class="hint" id="sMsg" aria-live="polite"></p>
     </div>
+    <div id="tlHost"></div>
+  </section>
+
+  <section class="panel" id="tlib" style="display:grid;gap:10px" hidden>
+    <div class="libhead"><h2>Bibliothèque d'entraînement</h2><span class="grow"></span><input id="tlSearch" type="search" placeholder="Rechercher…" aria-label="Rechercher"></div>
+    <div class="slist" id="tlThemes" role="group" aria-label="Thématiques"></div>
+    <div class="autorow">
+      <input id="tlNewTheme" type="text" maxlength="40" placeholder="Nom de thématique">
+      <button type="button" class="btn" id="tlAddTheme">+ Thématique</button>
+      <button type="button" class="btn" id="tlRenTheme">Renommer la thématique choisie</button>
+      <button type="button" class="btn danger" id="tlDelTheme">Supprimer la thématique choisie</button>
+    </div>
+    <p class="hint" id="tlMsg" aria-live="polite"></p>
+    <ul class="liblist" id="tlList" style="display:grid;gap:8px;margin:0;padding:0"></ul>
   </section>
 
   <section class="panel vlib" id="vlibPanel" aria-label="Vidéothèque">
@@ -4462,19 +4516,20 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       function bt(l,fn,lab,dis){var x=document.createElement('button');x.type='button';x.className='btn';x.style.minHeight='40px';x.style.padding='0 10px';x.textContent=l;x.setAttribute('aria-label',lab);x.disabled=!!dis;x.addEventListener('click',fn);h.appendChild(x);}
       bt('\u25B2',function(){var t=s.ex[i-1];s.ex[i-1]=s.ex[i];s.ex[i]=t;save();renderAll();},'Monter',i===0);
       bt('\u25BC',function(){var t=s.ex[i+1];s.ex[i+1]=s.ex[i];s.ex[i]=t;save();renderAll();},'Descendre',i===s.ex.length-1);
+      bt('\u2605',function(){saveExLib(e);},'Enregistrer en bibliothèque d\u2019entraînement');
       bt('\u29C9',function(){var c=JSON.parse(JSON.stringify(e));c.id=sid();s.ex.splice(i+1,0,c);save();renderAll();},'Dupliquer l\u2019exercice');
       var armed=0;bt('\u2715',function(ev){var x=ev.currentTarget;if(!armed){armed=1;x.textContent='Sûr ?';setTimeout(function(){armed=0;x.textContent='\u2715';},2500);return;}s.ex.splice(i,1);save();renderAll();},'Supprimer l\u2019exercice');
       card.appendChild(h);
       var b=document.createElement('div');b.className='sxb';
       var sc=document.createElement('div');sc.className='sxs';
       var le=e.lib?byId(e.lib):null;
-      if(le){var tv=thumb(le);tv.addEventListener('click',function(){openSchema(s,e);});sc.appendChild(tv);var cap=document.createElement('div');cap.className='hint';cap.textContent='« '+(le.title||'Sans titre')+' » · '+le.frames.length+' étape'+(le.frames.length>1?'s':'');sc.appendChild(cap);}
+      if(le){var tv=thumb(le);tv.addEventListener('click',function(){openSchema(s,e,'play');});sc.appendChild(tv);var cap=document.createElement('div');cap.className='hint';cap.textContent='« '+(le.title||'Sans titre')+' » · '+le.frames.length+' étape'+(le.frames.length>1?'s':'');sc.appendChild(cap);}
       else{var no=document.createElement('div');no.className='none';no.textContent=e.lib?'Schéma introuvable dans la bibliothèque.':'Aucun schéma associé';sc.appendChild(no);}
       var sel=document.createElement('select');libOptions(sel,e.lib);sel.setAttribute('aria-label','Schéma de la bibliothèque');
       sel.addEventListener('change',function(){e.lib=sel.value;save();renderEx();});sc.appendChild(sel);
       var r=document.createElement('div');r.className='row';
       function sb(l,fn,cls){var x=document.createElement('button');x.type='button';x.className='btn'+(cls?' '+cls:'');x.textContent=l;x.addEventListener('click',fn);r.appendChild(x);}
-      if(le)sb('Ouvrir / jouer',function(){openSchema(s,e);},'primary');
+      if(le){sb('Modifier le schéma',function(){openSchema(s,e,'edit');},'primary');sb('Jouer',function(){openSchema(s,e,'play');});}
       sb('Nouveau schéma',function(){newSchema(s,e);});
       sc.appendChild(r);b.appendChild(sc);
       var f=document.createElement('div');f.className='sxf';
@@ -4489,6 +4544,24 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     if(!s.ex.length){var p=document.createElement('p');p.className='hint';p.textContent='Ajoute un exercice avec les boutons ci-dessus, ou pars de la « Séance type ».';box.appendChild(p);}
   }
   function updClocks(){var s=cs();if(!s)return;var acc=0;Array.prototype.forEach.call(document.querySelectorAll('#sEx .clk'),function(c,i){var e=s.ex[i];if(!e)return;c.textContent=clock(s.start,acc)+' → '+clock(s.start,acc+(+e.min||0));acc+=(+e.min||0);});}
+  var DEFSTATS=['Tirs','Arrêts gardienne','Neutralisations','Pertes de balle','Passes décisives','Fautes / 2 min'];
+  function teamN(s){s.teams=s.teams||{a:'Rose',b:'Bleu'};return s.teams;}
+  function statList(s){if(!s.statList||!s.statList.length)s.statList=DEFSTATS.slice();return s.statList;}
+  function stOf(e){e.st=e.st||{a:0,b:0,c:{}};e.st.c=e.st.c||{};return e.st;}
+  function hasSt(e){var t=e.st;if(!t)return false;if(t.a||t.b)return true;for(var k in (t.c||{}))if(t.c[k]&&(t.c[k][0]||t.c[k][1]))return true;return false;}
+  function stLines(s,e){
+    if(!hasSt(e))return [];var tn=teamN(s),t=e.st,out=[];
+    if(t.a||t.b)out.push('Score : '+tn.a+' '+t.a+' – '+t.b+' '+tn.b);
+    var parts=[];statList(s).concat(Object.keys(t.c||{}).filter(function(k){return statList(s).indexOf(k)<0;})).forEach(function(k){var v=t.c[k];if(v&&(v[0]||v[1]))parts.push(k+' '+v[0]+'-'+v[1]);});
+    if(parts.length)out.push('Stats ('+tn.a+'-'+tn.b+') : '+parts.join(' · '));
+    return out;
+  }
+  function totals(s){
+    var T={a:0,b:0,c:{}},any=false;
+    s.ex.forEach(function(e){if(!hasSt(e))return;any=true;T.a+=e.st.a||0;T.b+=e.st.b||0;for(var k in e.st.c){var v=e.st.c[k];T.c[k]=T.c[k]||[0,0];T.c[k][0]+=v[0]||0;T.c[k][1]+=v[1]||0;}});
+    return any?T:null;
+  }
+  function totLines(s){var T=totals(s);if(!T)return [];return stLines(s,{st:T});}
   function summary(s){
     var t='\uD83C\uDFCB\uFE0F '+(s.title||'Séance d\u2019entraînement')+'\n';
     var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push('à '+s.start.replace(':','h'));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');
@@ -4502,8 +4575,10 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       if(e.pts)t+='   À travailler : '+e.pts.replace(/\n/g,' ')+'\n';
       if(e.mat)t+='   Matériel : '+e.mat+'\n';
       var le=e.lib?byId(e.lib):null;if(le)t+='   Schéma : '+(le.title||'Sans titre')+'\n';
+      stLines(s,e).forEach(function(l){t+='   '+l+'\n';});
       acc+=(+e.min||0);
     });
+    var tl=totLines(s);if(tl.length){t+='\nBilan de la séance\n';tl.forEach(function(l){t+=l+'\n';});}
     return t.trim();
   }
   function renderAll(){
@@ -4549,16 +4624,17 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       var le=e.lib?byId(e.lib):null;var l=document.createElement('div');if(le)l.appendChild(thumb(le));d.appendChild(l);
       var r=document.createElement('div');var h2=document.createElement('h2');h2.textContent=(i+1)+'. '+(e.name||e.type)+' — '+e.type+' · '+(+e.min||0)+' min ('+clock(s.start,acc)+')';r.appendChild(h2);
       [['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(x){if(x[1]){var q=document.createElement('p');q.className='pl';q.textContent=x[0]+' : '+x[1];r.appendChild(q);}});
+      stLines(s,e).forEach(function(z){var q=document.createElement('p');q.className='pl';q.textContent=z;r.appendChild(q);});
       d.appendChild(r);p.appendChild(d);acc+=(+e.min||0);
     });
   }
   $('#sPrint').addEventListener('click',function(){var s=cs();if(!s)return;buildPrint(s);document.body.classList.add('printing');setTimeout(function(){try{window.print();}catch(_){}},80);});
   window.addEventListener('afterprint',function(){document.body.classList.remove('printing');});
   /* schéma : ouvrir / créer depuis le tableau */
-  function setPend(s,e){try{sessionStorage.setItem(PK,JSON.stringify({s:s.id,e:e.id}));}catch(_){}}
-  function openSchema(s,e){var le=e.lib?byId(e.lib):null;if(!le)return;setPend(s,e);location.hash='#page=main';openEntry(le.id);showBanner();}
+  function setPend(s,e,mode){try{sessionStorage.setItem(PK,JSON.stringify({s:s.id,e:e.id,m:mode||'edit'}));}catch(_){}}
+  function openSchema(s,e,mode){var le=e.lib?byId(e.lib):null;if(!le)return;setPend(s,e,mode||'edit');location.hash='#page=main';openEntry(le.id);showBanner();}
   function newSchema(s,e){
-    setPend(s,e);
+    setPend(s,e,'new');
     S.libId=null;S.title=(e.name||'Exercice '+(s.ex.indexOf(e)+1));
     try{syncTitle();renderLib();save();}catch(_){}
     location.hash='#page=main';showBanner();
@@ -4569,14 +4645,21 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     var pd=pend(),b=$('#sessBanner');if(!pd){b.classList.remove('on');return;}
     var s=getS(pd.s),e=s&&s.ex.filter(function(x){return x.id===pd.e;})[0];
     if(!s||!e){try{sessionStorage.removeItem(PK);}catch(_){}b.classList.remove('on');return;}
-    $('#sbTxt').textContent='Séance « '+(s.title||'Sans titre')+' » · exercice '+(s.ex.indexOf(e)+1)+(e.name?' « '+e.name+' »':'');
+    $('#sbTxt').textContent='Séance « '+(s.title||'Sans titre')+' » · exercice '+(s.ex.indexOf(e)+1)+(e.name?' « '+e.name+' »':'')+(pd.m==='play'?' · lecture':' · modification du schéma');
+    $('#sbOk').textContent=pd.m==='play'?'Revenir à la séance':'Enregistrer le schéma et revenir à la séance';
     b.classList.add('on');
   }
   $('#sbOk').addEventListener('click',function(){
     var pd=pend();if(!pd)return;var s=getS(pd.s),e=s&&s.ex.filter(function(x){return x.id===pd.e;})[0];
     if(!e){showBanner();return;}
-    if(!S.libId||!byId(S.libId)){hint('Enregistre d\u2019abord ce schéma dans la bibliothèque (bouton « Enregistrer »), puis reviens ici.');try{$('#btnSave').scrollIntoView({behavior:'smooth',block:'center'});}catch(_){}return;}
-    e.lib=S.libId;cur=s.id;store();try{sessionStorage.removeItem(PK);}catch(_){}$('#sessBanner').classList.remove('on');location.hash='#page=seance';
+    if(pd.m!=='play'){
+      var ex0=S.libId?byId(S.libId):null;
+      if(ex0&&ex0.locked){hint('Ce schéma est verrouillé dans la bibliothèque : déverrouille-le (cadenas) ou utilise « Enregistrer une copie ».');return;}
+      $('#btnSave').click();
+      if(!S.libId||!byId(S.libId)){hint('Donne un titre au schéma, puis touche à nouveau « Enregistrer le schéma et revenir ».');return;}
+      e.lib=S.libId;
+    }
+    cur=s.id;store();try{sessionStorage.removeItem(PK);}catch(_){}$('#sessBanner').classList.remove('on');location.hash='#page=seance';
   });
   $('#sbNo').addEventListener('click',function(){try{sessionStorage.removeItem(PK);}catch(_){}$('#sessBanner').classList.remove('on');});
   /* mode terrain */
@@ -4584,25 +4667,81 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   function beep(){try{var AC=window.AudioContext||window.webkitAudioContext,a=new AC(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.25;o.start();setTimeout(function(){o.stop();a.close();},700);}catch(_){}try{if(navigator.vibrate)navigator.vibrate([300,100,300]);}catch(_){}}
   function runUI(){
     var s=cs(),r=$('#sessRun');r.innerHTML='';if(!s||!s.ex.length)return;
-    var e=s.ex[run.i];
+    var e=s.ex[run.i],st=stOf(e),tn=teamN(s);
     function dv(c,t){var d=document.createElement('div');if(c)d.className=c;if(t!=null)d.textContent=t;return d;}
-    var top=dv('rrow');var x=document.createElement('button');x.type='button';x.className='btn';x.textContent='\u2715 Quitter';x.addEventListener('click',stopRun);top.appendChild(x);
-    var info=dv('',(s.title||'Séance')+' · exercice '+(run.i+1)+' / '+s.ex.length);info.style.alignSelf='center';info.style.opacity='.8';top.appendChild(info);r.appendChild(top);
+    function bn(l,fn,cls){var b=document.createElement('button');b.type='button';b.className='btn'+(cls?' '+cls:'');b.textContent=l;b.addEventListener('click',fn);return b;}
+    var top=dv('rrow');top.appendChild(bn('\u2715 Quitter',stopRun));
+    var info=dv('',(s.title||'Séance')+' · exercice '+(run.i+1)+' / '+s.ex.length);info.style.alignSelf='center';info.style.opacity='.8';top.appendChild(info);
+    top.appendChild(bn('Bilan',function(){showBilan(s);}));r.appendChild(top);
     var nm=dv('rn',(e.name||e.type));nm.style.color=tcol(e.type)==='#64748b'?'#cbd5e1':tcol(e.type);nm.style.textAlign='center';r.appendChild(nm);
-    var tm=dv('rt','');tm.id='runT';r.appendChild(tm);
+    var g=dv('rgrid');
+    /* colonne gauche : chrono + consignes */
+    var L=dv();L.style.display='grid';L.style.gap='12px';
+    var tbx=dv('rtimer');var tm=dv('rt','');tm.id='runT';tbx.appendChild(tm);
     var ctl=dv('rrow');
-    function cb(l,fn,cls){var b=document.createElement('button');b.type='button';b.className='btn'+(cls?' '+cls:'');b.textContent=l;b.addEventListener('click',fn);ctl.appendChild(b);return b;}
-    cb('\u25C0 Précédent',function(){goRun(run.i-1);});
-    var pp=cb(run.on?'Pause':'\u25B6 Démarrer',function(){toggleRun();},'primary');pp.id='runPP';
-    cb('+1 min',function(){run.left+=60;if(run.on)run.end+=60000;paintRun();});
-    cb('Suivant \u25B6',function(){goRun(run.i+1);});
-    r.appendChild(ctl);
-    var body=dv('rb');var le=e.lib?byId(e.lib):null;
-    var L=dv();if(le){var tv=thumb(le);tv.style.cursor='pointer';tv.addEventListener('click',function(){stopRun();openSchema(s,e);});L.appendChild(tv);var hp=dv('',('Touche le schéma pour le jouer sur le tableau.'));hp.style.opacity='.7';hp.style.fontSize='.9em';L.appendChild(hp);}
-    body.appendChild(L);
-    var R=dv();[['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(z){if(z[1]){var p=document.createElement('p');var b=document.createElement('b');b.textContent=z[0]+' : ';p.appendChild(b);p.appendChild(document.createTextNode(z[1]));R.appendChild(p);}});
-    var nx=s.ex[run.i+1];if(nx){var n2=dv('',('Ensuite : '+(nx.name||nx.type)+' ('+(+nx.min||0)+' min)'));n2.style.opacity='.75';R.appendChild(n2);}
-    body.appendChild(R);r.appendChild(body);paintRun();
+    ctl.appendChild(bn('\u25C0',function(){goRun(run.i-1);}));
+    var pp=bn(run.on?'Pause':'\u25B6 Démarrer',function(){toggleRun();},'primary');pp.id='runPP';ctl.appendChild(pp);
+    ctl.appendChild(bn('+1 min',function(){run.left+=60;if(run.on)run.end+=60000;paintRun();}));
+    ctl.appendChild(bn('\u25B6',function(){goRun(run.i+1);}));
+    tbx.appendChild(ctl);L.appendChild(tbx);
+    var le=e.lib?byId(e.lib):null;
+    if(le){var tv=thumb(le);tv.style.cursor='pointer';tv.addEventListener('click',function(){stopRun();openSchema(s,e,'play');});L.appendChild(tv);}
+    var tx=dv();[['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(z){if(z[1]){var p=document.createElement('p');var b=document.createElement('b');b.textContent=z[0]+' : ';p.appendChild(b);p.appendChild(document.createTextNode(z[1]));tx.appendChild(p);}});
+    var nx=s.ex[run.i+1];if(nx){var n2=dv('',('Ensuite : '+(nx.name||nx.type)+' ('+(+nx.min||0)+' min)'));n2.style.opacity='.75';tx.appendChild(n2);}
+    L.appendChild(tx);g.appendChild(L);
+    /* colonne droite : score + stats */
+    var Rr=dv('sb');
+    var h=dv('sbh');
+    function team(key){
+      var t=dv('sbt');var inp=document.createElement('input');inp.value=tn[key];inp.maxLength=14;inp.setAttribute('aria-label','Nom de l\u2019équipe');inp.addEventListener('input',function(){tn[key]=inp.value;save();});t.appendChild(inp);
+      var n=dv('sbn',String(st[key]));n.id='sc_'+key;t.appendChild(n);
+      var c=dv('sbc');
+      var m=document.createElement('button');m.type='button';m.textContent='\u2212';m.setAttribute('aria-label','Retirer un point');m.addEventListener('click',function(){st[key]=Math.max(0,st[key]-1);n.textContent=String(st[key]);save();});
+      var p=document.createElement('button');p.type='button';p.className='p';p.textContent='+1';p.setAttribute('aria-label','Ajouter un point');p.addEventListener('click',function(){st[key]++;n.textContent=String(st[key]);save();try{if(navigator.vibrate)navigator.vibrate(15);}catch(_){}});
+      c.appendChild(m);c.appendChild(p);t.appendChild(c);return t;
+    }
+    h.appendChild(team('a'));var sep=dv('','–');sep.style.cssText='font:800 40px/1 system-ui;opacity:.6';h.appendChild(sep);h.appendChild(team('b'));Rr.appendChild(h);
+    var tt=dv('stt');
+    var hd=dv('str hd');hd.appendChild(dv('',''));var ha=document.createElement('span');ha.textContent=tn.a;var hb=document.createElement('span');hb.textContent=tn.b;hd.appendChild(ha);hd.appendChild(hb);tt.appendChild(hd);
+    var keys=statList(s).concat(Object.keys(st.c).filter(function(k){return statList(s).indexOf(k)<0;}));
+    keys.forEach(function(k){
+      st.c[k]=st.c[k]||[0,0];
+      var row=dv('str');row.appendChild(dv('sl',k));
+      [0,1].forEach(function(ti){
+        var sc=dv('sc');var m=document.createElement('button');m.type='button';m.textContent='\u2212';
+        var b=document.createElement('b');b.textContent=String(st.c[k][ti]);
+        var p=document.createElement('button');p.type='button';p.textContent='+';
+        m.addEventListener('click',function(){st.c[k][ti]=Math.max(0,st.c[k][ti]-1);b.textContent=String(st.c[k][ti]);save();});
+        p.addEventListener('click',function(){st.c[k][ti]++;b.textContent=String(st.c[k][ti]);save();try{if(navigator.vibrate)navigator.vibrate(12);}catch(_){}});
+        sc.appendChild(m);sc.appendChild(b);sc.appendChild(p);row.appendChild(sc);
+      });
+      tt.appendChild(row);
+    });
+    Rr.appendChild(tt);
+    var ad=dv('sbadd');var ai=document.createElement('input');ai.placeholder='Ajouter une stat (ex. : tir au poteau)';ai.maxLength=30;
+    var ab=bn('+ Stat',function(){var v=ai.value.trim();if(!v)return;if(statList(s).indexOf(v)<0)statList(s).push(v);save();runUI();});
+    ai.addEventListener('keydown',function(ev){if(ev.key==='Enter')ab.click();});
+    ad.appendChild(ai);ad.appendChild(ab);Rr.appendChild(ad);
+    var rz=dv('rrow');rz.appendChild(bn('Remettre à zéro cet exercice',function(){e.st={a:0,b:0,c:{}};save();runUI();}));Rr.appendChild(rz);
+    g.appendChild(Rr);r.appendChild(g);paintRun();
+  }
+  function showBilan(s){
+    var r=$('#sessRun');var old=$('#bilan');if(old){old.remove();return;}
+    var box=document.createElement('div');box.id='bilan';box.className='sb';box.style.margin='0 0 8px';
+    var tn=teamN(s),T=totals(s);
+    var h=document.createElement('strong');h.textContent='Bilan de la séance';box.appendChild(h);
+    if(!T){var p=document.createElement('p');p.textContent='Aucun point ni aucune stat comptés pour l\u2019instant.';box.appendChild(p);}
+    else{
+      var tb=document.createElement('table');var hr=document.createElement('tr');['','Score',tn.a,tn.b].slice(0,1).forEach(function(){});
+      var keys=statList(s).concat(Object.keys(T.c).filter(function(k){return statList(s).indexOf(k)<0;}));
+      var th=document.createElement('tr');['Exercice','Score'].concat(keys).forEach(function(x){var c=document.createElement('th');c.textContent=x;th.appendChild(c);});tb.appendChild(th);
+      function row(lbl,o){var tr=document.createElement('tr');var c0=document.createElement('td');c0.textContent=lbl;tr.appendChild(c0);var c1=document.createElement('td');c1.textContent=(o.a||o.b)?(o.a+' – '+o.b):'';tr.appendChild(c1);keys.forEach(function(k){var c=document.createElement('td');var v=o.c&&o.c[k];c.textContent=v&&(v[0]||v[1])?(v[0]+'-'+v[1]):'';tr.appendChild(c);});tb.appendChild(tr);}
+      s.ex.forEach(function(e,i){if(hasSt(e))row((i+1)+'. '+(e.name||e.type),e.st);});
+      row('TOTAL',T);
+      var cap=document.createElement('p');cap.style.opacity='.75';cap.textContent='Chaque valeur : '+tn.a+' – '+tn.b+'.';
+      box.appendChild(tb);box.appendChild(cap);
+    }
+    r.insertBefore(box,r.children[2]);
   }
   function paintRun(){var t=$('#runT');if(!t)return;var l=Math.max(0,Math.round(run.left));t.textContent=Math.floor(l/60)+':'+((l%60)<10?'0':'')+(l%60);t.style.color=(l<=30&&l>0)?'#ffb020':(l===0?'#ff5a5a':'#fff');}
   function goRun(i){var s=cs();if(!s||i<0||i>=s.ex.length)return;clearInterval(run.t);run.on=false;run.i=i;run.left=(+s.ex[i].min||0)*60;runUI();}
@@ -4617,12 +4756,157 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   }
   function stopRun(){clearInterval(run.t);run.on=false;try{if(run.wl)run.wl.release();}catch(_){}$('#sessRun').classList.remove('on');}
   $('#sRun').addEventListener('click',function(){var s=cs();if(!s||!s.ex.length){msg('Ajoute d\u2019abord au moins un exercice.');return;}$('#sessRun').classList.add('on');goRun(0);});
+  /* ===== PDF (fiche de séance) ===== */
+  function svgImg(svg,w,h){
+    return new Promise(function(res){
+      var c=svg.cloneNode(true);c.setAttribute('width',w);c.setAttribute('height',h);
+      var xml=new XMLSerializer().serializeToString(c);
+      var im=new Image();im.onload=function(){res(im);};im.onerror=function(){res(null);};
+      im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(xml);
+    });
+  }
+  function wrapTxt(x,t,maxW){
+    var out=[];String(t).split('\n').forEach(function(par){
+      var words=par.split(/\s+/),line='';
+      words.forEach(function(w){var tt=line?line+' '+w:w;if(x.measureText(tt).width>maxW&&line){out.push(line);line=w;}else line=tt;});
+      out.push(line);
+    });return out;
+  }
+  async function pdfBlob(s){
+    var PW=1240,PH=1754,M=70,pages=[],cv,x,y;
+    function np(){cv=document.createElement('canvas');cv.width=PW;cv.height=PH;x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,PW,PH);x.textBaseline='top';pages.push(cv);y=M;}
+    np();
+    function font(w,sz){x.font=w+' '+sz+'px system-ui,-apple-system,Segoe UI,Roboto,sans-serif';}
+    function para(t,w,sz,col,lh){font(w,sz);x.fillStyle=col;wrapTxt(x,t,PW-2*M).forEach(function(l){if(y+lh>PH-M){np();font(w,sz);x.fillStyle=col;}x.fillText(l,M,y);y+=lh;});}
+    font('800',56);x.fillStyle='#111';x.fillText(s.title||'Séance d\u2019entraînement',M,y);y+=70;
+    var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push(s.start.replace(':','h')+' → '+clock(s.start,total(s)));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');meta.push(fmtMin(total(s)));
+    para(meta.join(' · '),'500',30,'#444',40);
+    if(s.goal){y+=6;para('Objectif : '+s.goal,'600',30,'#111',40);}
+    y+=14;
+    /* barre de temps */
+    var t=total(s)||1,bx=M,bw=PW-2*M;
+    s.ex.forEach(function(e){var w=bw*(+e.min||0)/t;x.fillStyle=tcol(e.type);x.fillRect(bx,y,Math.max(1,w-2),26);bx+=w;});
+    y+=50;
+    var acc=0;
+    for(var i=0;i<s.ex.length;i++){
+      var e=s.ex[i],le=e.lib?byId(e.lib):null;
+      var TW=le?420:0,TH=le?Math.round(TW/1.38):0,gap=le?24:0,txW=PW-2*M-TW-gap-20;
+      var lines=[];
+      [['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(z){if(z[1])lines.push([z[0]+' : ',z[1]]);});
+      var sl=stLines(s,e);
+      font('500',26);
+      var rows=[];lines.forEach(function(l){wrapTxt(x,l[0]+l[1],txW).forEach(function(w){rows.push(w);});});
+      sl.forEach(function(l){wrapTxt(x,l,txW).forEach(function(w){rows.push(w);});});
+      var hh=Math.max(TH,rows.length*34)+64;
+      if(y+hh>PH-M)np();
+      x.fillStyle=tcol(e.type);x.fillRect(M-12,y,10,hh-12);
+      font('800',32);x.fillStyle='#111';x.fillText((i+1)+'. '+(e.name||e.type)+' — '+e.type+' · '+(+e.min||0)+' min ('+clock(s.start,acc)+')',M+8,y+4);
+      var ty=y+54;
+      if(le){var im=await svgImg(thumb(le),TW,TH);if(im)x.drawImage(im,M+8,ty,TW,TH);}
+      font('500',26);x.fillStyle='#222';
+      rows.forEach(function(l,k){x.fillStyle=(k>=rows.length-sl.length&&sl.length)?'#0a6b87':'#222';x.fillText(l,M+8+TW+gap,ty+k*34);});
+      y+=hh+10;acc+=(+e.min||0);
+    }
+    var tl=totLines(s);
+    if(tl.length){if(y+120>PH-M)np();font('800',32);x.fillStyle='#111';x.fillText('Bilan de la séance',M,y);y+=48;tl.forEach(function(l){para(l,'500',26,'#0a6b87',34);});}
+    pages.forEach(function(c,i){var g=c.getContext('2d');g.font='500 22px system-ui,sans-serif';g.fillStyle='#888';g.textBaseline='top';g.fillText((s.title||'Séance')+' · page '+(i+1)+'/'+pages.length,M,PH-50);});
+    /* assemblage du PDF (une image JPEG par page A4) */
+    function enc(str){var u=new Uint8Array(str.length);for(var k=0;k<str.length;k++)u[k]=str.charCodeAt(k)&255;return u;}
+    var parts=[],off=0,xr=[];
+    function w(b){if(typeof b==='string')b=enc(b);parts.push(b);off+=b.length;}
+    w('%PDF-1.4\n');
+    var nObj=2+pages.length*3;
+    xr[1]=off;w('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+    var kids=[];pages.forEach(function(_,k){kids.push((3+k*3)+' 0 R');});
+    xr[2]=off;w('2 0 obj\n<< /Type /Pages /Count '+pages.length+' /Kids ['+kids.join(' ')+'] >>\nendobj\n');
+    pages.forEach(function(c,k){
+      var b=3+k*3,du=c.toDataURL('image/jpeg',0.85),bin=atob(du.split(',')[1]),img=new Uint8Array(bin.length);for(var q=0;q<bin.length;q++)img[q]=bin.charCodeAt(q);
+      var cont='q 595 0 0 842 0 0 cm /Im0 Do Q';
+      xr[b]=off;w(b+' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /XObject << /Im0 '+(b+2)+' 0 R >> >> /Contents '+(b+1)+' 0 R >>\nendobj\n');
+      xr[b+1]=off;w((b+1)+' 0 obj\n<< /Length '+cont.length+' >>\nstream\n'+cont+'\nendstream\nendobj\n');
+      xr[b+2]=off;w((b+2)+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+c.width+' /Height '+c.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+img.length+' >>\nstream\n');w(img);w('\nendstream\nendobj\n');
+    });
+    var xo=off;w('xref\n0 '+(nObj+1)+'\n0000000000 65535 f \n');
+    for(var n=1;n<=nObj;n++){w(('0000000000'+xr[n]).slice(-10)+' 00000 n \n');}
+    w('trailer\n<< /Size '+(nObj+1)+' /Root 1 0 R >>\nstartxref\n'+xo+'\n%%EOF');
+    return new Blob(parts,{type:'application/pdf'});
+  }
+  $('#sPdf').addEventListener('click',async function(){
+    var s=cs();if(!s)return;if(!s.ex.length){msg('Ajoute d\u2019abord au moins un exercice.');return;}
+    var b=this,lab=b.textContent;b.disabled=true;b.textContent='Création du PDF…';
+    try{
+      var blob=await pdfBlob(s),name=((s.title||'Séance').replace(/[\\\/:*?"<>|]+/g,' ').trim().slice(0,50)||'Séance')+'.pdf';
+      var f=new File([blob],name,{type:'application/pdf'});
+      if(navigator.canShare&&navigator.canShare({files:[f]})){
+        try{await navigator.share({files:[f],title:name});msg('PDF prêt : choisis WhatsApp dans la liste de partage.');}catch(err){if(err&&err.name!=='AbortError')throw err;}
+      }else{
+        var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},5000);
+        msg('PDF téléchargé : envoie-le ensuite depuis tes fichiers (WhatsApp, mail…).');
+      }
+    }catch(err){msg('Création du PDF impossible ('+(err&&err.message||'erreur')+'). Utilise « Imprimer » puis « Enregistrer en PDF ».');}
+    b.disabled=false;b.textContent=lab;
+  });
+  /* ===== bibliothèque d'entraînement (thématiques) ===== */
+  var TK='handball-trainlib-v1',TL={themes:['Attaque placée','Jeu rapide / contre-attaque','Défense','Gardiennes','Échauffement','Physique','Jeu réduit'],items:[]},tlSel='*';
+  function tlLoad(){try{var r=JSON.parse(localStorage.getItem(TK)||'null');if(r&&Array.isArray(r.items)&&Array.isArray(r.themes))TL=r;}catch(_){}}
+  function tlStore(){try{localStorage.setItem(TK,JSON.stringify(TL));}catch(_){$('#tlMsg').textContent='Stockage plein.';}}
+  function tm(t){$('#tlMsg').textContent=t||'';}
+  function curTheme(){return (tlSel==='*'||tlSel==='')?'':tlSel;}
+  function saveExLib(e){
+    var c=JSON.parse(JSON.stringify(e));c.id=sid();delete c.st;
+    TL.items.unshift({id:sid(),kind:'ex',theme:curTheme(),title:e.name||e.type,data:c,updated:Date.now()});tlStore();tlRender();
+    msg('Exercice enregistré dans la bibliothèque d\u2019entraînement'+(curTheme()?' (thématique « '+curTheme()+' »)':' (sans thématique : tu peux la choisir plus bas)')+'.');
+  }
+  function saveSesLib(s){
+    var c=JSON.parse(JSON.stringify(s));c.id=sid();c.ex.forEach(function(e){e.id=sid();delete e.st;});
+    TL.items.unshift({id:sid(),kind:'ses',theme:curTheme(),title:s.title||'Séance',data:c,updated:Date.now()});tlStore();tlRender();
+    msg('Séance enregistrée dans la bibliothèque d\u2019entraînement'+(curTheme()?' (thématique « '+curTheme()+' »)':'')+'.');
+  }
+  $('#sToLib').addEventListener('click',function(){var s=cs();if(s)saveSesLib(s);});
+  function tlRender(){
+    var host=$('#tlHost'),pan=$('#tlib');if(pan.parentNode!==host)host.appendChild(pan);pan.hidden=!cs()&&false;pan.hidden=false;
+    var th=$('#tlThemes');th.innerHTML='';
+    function chip(label,val,n){var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=label+(n!=null?' ('+n+')':'');b.setAttribute('aria-current',String(tlSel===val));b.addEventListener('click',function(){tlSel=val;tlRender();});th.appendChild(b);}
+    function cnt(v){return TL.items.filter(function(i){return v==='*'?true:(i.theme||'')===v;}).length;}
+    chip('Tout','*',cnt('*'));TL.themes.forEach(function(t){chip(t,t,cnt(t));});chip('Sans thématique','',cnt(''));
+    $('#tlRenTheme').disabled=$('#tlDelTheme').disabled=(tlSel==='*'||tlSel==='');
+    var q=($('#tlSearch').value||'').trim().toLowerCase(),ul=$('#tlList');ul.innerHTML='';
+    var items=TL.items.filter(function(i){return (tlSel==='*'||(i.theme||'')===tlSel)&&(!q||(i.title||'').toLowerCase().indexOf(q)>=0);});
+    if(!items.length){var li=document.createElement('li');li.className='hint';li.textContent=TL.items.length?'Rien dans cette thématique.':'La bibliothèque est vide : touche ★ sur un exercice, ou « Enregistrer la séance en bibliothèque ».';ul.appendChild(li);return;}
+    items.forEach(function(it){
+      var li=document.createElement('li');li.className='tl-i';li.style.setProperty('--tc',it.kind==='ex'?tcol(it.data.type):'#0a6b87');
+      var le=it.kind==='ex'&&it.data.lib?byId(it.data.lib):null;
+      if(le)li.appendChild(thumb(le));else{var ic=document.createElement('div');ic.className='ic';ic.textContent=it.kind==='ses'?'\uD83D\uDCCB':'\uD83C\uDFC3';li.appendChild(ic);}
+      var tb=document.createElement('div');tb.className='tb';
+      var t=document.createElement('div');t.className='tt';t.textContent=it.title;tb.appendChild(t);
+      var m=document.createElement('div');m.className='tm';
+      m.textContent=it.kind==='ex'?('Exercice · '+it.data.type+' · '+(+it.data.min||0)+' min'):('Séance · '+it.data.ex.length+' exercices · '+fmtMin(total(it.data)));tb.appendChild(m);
+      var a=document.createElement('div');a.className='ta';
+      var sel=document.createElement('select');sel.setAttribute('aria-label','Thématique');
+      var o0=document.createElement('option');o0.value='';o0.textContent='Sans thématique';sel.appendChild(o0);
+      TL.themes.forEach(function(x){var o=document.createElement('option');o.value=x;o.textContent=x;sel.appendChild(o);});sel.value=it.theme||'';
+      sel.addEventListener('change',function(){it.theme=sel.value;tlStore();tlRender();});a.appendChild(sel);
+      function bt(l,fn,cls){var b=document.createElement('button');b.type='button';b.className='btn'+(cls?' '+cls:'');b.textContent=l;b.addEventListener('click',fn);a.appendChild(b);return b;}
+      if(it.kind==='ex')bt('Ajouter à la séance',function(){var s=cs();if(!s){tm('Crée ou ouvre d\u2019abord une séance.');return;}var c=JSON.parse(JSON.stringify(it.data));c.id=sid();s.ex.push(c);save();renderAll();tm('Ajouté à la séance « '+(s.title||'Sans titre')+' ».');},'primary');
+      else bt('Utiliser (nouvelle séance)',function(){var c=JSON.parse(JSON.stringify(it.data));c.id=sid();c.title=(c.title||'Séance');c.date=new Date().toISOString().slice(0,10);c.ex.forEach(function(e){e.id=sid();});c.updated=Date.now();SES.push(c);cur=c.id;store();renderAll();try{window.scrollTo(0,0);}catch(_){}msg('Séance copiée depuis la bibliothèque.');},'primary');
+      var ar=0;bt('Supprimer',function(ev){var x=ev.currentTarget;if(!ar){ar=1;x.textContent='Confirmer';setTimeout(function(){ar=0;x.textContent='Supprimer';},2500);return;}TL.items=TL.items.filter(function(z){return z.id!==it.id;});tlStore();tlRender();},'danger');
+      tb.appendChild(a);li.appendChild(tb);ul.appendChild(li);
+    });
+  }
+  $('#tlSearch').addEventListener('input',tlRender);
+  $('#tlAddTheme').addEventListener('click',function(){var v=$('#tlNewTheme').value.trim();if(!v)return;if(TL.themes.indexOf(v)<0)TL.themes.push(v);tlSel=v;$('#tlNewTheme').value='';tlStore();tlRender();tm('Thématique « '+v+' » créée.');});
+  $('#tlRenTheme').addEventListener('click',function(){var v=$('#tlNewTheme').value.trim();if(!v||tlSel==='*'||tlSel===''){tm('Choisis une thématique, saisis le nouveau nom, puis touche « Renommer ».');return;}
+    var i=TL.themes.indexOf(tlSel);if(i<0)return;TL.items.forEach(function(it){if(it.theme===tlSel)it.theme=v;});TL.themes[i]=v;tlSel=v;$('#tlNewTheme').value='';tlStore();tlRender();tm('Thématique renommée.');});
+  var tdArm=0;
+  $('#tlDelTheme').addEventListener('click',function(){if(tlSel==='*'||tlSel==='')return;var b=this;if(!tdArm){tdArm=1;b.textContent='Confirmer (les éléments passent en « sans thématique »)';setTimeout(function(){tdArm=0;b.textContent='Supprimer la thématique choisie';},3500);return;}
+    tdArm=0;b.textContent='Supprimer la thématique choisie';TL.themes=TL.themes.filter(function(t){return t!==tlSel;});TL.items.forEach(function(it){if(it.theme===tlSel)it.theme='';});tlSel='*';tlStore();tlRender();});
+  tlLoad();$('#tlHost').appendChild($('#tlib'));
   /* affichage de la page */
   window.__sessShow=function(){
     if(!/^#page=seance/.test(location.hash||'')){showBanner();return;}
     load();
     if(!cur||!getS(cur)){var sv='';try{sv=localStorage.getItem('hb-sess-cur')||'';}catch(_){}cur=getS(sv)?sv:(SES.length?SES[0].id:null);}
-    renderAll();$('#sessBanner').classList.remove('on');
+    tlLoad();renderAll();tlRender();$('#sessBanner').classList.remove('on');
   };
   load();showBanner();
   window.__sessShow();
