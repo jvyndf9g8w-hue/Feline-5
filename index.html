@@ -575,7 +575,7 @@ body.hwork #sessBanner,body.twork #sessBanner{display:none!important}
 .fbtn i{font-style:normal;background:var(--accent);padding:10px 16px;border-radius:12px;font-weight:800;white-space:nowrap}
 
 @media (orientation:landscape) and (min-width:800px){
-#sessRun.on{padding:calc(env(safe-area-inset-top,0px) + 30px) 12px 8px;gap:6px;overflow:hidden;height:100vh;height:100dvh}
+#sessRun.on{padding:calc(env(safe-area-inset-top,0px) + 26px) 12px calc(env(safe-area-inset-bottom,0px) + 8px);gap:6px;overflow:hidden;top:0;right:0;bottom:0;left:0;height:auto;box-sizing:border-box}
 #sessRun .btn{min-height:40px;font-size:1em;padding:4px 12px}
 #sessRun .rrow{gap:8px}
 #sessRun .rn{font-size:clamp(20px,4vh,32px)}
@@ -584,12 +584,14 @@ body.hwork #sessBanner,body.twork #sessBanner{display:none!important}
 #sessRun .rgrid>*{min-height:0}
 #sessRun .rgrid>:first-child{gap:6px!important;align-content:start;overflow:hidden}
 .rtimer{padding:6px;gap:6px}
-.rtimer .rt{font-size:clamp(40px,min(12vh,9vw),100px);overflow:hidden}
+#sessRun .rtimer .rt{font-size:clamp(40px,min(12vh,9vw),100px);overflow:hidden}
+#sessRun .rgrid>:first-child{grid-template-columns:minmax(0,1fr)}
+@media (min-height:790px){#sessRun .rtimer .rt{font-size:clamp(40px,min(15vh,11vw),150px)}.tile.big{height:clamp(120px,24vh,260px)}.tile.big .tn{font-size:clamp(60px,15vh,150px)}}
 .tsw button{width:26px;height:26px;border-radius:13px}.tsw{gap:4px}
 .tile{min-height:0;padding:4px}
 .tile .tn{font-size:clamp(26px,5.2vh,46px)}
 .tile .tl{font-size:clamp(12px,2.2vh,17px)}
-.tile.big{height:clamp(90px,18vh,160px)}
+.tile.big{height:clamp(80px,16vh,150px)}
 .tile.big .tn{font-size:clamp(50px,10.5vh,96px)}
 .tile.big .tl{font-size:clamp(14px,2.6vh,22px)}
 #sessRun .rgrid>:first-child input{min-height:32px!important;font-size:15px!important}
