@@ -471,7 +471,7 @@ body.xwork #sessBanner{display:none!important}
 .xb{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--fg);font:600 14px/1 var(--body);cursor:pointer}
 .xb svg{width:26px;height:26px;flex:none}
 .xb[aria-pressed=true]{background:var(--accent);color:#fff;border-color:var(--accent)}
-.xwrapc{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#111;touch-action:none}
+.xwrapc{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#000;touch-action:none}
 #xSvg{display:block;width:100%;height:auto;max-height:70vh;touch-action:none;user-select:none;-webkit-user-select:none}
 .xsel{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:8px;border:1px dashed var(--line);border-radius:10px}
 .xsel[hidden]{display:none}
@@ -545,15 +545,62 @@ body.xwork #sessBanner{display:none!important}
   #sessPrint h2{font:700 15px/1.2 system-ui;margin:0 0 3px}
   #sessPrint .pl{margin:2px 0;white-space:pre-wrap}
 }
+
+body.hwork #homePage{display:grid}
+body.hwork .wrap>*:not(#homePage){display:none!important}
+body.twork #fieldPage{display:grid}
+body.twork .wrap>*:not(#fieldPage){display:none!important}
+body.hwork #sessBanner,body.twork #sessBanner{display:none!important}
+#homePage,#fieldPage{display:none;gap:14px}
+.hbrand{padding:12px 16px;border-radius:16px;background:linear-gradient(135deg,#0a2540,#0e6a86 60%,#ed1680);color:#fff}
+.hbrand h1{margin:0;font-size:clamp(20px,4.5vw,30px);line-height:1.05;text-transform:uppercase}
+.hbrand p{margin:3px 0 0;opacity:.85;font-size:.9em}
+.hgrid{display:grid;gap:10px;grid-auto-rows:1fr;grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:900px){.hgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.htile{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;align-content:center;padding:10px 12px;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:0 1px 3px rgba(15,30,50,.08);color:inherit;text-decoration:none;min-height:74px;font:inherit;text-align:left;cursor:pointer;position:relative;transition:transform .1s,box-shadow .1s}
+.htile:active{transform:scale(.97)}
+.htile .hn{display:none}
+.htile .hi{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;line-height:1;background:linear-gradient(135deg,#e0f2f7,#fde3f0)}
+.htile .ht{flex:1;min-width:0;display:grid;gap:1px}
+.htile b{font-size:1em;line-height:1.15}
+.htile span.hd{opacity:.65;font-size:.78em;line-height:1.2}
+.htile .hsub{display:inline-block;padding:6px 10px;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;font-size:.82em;text-decoration:none}
+.htile .hbtns{display:flex;gap:6px;flex-basis:100%;margin-top:2px}
+.htile.hfield{background:#0b1020;color:#fff;border-color:#0b1020}
+.htile.hfield .hi{background:linear-gradient(135deg,#ed1680,#f97316)}
+.hrow{display:grid;gap:6px}
+.fbtn{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;background:#0b1020;color:#fff;border:0;font:inherit;cursor:pointer;min-height:64px;text-align:left}
+.fbtn b{font-size:1.15em}.fbtn small{opacity:.7;display:block}
+.fbtn i{font-style:normal;background:var(--accent);padding:10px 16px;border-radius:12px;font-weight:800;white-space:nowrap}
 </style>
 
 <div class="wrap">
-  <div class="vwnav" id="vwNav"><a class="btn" id="vwBack" href="#page=main">&larr; Retour au tableau</a><strong>Page de travail vidéo</strong><span class="grow"></span><a class="btn" href="#vlibPanel" id="vwToLib">Vidéothèque &darr;</a></div>
+  <div class="vwnav" id="vwNav"><a class="btn" href="#page=home">&#127968; Accueil</a><a class="btn" id="vwBack" href="#page=main">&larr; Retour au tableau</a><strong>Page de travail vidéo</strong><span class="grow"></span><a class="btn" href="#vlibPanel" id="vwToLib">Vidéothèque &darr;</a></div>
   <header>
     <h1 id="h1">Tableau tactique handball</h1>
     <p class="sub" id="sub">Déplace les joueuses et le ballon, enregistre des étapes, puis lance la lecture.</p>
-    <nav class="jump" id="jumpNav" aria-label="Accès rapide"><button type="button" class="chip" data-go="libPanel">&#128218; Bibliothèque</button><button type="button" class="chip" data-go="vlibPanel">&#127910; Vidéothèque <span class="chipn" id="jumpVN"></span></button><a class="chip" href="#page=video">&#127916; Page de travail vidéo</a><a class="chip" href="#page=seance">&#127947; Séances d'entraînement</a><a class="chip" href="#page=exo">&#9998; Schémas d'entraînement</a></nav>
+    <nav class="jump" id="jumpNav" aria-label="Accès rapide"><a class="chip" href="#page=home">&#127968; Accueil</a><button type="button" class="chip" data-go="libPanel">&#128218; Bibliothèque</button><button type="button" class="chip" data-go="vlibPanel">&#127910; Vidéothèque <span class="chipn" id="jumpVN"></span></button><a class="chip" href="#page=video">&#127916; Page de travail vidéo</a><a class="chip" href="#page=seance">&#127947; Séances d'entraînement</a><a class="chip" href="#page=exo">&#9998; Schémas d'entraînement</a></nav>
   </header>
+
+
+  <section id="homePage" aria-label="Accueil">
+    <div class="hbrand"><h1>Tactique Training Feline</h1><p>Tableau tactique, vidéo et entraînements : choisis ce que tu veux faire.</p></div>
+    <div class="hgrid" id="hGrid">
+      <div class="htile"><span class="hi">&#127936;</span><span class="ht"><b>Tactique : schéma</b><span class="hd">2D / 3D, étapes</span></span><span class="hbtns"><a class="hsub" href="#page=main">Ouvrir</a><button type="button" class="hsub" id="hFs" style="border:0;font:inherit;font-size:.82em;font-weight:700;cursor:pointer">&#9974; Grand écran</button></span></div>
+      <a class="htile" href="#page=main" data-scroll="libPanel"><span class="hi">&#128218;</span><span class="ht"><b>Bibliothèque schémas</b><span class="hd">Mes schémas</span></span></a>
+      <a class="htile" href="#page=video""><span class="hi">&#127916;</span><span class="ht"><b>Vidéo</b><span class="hd">Importer et découper</span></span></a>
+      <a class="htile" href="#page=video" data-scroll="vlibPanel"><span class="hi">&#127910;</span><span class="ht"><b>Vidéothèque</b><span class="hd">Séquences, montages</span></span></a>
+      <a class="htile" href="#page=seance""><span class="hi">&#127947;</span><span class="ht"><b>Séances</b><span class="hd">Préparer un entraînement</span></span></a>
+      <a class="htile" href="#page=exo""><span class="hi">&#9998;</span><span class="ht"><b>Schéma entraîneur</b><span class="hd">Plots, haies, ballons</span></span></a>
+      <a class="htile" href="#page=seance" data-scroll="tlib"><span class="hi">&#128451;</span><span class="ht"><b>Bibliothèque séances</b><span class="hd">Par thématiques</span></span></a>
+      <a class="htile hfield" href="#page=terrain""><span class="hi">&#9201;</span><span class="ht"><b>Mode terrain</b><span class="hd">Chrono, score, stats</span></span></a>
+    </div>
+  </section>
+
+  <section id="fieldPage" aria-label="Mode terrain">
+    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><strong>Mode terrain</strong><span class="grow"></span><a class="btn" href="#page=seance">&#127947; Séances</a></div>
+    <div class="panel" style="display:grid;gap:10px"><div class="libhead"><h2>Choisis la séance à lancer</h2></div><div class="hrow" id="fList"></div></div>
+  </section>
 
   <section class="panel bar" aria-label="Réglages du terrain">
     <div class="field">
@@ -891,7 +938,7 @@ body.xwork #sessBanner{display:none!important}
   </section>
 
   <section id="exoPage" aria-label="Schémas d'entraînement">
-    <div class="snav"><a class="btn" href="#page=main">&larr; Retour au tableau</a><a class="btn" href="#page=seance">&#127947; Séances</a><strong>Schémas d'entraînement</strong><span class="grow"></span><button type="button" class="btn" id="xNew">+ Nouveau schéma</button></div>
+    <div class="snav"><a class="btn" href="#page=home">&#127968; Accueil</a><a class="btn" href="#page=main">&larr; Tableau</a><a class="btn" href="#page=seance">&#127947; Séances</a><strong>Schémas d'entraînement</strong><span class="grow"></span><button type="button" class="btn" id="xNew">+ Nouveau schéma</button></div>
     <div class="xret" id="xRet"><span id="xRetT"></span><button type="button" class="btn" id="xRetOk">Enregistrer et revenir à la séance</button><button type="button" class="btn" id="xRetNo">Annuler</button></div>
     <div class="panel" style="display:grid;gap:10px">
       <div class="sgrid">
@@ -915,7 +962,7 @@ body.xwork #sessBanner{display:none!important}
   </section>
 
   <section id="sessPage" aria-label="Séances d'entraînement">
-    <div class="snav"><a class="btn" href="#page=main">&larr; Retour au tableau</a><strong>Séances d'entraînement</strong><span class="grow"></span><a class="btn" href="#page=exo">&#9998; Schémas d'entraînement</a><button type="button" class="btn" id="sNew">+ Nouvelle séance</button></div>
+    <div class="snav"><a class="btn" href="#page=home">&#127968; Accueil</a><a class="btn" href="#page=main">&larr; Tableau</a><a class="btn" href="#page=terrain">&#9201; Mode terrain</a><strong>Séances d'entraînement</strong><span class="grow"></span><a class="btn" href="#page=exo">&#9998; Schémas d'entraînement</a><button type="button" class="btn" id="sNew">+ Nouvelle séance</button></div>
     <div class="panel" style="display:grid;gap:10px">
       <div class="libhead"><h2>Mes séances</h2><span class="grow"></span><span class="hint" id="sCount"></span></div>
       <div class="slist" id="sList" role="group" aria-label="Séances enregistrées"></div>
@@ -3953,7 +4000,7 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
 (function(){
   function apply(){
     var vw=/^#page=video/.test(location.hash||'');
-    document.body.classList.toggle('vwork',vw);
+    document.body.classList.toggle('vwork',vw);var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));if(window.__fieldShow)window.__fieldShow();
     document.body.classList.toggle('swork',/^#page=seance/.test(location.hash||''));
     document.body.classList.toggle('xwork',/^#page=exo/.test(location.hash||''));
     if(window.__sessShow)window.__sessShow();
@@ -3962,7 +4009,9 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
     if(!vw&&typeof refresh==='function'){try{refresh();}catch(_){}}
     if(window.__paintCut)window.__paintCut();
   }
-  window.addEventListener('hashchange',apply);apply();
+  window.addEventListener('hashchange',apply);window.__applyPage=apply;apply();
+  Array.prototype.forEach.call(document.querySelectorAll('#hGrid [data-scroll]'),function(a){a.addEventListener('click',function(){var id=a.getAttribute('data-scroll');setTimeout(function(){var el=document.getElementById(id);if(el)el.scrollIntoView({block:'start'});},350);});});
+  $('#hFs').addEventListener('click',function(){location.hash='#page=main';apply();setTimeout(function(){try{$('#btnFs').click();}catch(_){}},60);});
   Array.prototype.forEach.call(document.querySelectorAll('[data-go]'),function(b){
     b.addEventListener('click',function(){var el=document.getElementById(b.getAttribute('data-go'));if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
   });
@@ -4511,17 +4560,17 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   /* ----- terrain ----- */
   function court(g,mode){
     var vb=VB(mode);
-    E('rect',{x:vb[0]-1,y:vb[1]-1,width:vb[2]+2,height:vb[3]+2,fill:mode==='free'?'#d7dfe8':'#e8962c'},g);
+    E('rect',{x:vb[0]-1,y:vb[1]-1,width:vb[2]+2,height:vb[3]+2,fill:mode==='free'?'#d7dfe8':'#000'},g);
     if(mode==='free'){
       for(var gx=Math.ceil(vb[0]/5)*5;gx<vb[0]+vb[2];gx+=5)E('line',{x1:gx,y1:vb[1],x2:gx,y2:vb[1]+vb[3],stroke:'#b8c4d2','stroke-width':.08},g);
       for(var gy=Math.ceil(vb[1]/5)*5;gy<vb[1]+vb[3];gy+=5)E('line',{x1:vb[0],y1:gy,x2:vb[0]+vb[2],y2:gy,stroke:'#b8c4d2','stroke-width':.08},g);
       return;
     }
-    E('rect',{x:0,y:0,width:40,height:20,fill:'#3a80cc'},g);
+    E('rect',{x:0,y:0,width:40,height:20,fill:'#0a68fe'},g);
     [1,-1].forEach(function(sg){
       function mx(p){return sg>0?p:[40-p[0],p[1]];}
       function poly(r,fill,dash){var pts=goalPts(r,40).map(function(q){var m=mx(q);return m[0]+','+m[1];}).join(' ');var el=E('polygon',{points:pts,fill:fill||'none',stroke:'#fff','stroke-width':.14},g);if(dash)el.setAttribute('stroke-dasharray','.5 .4');}
-      poly(6,'rgba(237,22,128,.55)');poly(9,'none',true);
+      poly(6,'#e9147f');poly(9,'none',true);
       var a=mx([33,9.5]),b=mx([33,10.5]);E('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'#fff','stroke-width':.14},g);
       a=mx([36,9.8]);b=mx([36,10.2]);E('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'#fff','stroke-width':.14},g);
       E('rect',{x:sg>0?40:-.9,y:8.5,width:.9,height:3,fill:'none',stroke:'#e9eef5','stroke-width':.18},g);
@@ -5236,6 +5285,20 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   $('#tlDelTheme').addEventListener('click',function(){if(tlSel==='*'||tlSel==='')return;var b=this;if(!tdArm){tdArm=1;b.textContent='Confirmer (les éléments passent en « sans thématique »)';setTimeout(function(){tdArm=0;b.textContent='Supprimer la thématique choisie';},3500);return;}
     tdArm=0;b.textContent='Supprimer la thématique choisie';TL.themes=TL.themes.filter(function(t){return t!==tlSel;});TL.items.forEach(function(it){if(it.theme===tlSel)it.theme='';});tlSel='*';tlStore();tlRender();});
   tlLoad();$('#tlHost').appendChild($('#tlib'));
+  window.addEventListener('hashchange',function(){if($('#sessRun').classList.contains('on'))stopRun();});
+  /* page mode terrain */
+  window.__fieldShow=function(){
+    if(!/^#page=terrain/.test(location.hash||''))return;
+    load();var L=$('#fList');L.innerHTML='';
+    if(!SES.length){var e0=document.createElement('p');e0.className='hint';e0.textContent='Aucune séance enregistrée. Crée-en une dans « Séances d\u2019entraînement » : elle apparaîtra ici.';L.appendChild(e0);return;}
+    SES.slice().sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''));}).forEach(function(x){
+      var b=document.createElement('button');b.type='button';b.className='fbtn';
+      var d=document.createElement('div');var t=document.createElement('b');t.textContent=x.title||'Séance sans titre';var sm=document.createElement('small');sm.textContent=[x.date,(x.ex||[]).length+' exercice(s)',x.team].filter(Boolean).join(' \u00b7 ');d.appendChild(t);d.appendChild(sm);
+      var i=document.createElement('i');i.textContent='\u25B6 Lancer';b.appendChild(d);b.appendChild(i);
+      b.addEventListener('click',function(){if(!(x.ex||[]).length){sm.textContent='Cette séance n\u2019a pas encore d\u2019exercice.';return;}cur=x.id;try{localStorage.setItem('hb-sess-cur',x.id);}catch(_){}$('#sessRun').classList.add('on');goRun(0);});
+      L.appendChild(b);
+    });
+  };
   /* affichage de la page */
   window.__sessShow=function(){
     if(!/^#page=seance/.test(location.hash||'')){showBanner();return;}
