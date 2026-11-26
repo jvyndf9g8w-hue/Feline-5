@@ -573,6 +573,32 @@ body.hwork #sessBanner,body.twork #sessBanner{display:none!important}
 .fbtn{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;background:#0b1020;color:#fff;border:0;font:inherit;cursor:pointer;min-height:64px;text-align:left}
 .fbtn b{font-size:1.15em}.fbtn small{opacity:.7;display:block}
 .fbtn i{font-style:normal;background:var(--accent);padding:10px 16px;border-radius:12px;font-weight:800;white-space:nowrap}
+
+@media (orientation:landscape) and (min-width:800px){
+#sessRun.on{padding:8px 12px;gap:6px;overflow:hidden;height:100vh;height:100dvh}
+#sessRun .btn{min-height:40px;font-size:1em;padding:4px 12px}
+#sessRun .rrow{gap:8px}
+#sessRun .rn{font-size:clamp(20px,4vh,32px)}
+#sessRun .rgrid{flex:1;min-height:0;gap:10px;grid-template-columns:minmax(0,50%) minmax(0,1fr);align-items:stretch}
+#sessRun .rgrid>:first-child>*{min-width:0}
+#sessRun .rgrid>*{min-height:0}
+#sessRun .rgrid>:first-child{gap:6px!important;align-content:start;overflow:hidden}
+.rtimer{padding:6px;gap:6px}
+.rtimer .rt{font-size:clamp(40px,min(12vh,9vw),100px);overflow:hidden}
+.tsw button{width:26px;height:26px;border-radius:13px}.tsw{gap:4px}
+.tile{min-height:0;padding:4px}
+.tile .tn{font-size:clamp(26px,5.2vh,46px)}
+.tile .tl{font-size:clamp(12px,2.2vh,17px)}
+.tile.big{height:clamp(90px,18vh,160px)}
+.tile.big .tn{font-size:clamp(50px,10.5vh,96px)}
+.tile.big .tl{font-size:clamp(14px,2.6vh,22px)}
+#sessRun .rgrid>:first-child input{min-height:32px!important;font-size:15px!important}
+.tswt{padding:1px 8px}
+.sb{height:100%;display:flex;flex-direction:column;gap:6px;padding:6px;box-sizing:border-box}
+.sb .tgrid{flex:1;min-height:0;grid-auto-rows:1fr;gap:6px}
+#sessRun .rgrid p{font-size:.82em;margin:0 0 2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sbadd input{min-height:36px}
+}
 </style>
 
 <div class="wrap">
@@ -5103,8 +5129,8 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       col.appendChild(tile(tn[k[0]]||'Équipe',function(){return st[k[0]];},function(v){st[k[0]]=v;},tn[k[1]],true));
       th.appendChild(col);
     });
-    Rr.appendChild(th);
-    var cgr=dv('tgrid');cgr.appendChild(swatches('ca'));cgr.appendChild(swatches('cb'));Rr.appendChild(cgr);
+    L.insertBefore(th,tx);
+    var cgr=dv('tgrid');cgr.appendChild(swatches('ca'));cgr.appendChild(swatches('cb'));L.insertBefore(cgr,tx);
     var keys=statList(s).concat(Object.keys(st.c).filter(function(k){return statList(s).indexOf(k)<0;}));
     var sg=dv('tgrid');
     keys.forEach(function(k){
@@ -5116,8 +5142,8 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     var ad=dv('sbadd');var ai=document.createElement('input');ai.placeholder='Ajouter une stat (ex. : tir au poteau)';ai.maxLength=30;
     var ab=bn('+ Stat',function(){var v=ai.value.trim();if(!v)return;if(statList(s).indexOf(v)<0)statList(s).push(v);save();runUI();});
     ai.addEventListener('keydown',function(ev){if(ev.key==='Enter')ab.click();});
-    ad.appendChild(ai);ad.appendChild(ab);Rr.appendChild(ad);
-    var rz=dv('rrow');rz.appendChild(bn('\u21B6 Annuler le dernier point',function(){var f=hist.pop();if(f)f();}));rz.appendChild(bn('Remettre à zéro cet exercice',function(){e.st={a:0,b:0,c:{}};run.hist=[];save();runUI();}));Rr.appendChild(rz);
+    ad.appendChild(ai);ad.appendChild(ab);L.appendChild(ad);
+    var rz=dv('rrow');rz.appendChild(bn('\u21B6 Annuler le dernier point',function(){var f=hist.pop();if(f)f();}));rz.appendChild(bn('Remettre à zéro cet exercice',function(){e.st={a:0,b:0,c:{}};run.hist=[];save();runUI();}));L.appendChild(rz);
     g.appendChild(Rr);r.appendChild(g);paintRun();
   }
   function showBilan(s){
