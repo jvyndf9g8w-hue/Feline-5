@@ -409,6 +409,66 @@ textarea{width:100%;min-height:84px;padding:10px 12px;border:1px solid var(--lin
 .dot.a{background:var(--att);border-color:var(--att-edge)}
 .dot.d{background:var(--def);border-color:var(--def-edge)}
 .dot.b{background:var(--ball);border-color:#1b1b1b}
+
+/* ===== page Séances d'entraînement ===== */
+#sessPage{display:none;gap:12px}
+body.swork #sessPage{display:grid}
+body.swork .wrap>*:not(#sessPage){display:none!important}
+body.swork #sessBanner{display:none!important}
+.snav{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:14px;background:var(--accent);color:#fff}
+.snav strong{font:700 22px/1.1 var(--disp);letter-spacing:.02em;text-transform:uppercase}
+.snav .grow{flex:1}
+.snav .btn{color:var(--fg);background:var(--panel)}
+.sgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.sgrid label,.sx label{display:grid;gap:4px;font-weight:700;font-size:.92em}
+.sgrid input,.sgrid select,.sx input,.sx select,.sx textarea{min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--bg);color:var(--fg);width:100%;box-sizing:border-box}
+.sx textarea{min-height:84px;resize:vertical}
+.slist{display:flex;gap:8px;flex-wrap:wrap}
+.slist .chip[aria-current=true]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.stl{display:flex;height:34px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--bg)}
+.stl i{display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--body);color:#fff;font-style:normal;white-space:nowrap;overflow:hidden;min-width:2px;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.stot{font-weight:800;font-variant-numeric:tabular-nums}
+.sx{display:grid;gap:10px;padding:10px;border:1px solid var(--line);border-left:8px solid var(--tc,#888);border-radius:12px;background:var(--panel)}
+.sxh{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sxh .n{min-width:32px;height:32px;border-radius:16px;background:var(--tc,#888);color:#fff;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+.sxh .nm{flex:1 1 200px;min-height:44px;font-weight:700}
+.sxh .mn{width:78px;min-height:44px;text-align:center}
+.sxh select{width:auto;min-width:130px}
+.sxh .clk{font-variant-numeric:tabular-nums;opacity:.75;font-weight:700}
+.sxb{display:grid;gap:10px;grid-template-columns:minmax(210px,300px) 1fr}
+@media (max-width:760px){.sxb{grid-template-columns:1fr}}
+.sxs{display:grid;gap:6px;align-content:start}
+.sxs svg{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#2f6fbd;cursor:pointer}
+.sxs .none{aspect-ratio:1.41;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;border:2px dashed var(--line);border-radius:8px;opacity:.75;font-size:.92em}
+.sxf{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.sxs .row{display:flex;gap:6px;flex-wrap:wrap}
+.sxs .btn{min-height:40px;padding:0 10px}
+.qadd{display:flex;gap:6px;flex-wrap:wrap}
+.qadd .chip{border-left:6px solid var(--tc)}
+#sessBanner{position:fixed;left:50%;transform:translateX(-50%);top:8px;z-index:70;display:none;gap:8px;align-items:center;flex-wrap:wrap;max-width:calc(100vw - 16px);padding:8px 12px;border-radius:14px;background:#0a6b87;color:#fff;box-shadow:0 6px 24px rgba(0,0,0,.4);font-weight:600}
+#sessBanner.on{display:flex}
+#sessBanner .btn{min-height:40px}
+#sessRun{position:fixed;inset:0;z-index:95;display:none;flex-direction:column;gap:10px;padding:14px;background:#0b1020;color:#fff;overflow:auto}
+#sessRun.on{display:flex}
+#sessRun .rt{font:800 clamp(64px,18vw,180px)/1 ui-monospace,Menlo,monospace;text-align:center;font-variant-numeric:tabular-nums}
+#sessRun .rn{font:800 clamp(26px,5vw,44px)/1.1 var(--disp);text-transform:uppercase}
+#sessRun .rb{display:grid;gap:12px;grid-template-columns:minmax(220px,420px) 1fr;align-items:start}
+@media (max-width:760px){#sessRun .rb{grid-template-columns:1fr}}
+#sessRun .rb svg{width:100%;border-radius:10px}
+#sessRun .rb p{margin:0 0 8px;font-size:1.15em;white-space:pre-wrap}
+#sessRun .btn{min-height:52px;font-size:1.05em}
+#sessRun .rrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#sessPrint{display:none}
+@media print{
+  body.printing>*:not(#sessPrint){display:none!important}
+  body.printing #sessPrint{display:block;color:#000;background:#fff;font:13px/1.35 system-ui,sans-serif;padding:0}
+  #sessPrint h1{font:800 24px/1.1 system-ui;margin:0 0 4px}
+  #sessPrint .pm{margin:0 0 10px;color:#333}
+  #sessPrint .pe{display:grid;grid-template-columns:150px 1fr;gap:10px;border:1px solid #999;border-left:8px solid var(--tc);border-radius:6px;padding:6px 8px;margin:0 0 8px;break-inside:avoid}
+  #sessPrint svg{width:150px;height:auto;border:1px solid #888;border-radius:4px}
+  #sessPrint h2{font:700 15px/1.2 system-ui;margin:0 0 3px}
+  #sessPrint .pl{margin:2px 0;white-space:pre-wrap}
+}
 </style>
 
 <div class="wrap">
@@ -416,7 +476,7 @@ textarea{width:100%;min-height:84px;padding:10px 12px;border:1px solid var(--lin
   <header>
     <h1 id="h1">Tableau tactique handball</h1>
     <p class="sub" id="sub">Déplace les joueuses et le ballon, enregistre des étapes, puis lance la lecture.</p>
-    <nav class="jump" id="jumpNav" aria-label="Accès rapide"><button type="button" class="chip" data-go="libPanel">&#128218; Bibliothèque</button><button type="button" class="chip" data-go="vlibPanel">&#127910; Vidéothèque <span class="chipn" id="jumpVN"></span></button><a class="chip" href="#page=video">&#127916; Page de travail vidéo</a></nav>
+    <nav class="jump" id="jumpNav" aria-label="Accès rapide"><button type="button" class="chip" data-go="libPanel">&#128218; Bibliothèque</button><button type="button" class="chip" data-go="vlibPanel">&#127910; Vidéothèque <span class="chipn" id="jumpVN"></span></button><a class="chip" href="#page=video">&#127916; Page de travail vidéo</a><a class="chip" href="#page=seance">&#127947; Séances d'entraînement</a></nav>
   </header>
 
   <section class="panel bar" aria-label="Réglages du terrain">
@@ -754,6 +814,40 @@ textarea{width:100%;min-height:84px;padding:10px 12px;border:1px solid var(--lin
           </div>
   </section>
 
+  <section id="sessPage" aria-label="Séances d'entraînement">
+    <div class="snav"><a class="btn" href="#page=main">&larr; Retour au tableau</a><strong>Séances d'entraînement</strong><span class="grow"></span><button type="button" class="btn" id="sNew">+ Nouvelle séance</button></div>
+    <div class="panel" style="display:grid;gap:10px">
+      <div class="libhead"><h2>Mes séances</h2><span class="grow"></span><span class="hint" id="sCount"></span></div>
+      <div class="slist" id="sList" role="group" aria-label="Séances enregistrées"></div>
+    </div>
+    <div class="panel" id="sEdit" style="display:grid;gap:12px" hidden>
+      <div class="sgrid">
+        <label>Titre de la séance<input id="sTitle" type="text" maxlength="80" placeholder="Ex. : Sortie de balle et jeu rapide"></label>
+        <label>Date<input id="sDate" type="date"></label>
+        <label>Heure de début<input id="sStart" type="time" value="18:30"></label>
+        <label>Équipe / catégorie<input id="sTeam" type="text" maxlength="60" placeholder="Ex. : Seniors F"></label>
+        <label>Lieu<input id="sPlace" type="text" maxlength="60" placeholder="Ex. : Gymnase"></label>
+        <label>Joueuses présentes<input id="sNb" type="number" min="0" max="40" inputmode="numeric" placeholder="14"></label>
+      </div>
+      <div class="sgrid" style="grid-template-columns:1fr">
+        <label>Objectif / thème de la séance<textarea id="sGoal" class="zname" style="min-height:70px;padding:8px 10px" maxlength="500" placeholder="Ex. : Améliorer la relance après but encaissé, travailler les croisés DC / ARG."></textarea></label>
+      </div>
+      <div style="display:grid;gap:6px"><div class="stl" id="sTl" aria-label="Répartition du temps"></div><div class="hint"><span class="stot" id="sTot"></span> <span id="sEnd"></span></div></div>
+      <div style="display:grid;gap:6px"><strong>Ajouter un exercice</strong><div class="qadd" id="sQuick"></div>
+        <div class="autorow"><button type="button" class="btn" id="sTpl">Séance type (90 min)</button></div></div>
+      <div style="display:grid;gap:10px" id="sEx"></div>
+      <div class="autorow">
+        <button type="button" class="btn primary" id="sRun">&#9654; Lancer la séance (mode terrain)</button>
+        <button type="button" class="btn" id="sPrint">Imprimer / PDF</button>
+        <a class="btn wa" id="sWa" target="_blank" rel="noopener">Résumé WhatsApp</a>
+        <button type="button" class="btn" id="sCopy">Copier le résumé</button>
+        <button type="button" class="btn" id="sDup">Dupliquer la séance</button>
+        <button type="button" class="btn danger" id="sDel">Supprimer la séance</button>
+      </div>
+      <p class="hint" id="sMsg" aria-live="polite"></p>
+    </div>
+  </section>
+
   <section class="panel vlib" id="vlibPanel" aria-label="Vidéothèque">
     <div class="libhead">
       <h2>Vidéothèque</h2>
@@ -784,6 +878,9 @@ textarea{width:100%;min-height:84px;padding:10px 12px;border:1px solid var(--lin
 </div>
 
 <div id="vscroll" hidden><div id="vthumb"></div></div>
+<div id="sessBanner" role="status"><span id="sbTxt"></span><button type="button" class="btn primary" id="sbOk">Associer ce schéma et revenir à la séance</button><button type="button" class="btn" id="sbNo">Annuler</button></div>
+<div id="sessRun" role="dialog" aria-modal="true" aria-label="Séance en cours"></div>
+<div id="sessPrint"></div>
 <script>
 (function(){
 'use strict';
@@ -3741,6 +3838,8 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
   function apply(){
     var vw=/^#page=video/.test(location.hash||'');
     document.body.classList.toggle('vwork',vw);
+    document.body.classList.toggle('swork',/^#page=seance/.test(location.hash||''));
+    if(window.__sessShow)window.__sessShow();
     try{window.scrollTo(0,0);}catch(_){}
     if(!vw&&typeof refresh==='function'){try{refresh();}catch(_){}}
     if(window.__paintCut)window.__paintCut();
@@ -4264,6 +4363,270 @@ document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault();},
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&(e.key==='+'||e.key==='-'||e.key==='='||e.key==='0'))e.preventDefault();});
 var lastTap=0;
 document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<350&&e.target.closest&&!e.target.closest('input,textarea,select'))e.preventDefault();lastTap=n;},{passive:false});
+
+/* ===== Séances d'entraînement ===== */
+(function(){
+  if(VIEWER)return;
+  var SK='handball-seances-v1',PK='hb-sess-pend';
+  var TYPES=[['Échauffement','#f59e0b'],['Technique','#3b82f6'],['Tactique','#ed1680'],['Jeu / opposition','#10b981'],['Gardiennes','#8b5cf6'],['Physique','#ef4444'],['Retour au calme','#64748b']];
+  function tcol(t){for(var i=0;i<TYPES.length;i++)if(TYPES[i][0]===t)return TYPES[i][1];return '#888';}
+  var SES=[],cur=null,tmr=0;
+  function load(){try{var r=localStorage.getItem(SK);SES=r?JSON.parse(r):[];if(!Array.isArray(SES))SES=[];}catch(_){SES=[];}}
+  function store(){try{localStorage.setItem(SK,JSON.stringify(SES));}catch(_){msg('Stockage plein : la séance n\u2019a pas pu être enregistrée.');}}
+  function msg(t){var m=$('#sMsg');if(m)m.textContent=t||'';}
+  function sid(){return 's'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
+  function getS(id){for(var i=0;i<SES.length;i++)if(SES[i].id===id)return SES[i];return null;}
+  function cs(){return getS(cur);}
+  function newEx(type,min){return {id:sid(),type:type||'Tactique',name:'',min:min||15,desc:'',vars:'',pts:'',mat:'',nb:'',lib:''};}
+  function newSes(){return {id:sid(),title:'',date:new Date().toISOString().slice(0,10),start:'18:30',team:'',place:'',nb:'',goal:'',ex:[],updated:Date.now()};}
+  function save(){var s=cs();if(!s)return;s.updated=Date.now();store();}
+  function fmtMin(m){m=Math.round(m);var h=Math.floor(m/60),r=m%60;return h?h+' h '+(r<10?'0':'')+r:r+' min';}
+  function clock(start,add){var p=(start||'18:30').split(':'),t=(+p[0]||0)*60+(+p[1]||0)+add;t=((t%1440)+1440)%1440;var h=Math.floor(t/60),m=t%60;return (h<10?'0':'')+h+'h'+(m<10?'0':'')+m;}
+  function total(s){var t=0;s.ex.forEach(function(e){t+=Math.max(0,+e.min||0);});return t;}
+  /* --- miniature du schéma (1re étape + trajets) --- */
+  var NS='http://www.w3.org/2000/svg';
+  function E(n,a,p){var x=document.createElementNS(NS,n);for(var k in a)x.setAttribute(k,a[k]);if(p)p.appendChild(x);return x;}
+  function thumb(e){
+    var svg=E('svg',{viewBox:'-0.6 -0.6 29.4 21.2'});
+    E('rect',{x:-.6,y:-.6,width:29.4,height:21.2,fill:'#e8962c'},svg);
+    E('rect',{x:0,y:0,width:28.2,height:20,fill:'#3a80cc'},svg);
+    function P(x,y){return [y*1.41,40-x];}
+    function poly(r,fill,dash){var pts=goalPts(r,40).map(function(q){var v=P(q[0],q[1]);return v[0]+','+v[1];}).join(' ');var el=E('polygon',{points:pts,fill:fill||'none',stroke:'#fff','stroke-width':.18},svg);if(dash)el.setAttribute('stroke-dasharray','.5 .4');}
+    poly(6,'#ed1680');poly(9,'none',true);
+    E('rect',{x:11.6,y:-.25,width:5,height:.5,fill:'#e9eef5'},svg);
+    var F=e.frames,f0=F[0],ids=[];
+    var d=e.defense&&e.defense!=='none';
+    IDS_A.forEach(function(id){if(id==='AX'&&!(e.extra&&e.extra.AX))return;ids.push(id);});
+    if(d){IDS_D.forEach(function(id){ids.push(id);});ids.push('GK');}
+    if(e.extra&&e.extra.GX)ids.push('GX');
+    function col(id){return id==='GX'?'#39ff14':id==='GK'?'#23252b':IDS_A.indexOf(id)>=0?'#ed1680':'#2a3c96';}
+    ids.forEach(function(id){
+      var pts=[];F.forEach(function(f){if(f.pos&&f.pos[id])pts.push(P(f.pos[id][0],f.pos[id][1]));});
+      if(pts.length<2)return;
+      var moved=false,i;for(i=1;i<pts.length;i++)if(Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1])>.6)moved=true;
+      if(!moved)return;
+      var dd='M'+pts[0][0]+' '+pts[0][1];for(i=1;i<pts.length;i++)dd+=' L'+pts[i][0]+' '+pts[i][1];
+      E('path',{d:dd,fill:'none',stroke:col(id),'stroke-width':.28,'stroke-dasharray':'.7 .45','stroke-linecap':'round',opacity:.95},svg);
+      var a=pts[pts.length-2],b=pts[pts.length-1],ang=Math.atan2(b[1]-a[1],b[0]-a[0]),L=1;
+      E('polygon',{points:[b[0],b[1],b[0]-L*Math.cos(ang-.45),b[1]-L*Math.sin(ang-.45),b[0]-L*Math.cos(ang+.45),b[1]-L*Math.sin(ang+.45)].join(','),fill:col(id)},svg);
+    });
+    ids.forEach(function(id){
+      if(!f0.pos||!f0.pos[id])return;var v=P(f0.pos[id][0],f0.pos[id][1]);
+      E('circle',{cx:v[0],cy:v[1],r:1.05,fill:col(id),stroke:'#fff','stroke-width':.18},svg);
+      var t=E('text',{x:v[0],y:v[1]+.38,'text-anchor':'middle','font-size':1.0,'font-weight':800,fill:'#fff','font-family':'system-ui,sans-serif'},svg);
+      t.textContent=IDS_D.indexOf(id)>=0?String(IDS_D.indexOf(id)+1):(id==='GK'||id==='GX'?'G':(id==='AX'?'7':id.replace(/^A/,'')));
+    });
+    var bx=f0.bx,by=f0.by;if(f0.holder&&f0.pos[f0.holder]){bx=f0.pos[f0.holder][0];by=f0.pos[f0.holder][1];}
+    if(bx!=null){var bv=P(bx,by);E('circle',{cx:bv[0]+(f0.holder?1.0:0),cy:bv[1]-(f0.holder?.9:0),r:.55,fill:'#e8ff2a',stroke:'#1f3fbf','stroke-width':.15},svg);}
+    return svg;
+  }
+  /* --- rendu --- */
+  function renderList(){
+    var l=$('#sList');l.innerHTML='';
+    SES.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||b.updated-a.updated;}).forEach(function(s){
+      var b=document.createElement('button');b.type='button';b.className='chip';
+      b.textContent=(s.title||'Sans titre')+(s.date?' · '+s.date.split('-').reverse().slice(0,2).join('/'):'');
+      b.setAttribute('aria-current',String(s.id===cur));
+      b.addEventListener('click',function(){cur=s.id;try{localStorage.setItem('hb-sess-cur',cur);}catch(_){}renderAll();});
+      l.appendChild(b);
+    });
+    $('#sCount').textContent=SES.length?SES.length+(SES.length>1?' séances':' séance'):'Aucune séance : crée la première.';
+  }
+  function renderTl(){
+    var s=cs(),tl=$('#sTl');tl.innerHTML='';if(!s)return;
+    var t=total(s);
+    s.ex.forEach(function(e){var i=document.createElement('i');i.style.flex=String(Math.max(.01,+e.min||0));i.style.background=tcol(e.type);i.textContent=(+e.min||0)+"'";i.title=e.name||e.type;tl.appendChild(i);});
+    $('#sTot').textContent='Durée totale : '+fmtMin(t);
+    $('#sEnd').textContent=t?'· de '+clock(s.start,0)+' à '+clock(s.start,t):'';
+  }
+  function libOptions(sel,val){
+    sel.innerHTML='';var o=document.createElement('option');o.value='';o.textContent='— choisir un schéma de la bibliothèque —';sel.appendChild(o);
+    LIB.slice().sort(function(a,b){return (a.title||'').localeCompare(b.title||'');}).forEach(function(e){var o2=document.createElement('option');o2.value=e.id;o2.textContent=(e.title||'Sans titre')+' ('+e.frames.length+' ét.)';sel.appendChild(o2);});
+    sel.value=val||'';
+  }
+  function renderEx(){
+    var s=cs(),box=$('#sEx');box.innerHTML='';if(!s)return;
+    var acc=0;
+    s.ex.forEach(function(e,i){
+      var card=document.createElement('div');card.className='sx';card.style.setProperty('--tc',tcol(e.type));
+      var h=document.createElement('div');h.className='sxh';
+      var n=document.createElement('span');n.className='n';n.textContent=String(i+1);h.appendChild(n);
+      var ty=document.createElement('select');TYPES.forEach(function(t){var o=document.createElement('option');o.value=t[0];o.textContent=t[0];ty.appendChild(o);});ty.value=e.type;
+      ty.addEventListener('change',function(){e.type=ty.value;save();card.style.setProperty('--tc',tcol(e.type));renderTl();});h.appendChild(ty);
+      var nm=document.createElement('input');nm.type='text';nm.className='nm';nm.placeholder='Nom de l\u2019exercice';nm.value=e.name;nm.maxLength=80;nm.addEventListener('input',function(){e.name=nm.value;save();});h.appendChild(nm);
+      var mn=document.createElement('input');mn.type='number';mn.className='mn';mn.min=0;mn.max=240;mn.value=e.min;mn.setAttribute('inputmode','numeric');mn.setAttribute('aria-label','Durée en minutes');
+      var clk=document.createElement('span');clk.className='clk';
+      mn.addEventListener('input',function(){e.min=Math.max(0,Math.min(240,parseInt(mn.value,10)||0));save();renderTl();updClocks();});h.appendChild(mn);
+      var mm=document.createElement('span');mm.textContent='min';h.appendChild(mm);
+      clk.textContent=clock(s.start,acc)+' → '+clock(s.start,acc+(+e.min||0));clk.setAttribute('data-i',String(i));h.appendChild(clk);acc+=(+e.min||0);
+      function bt(l,fn,lab,dis){var x=document.createElement('button');x.type='button';x.className='btn';x.style.minHeight='40px';x.style.padding='0 10px';x.textContent=l;x.setAttribute('aria-label',lab);x.disabled=!!dis;x.addEventListener('click',fn);h.appendChild(x);}
+      bt('\u25B2',function(){var t=s.ex[i-1];s.ex[i-1]=s.ex[i];s.ex[i]=t;save();renderAll();},'Monter',i===0);
+      bt('\u25BC',function(){var t=s.ex[i+1];s.ex[i+1]=s.ex[i];s.ex[i]=t;save();renderAll();},'Descendre',i===s.ex.length-1);
+      bt('\u29C9',function(){var c=JSON.parse(JSON.stringify(e));c.id=sid();s.ex.splice(i+1,0,c);save();renderAll();},'Dupliquer l\u2019exercice');
+      var armed=0;bt('\u2715',function(ev){var x=ev.currentTarget;if(!armed){armed=1;x.textContent='Sûr ?';setTimeout(function(){armed=0;x.textContent='\u2715';},2500);return;}s.ex.splice(i,1);save();renderAll();},'Supprimer l\u2019exercice');
+      card.appendChild(h);
+      var b=document.createElement('div');b.className='sxb';
+      var sc=document.createElement('div');sc.className='sxs';
+      var le=e.lib?byId(e.lib):null;
+      if(le){var tv=thumb(le);tv.addEventListener('click',function(){openSchema(s,e);});sc.appendChild(tv);var cap=document.createElement('div');cap.className='hint';cap.textContent='« '+(le.title||'Sans titre')+' » · '+le.frames.length+' étape'+(le.frames.length>1?'s':'');sc.appendChild(cap);}
+      else{var no=document.createElement('div');no.className='none';no.textContent=e.lib?'Schéma introuvable dans la bibliothèque.':'Aucun schéma associé';sc.appendChild(no);}
+      var sel=document.createElement('select');libOptions(sel,e.lib);sel.setAttribute('aria-label','Schéma de la bibliothèque');
+      sel.addEventListener('change',function(){e.lib=sel.value;save();renderEx();});sc.appendChild(sel);
+      var r=document.createElement('div');r.className='row';
+      function sb(l,fn,cls){var x=document.createElement('button');x.type='button';x.className='btn'+(cls?' '+cls:'');x.textContent=l;x.addEventListener('click',fn);r.appendChild(x);}
+      if(le)sb('Ouvrir / jouer',function(){openSchema(s,e);},'primary');
+      sb('Nouveau schéma',function(){newSchema(s,e);});
+      sc.appendChild(r);b.appendChild(sc);
+      var f=document.createElement('div');f.className='sxf';
+      function ta(lab,key,ph){var l=document.createElement('label');l.textContent=lab;var t=document.createElement('textarea');t.value=e[key]||'';t.placeholder=ph;t.maxLength=1500;t.addEventListener('input',function(){e[key]=t.value;save();});l.appendChild(t);f.appendChild(l);}
+      ta('Organisation / consigne','desc','Ex. : 2 files, passe et va, finition en appui…');
+      ta('Variables','vars','Ex. : ajouter un défenseur, limiter à 2 touches de balle…');
+      ta('Points de coaching / critères de réussite','pts','Ex. : timing de l\u2019appel, orientation du corps…');
+      var l2=document.createElement('label');l2.textContent='Matériel et effectif';var m2=document.createElement('input');m2.type='text';m2.value=e.mat||'';m2.placeholder='Ex. : 6 plots, 8 ballons, chasubles';m2.addEventListener('input',function(){e.mat=m2.value;save();});l2.appendChild(m2);
+      var n2=document.createElement('input');n2.type='text';n2.value=e.nb||'';n2.placeholder='Joueuses : ex. 12 en 2 groupes';n2.addEventListener('input',function(){e.nb=n2.value;save();});l2.appendChild(n2);f.appendChild(l2);
+      b.appendChild(f);card.appendChild(b);box.appendChild(card);
+    });
+    if(!s.ex.length){var p=document.createElement('p');p.className='hint';p.textContent='Ajoute un exercice avec les boutons ci-dessus, ou pars de la « Séance type ».';box.appendChild(p);}
+  }
+  function updClocks(){var s=cs();if(!s)return;var acc=0;Array.prototype.forEach.call(document.querySelectorAll('#sEx .clk'),function(c,i){var e=s.ex[i];if(!e)return;c.textContent=clock(s.start,acc)+' → '+clock(s.start,acc+(+e.min||0));acc+=(+e.min||0);});}
+  function summary(s){
+    var t='\uD83C\uDFCB\uFE0F '+(s.title||'Séance d\u2019entraînement')+'\n';
+    var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push('à '+s.start.replace(':','h'));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');
+    if(meta.length)t+=meta.join(' · ')+'\n';
+    if(s.goal)t+='Objectif : '+s.goal+'\n';
+    t+='Durée : '+fmtMin(total(s))+'\n\n';
+    var acc=0;s.ex.forEach(function(e,i){
+      t+=(i+1)+'. '+clock(s.start,acc)+' · '+(e.name||e.type)+' ('+e.type+', '+(+e.min||0)+' min)\n';
+      if(e.desc)t+='   '+e.desc.replace(/\n/g,'\n   ')+'\n';
+      if(e.vars)t+='   Variables : '+e.vars.replace(/\n/g,' ')+'\n';
+      if(e.pts)t+='   À travailler : '+e.pts.replace(/\n/g,' ')+'\n';
+      if(e.mat)t+='   Matériel : '+e.mat+'\n';
+      var le=e.lib?byId(e.lib):null;if(le)t+='   Schéma : '+(le.title||'Sans titre')+'\n';
+      acc+=(+e.min||0);
+    });
+    return t.trim();
+  }
+  function renderAll(){
+    renderList();
+    var s=cs(),ed=$('#sEdit');ed.hidden=!s;
+    if(!s)return;
+    $('#sTitle').value=s.title||'';$('#sDate').value=s.date||'';$('#sStart').value=s.start||'18:30';$('#sTeam').value=s.team||'';$('#sPlace').value=s.place||'';$('#sNb').value=s.nb||'';$('#sGoal').value=s.goal||'';
+    renderTl();renderEx();syncWa();
+  }
+  function syncWa(){var s=cs();if(!s)return;$('#sWa').href='https://wa.me/?text='+encodeURIComponent(summary(s));}
+  /* champs de l'en-tête */
+  [['sTitle','title'],['sDate','date'],['sStart','start'],['sTeam','team'],['sPlace','place'],['sNb','nb'],['sGoal','goal']].forEach(function(p){
+    $('#'+p[0]).addEventListener('input',function(){var s=cs();if(!s)return;s[p[1]]=this.value;save();if(p[0]==='sStart'){renderTl();updClocks();}if(p[0]==='sTitle'||p[0]==='sDate')renderList();syncWa();});
+  });
+  $('#sEx').addEventListener('input',function(){syncWa();});
+  /* création */
+  var q=$('#sQuick');
+  TYPES.forEach(function(t){var b=document.createElement('button');b.type='button';b.className='chip';b.style.setProperty('--tc',t[1]);b.textContent='+ '+t[0];
+    b.addEventListener('click',function(){var s=cs();if(!s)return;s.ex.push(newEx(t[0],t[0]==='Retour au calme'?5:15));save();renderAll();msg('');
+      setTimeout(function(){var c=document.querySelectorAll('#sEx .sx');if(c.length)c[c.length-1].scrollIntoView({behavior:'smooth',block:'center'});},50);});q.appendChild(b);});
+  $('#sNew').addEventListener('click',function(){var s=newSes();SES.push(s);cur=s.id;store();renderAll();setTimeout(function(){try{$('#sTitle').focus();}catch(_){}},50);});
+  $('#sTpl').addEventListener('click',function(){
+    var s=cs();if(!s)return;
+    [['Échauffement',15,'Échauffement général','Footing, mobilité, jeux de passes.'],['Échauffement',15,'Échauffement avec ballon','Passes en mouvement, tirs d\u2019échauffement, gardiennes comprises.'],['Technique',20,'Atelier technique',''],['Tactique',25,'Exercice tactique (schéma)',''],['Jeu / opposition',10,'Jeu réduit / opposition',''],['Retour au calme',5,'Retour au calme et étirements','']].forEach(function(r){var e=newEx(r[0],r[1]);e.name=r[2];e.desc=r[3];s.ex.push(e);});
+    save();renderAll();
+  });
+  $('#sDup').addEventListener('click',function(){var s=cs();if(!s)return;var c=JSON.parse(JSON.stringify(s));c.id=sid();c.title=(s.title||'Sans titre')+' (copie)';c.ex.forEach(function(e){e.id=sid();});SES.push(c);cur=c.id;c.updated=Date.now();store();renderAll();msg('Séance dupliquée.');});
+  var dArm=0;
+  $('#sDel').addEventListener('click',function(){var s=cs();if(!s)return;var b=this;if(!dArm){dArm=1;b.textContent='Confirmer la suppression';setTimeout(function(){dArm=0;b.textContent='Supprimer la séance';},3000);return;}
+    dArm=0;b.textContent='Supprimer la séance';SES=SES.filter(function(x){return x.id!==s.id;});cur=SES.length?SES[0].id:null;store();renderAll();});
+  $('#sCopy').addEventListener('click',function(){var s=cs();if(!s)return;var t=summary(s);
+    (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){msg('Résumé copié : colle-le où tu veux.');}).catch(function(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');msg('Résumé copié.');}catch(_){msg('Copie impossible ici.');}ta.remove();});});
+  /* impression / PDF */
+  function buildPrint(s){
+    var p=$('#sessPrint');p.innerHTML='';
+    var h=document.createElement('h1');h.textContent=s.title||'Séance d\u2019entraînement';p.appendChild(h);
+    var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push(s.start.replace(':','h')+' → '+clock(s.start,total(s)));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');meta.push(fmtMin(total(s)));
+    var pm=document.createElement('p');pm.className='pm';pm.textContent=meta.join(' · ');p.appendChild(pm);
+    if(s.goal){var g=document.createElement('p');g.className='pl';g.textContent='Objectif : '+s.goal;p.appendChild(g);}
+    var acc=0;
+    s.ex.forEach(function(e,i){
+      var d=document.createElement('div');d.className='pe';d.style.setProperty('--tc',tcol(e.type));
+      var le=e.lib?byId(e.lib):null;var l=document.createElement('div');if(le)l.appendChild(thumb(le));d.appendChild(l);
+      var r=document.createElement('div');var h2=document.createElement('h2');h2.textContent=(i+1)+'. '+(e.name||e.type)+' — '+e.type+' · '+(+e.min||0)+' min ('+clock(s.start,acc)+')';r.appendChild(h2);
+      [['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(x){if(x[1]){var q=document.createElement('p');q.className='pl';q.textContent=x[0]+' : '+x[1];r.appendChild(q);}});
+      d.appendChild(r);p.appendChild(d);acc+=(+e.min||0);
+    });
+  }
+  $('#sPrint').addEventListener('click',function(){var s=cs();if(!s)return;buildPrint(s);document.body.classList.add('printing');setTimeout(function(){try{window.print();}catch(_){}},80);});
+  window.addEventListener('afterprint',function(){document.body.classList.remove('printing');});
+  /* schéma : ouvrir / créer depuis le tableau */
+  function setPend(s,e){try{sessionStorage.setItem(PK,JSON.stringify({s:s.id,e:e.id}));}catch(_){}}
+  function openSchema(s,e){var le=e.lib?byId(e.lib):null;if(!le)return;setPend(s,e);location.hash='#page=main';openEntry(le.id);showBanner();}
+  function newSchema(s,e){
+    setPend(s,e);
+    S.libId=null;S.title=(e.name||'Exercice '+(s.ex.indexOf(e)+1));
+    try{syncTitle();renderLib();save();}catch(_){}
+    location.hash='#page=main';showBanner();
+    hint('Place les joueuses et dessine les étapes de l\u2019exercice, puis « Enregistrer » dans la bibliothèque et « Associer ce schéma et revenir ».');
+  }
+  function pend(){try{return JSON.parse(sessionStorage.getItem(PK)||'null');}catch(_){return null;}}
+  function showBanner(){
+    var pd=pend(),b=$('#sessBanner');if(!pd){b.classList.remove('on');return;}
+    var s=getS(pd.s),e=s&&s.ex.filter(function(x){return x.id===pd.e;})[0];
+    if(!s||!e){try{sessionStorage.removeItem(PK);}catch(_){}b.classList.remove('on');return;}
+    $('#sbTxt').textContent='Séance « '+(s.title||'Sans titre')+' » · exercice '+(s.ex.indexOf(e)+1)+(e.name?' « '+e.name+' »':'');
+    b.classList.add('on');
+  }
+  $('#sbOk').addEventListener('click',function(){
+    var pd=pend();if(!pd)return;var s=getS(pd.s),e=s&&s.ex.filter(function(x){return x.id===pd.e;})[0];
+    if(!e){showBanner();return;}
+    if(!S.libId||!byId(S.libId)){hint('Enregistre d\u2019abord ce schéma dans la bibliothèque (bouton « Enregistrer »), puis reviens ici.');try{$('#btnSave').scrollIntoView({behavior:'smooth',block:'center'});}catch(_){}return;}
+    e.lib=S.libId;cur=s.id;store();try{sessionStorage.removeItem(PK);}catch(_){}$('#sessBanner').classList.remove('on');location.hash='#page=seance';
+  });
+  $('#sbNo').addEventListener('click',function(){try{sessionStorage.removeItem(PK);}catch(_){}$('#sessBanner').classList.remove('on');});
+  /* mode terrain */
+  var run={i:0,left:0,on:false,t:0,end:0};
+  function beep(){try{var AC=window.AudioContext||window.webkitAudioContext,a=new AC(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.25;o.start();setTimeout(function(){o.stop();a.close();},700);}catch(_){}try{if(navigator.vibrate)navigator.vibrate([300,100,300]);}catch(_){}}
+  function runUI(){
+    var s=cs(),r=$('#sessRun');r.innerHTML='';if(!s||!s.ex.length)return;
+    var e=s.ex[run.i];
+    function dv(c,t){var d=document.createElement('div');if(c)d.className=c;if(t!=null)d.textContent=t;return d;}
+    var top=dv('rrow');var x=document.createElement('button');x.type='button';x.className='btn';x.textContent='\u2715 Quitter';x.addEventListener('click',stopRun);top.appendChild(x);
+    var info=dv('',(s.title||'Séance')+' · exercice '+(run.i+1)+' / '+s.ex.length);info.style.alignSelf='center';info.style.opacity='.8';top.appendChild(info);r.appendChild(top);
+    var nm=dv('rn',(e.name||e.type));nm.style.color=tcol(e.type)==='#64748b'?'#cbd5e1':tcol(e.type);nm.style.textAlign='center';r.appendChild(nm);
+    var tm=dv('rt','');tm.id='runT';r.appendChild(tm);
+    var ctl=dv('rrow');
+    function cb(l,fn,cls){var b=document.createElement('button');b.type='button';b.className='btn'+(cls?' '+cls:'');b.textContent=l;b.addEventListener('click',fn);ctl.appendChild(b);return b;}
+    cb('\u25C0 Précédent',function(){goRun(run.i-1);});
+    var pp=cb(run.on?'Pause':'\u25B6 Démarrer',function(){toggleRun();},'primary');pp.id='runPP';
+    cb('+1 min',function(){run.left+=60;if(run.on)run.end+=60000;paintRun();});
+    cb('Suivant \u25B6',function(){goRun(run.i+1);});
+    r.appendChild(ctl);
+    var body=dv('rb');var le=e.lib?byId(e.lib):null;
+    var L=dv();if(le){var tv=thumb(le);tv.style.cursor='pointer';tv.addEventListener('click',function(){stopRun();openSchema(s,e);});L.appendChild(tv);var hp=dv('',('Touche le schéma pour le jouer sur le tableau.'));hp.style.opacity='.7';hp.style.fontSize='.9em';L.appendChild(hp);}
+    body.appendChild(L);
+    var R=dv();[['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(z){if(z[1]){var p=document.createElement('p');var b=document.createElement('b');b.textContent=z[0]+' : ';p.appendChild(b);p.appendChild(document.createTextNode(z[1]));R.appendChild(p);}});
+    var nx=s.ex[run.i+1];if(nx){var n2=dv('',('Ensuite : '+(nx.name||nx.type)+' ('+(+nx.min||0)+' min)'));n2.style.opacity='.75';R.appendChild(n2);}
+    body.appendChild(R);r.appendChild(body);paintRun();
+  }
+  function paintRun(){var t=$('#runT');if(!t)return;var l=Math.max(0,Math.round(run.left));t.textContent=Math.floor(l/60)+':'+((l%60)<10?'0':'')+(l%60);t.style.color=(l<=30&&l>0)?'#ffb020':(l===0?'#ff5a5a':'#fff');}
+  function goRun(i){var s=cs();if(!s||i<0||i>=s.ex.length)return;clearInterval(run.t);run.on=false;run.i=i;run.left=(+s.ex[i].min||0)*60;runUI();}
+  function toggleRun(){
+    if(run.on){clearInterval(run.t);run.on=false;var pb=$('#runPP');if(pb)pb.textContent='\u25B6 Reprendre';return;}
+    run.on=true;run.end=Date.now()+run.left*1000;var pb2=$('#runPP');if(pb2)pb2.textContent='Pause';
+    try{if(navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){run.wl=w;}).catch(function(){});}catch(_){}
+    clearInterval(run.t);run.t=setInterval(function(){
+      run.left=Math.max(0,(run.end-Date.now())/1000);paintRun();
+      if(run.left<=0){clearInterval(run.t);run.on=false;beep();var pb3=$('#runPP');if(pb3)pb3.textContent='Terminé';}
+    },250);
+  }
+  function stopRun(){clearInterval(run.t);run.on=false;try{if(run.wl)run.wl.release();}catch(_){}$('#sessRun').classList.remove('on');}
+  $('#sRun').addEventListener('click',function(){var s=cs();if(!s||!s.ex.length){msg('Ajoute d\u2019abord au moins un exercice.');return;}$('#sessRun').classList.add('on');goRun(0);});
+  /* affichage de la page */
+  window.__sessShow=function(){
+    if(!/^#page=seance/.test(location.hash||'')){showBanner();return;}
+    load();
+    if(!cur||!getS(cur)){var sv='';try{sv=localStorage.getItem('hb-sess-cur')||'';}catch(_){}cur=getS(sv)?sv:(SES.length?SES[0].id:null);}
+    renderAll();$('#sessBanner').classList.remove('on');
+  };
+  load();showBanner();
+  window.__sessShow();
+})();
 
 /* boot */
 $('#selDef').value=S.defense;
