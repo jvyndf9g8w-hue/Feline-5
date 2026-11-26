@@ -491,10 +491,11 @@ body.xwork #sessBanner{display:none!important}
 .tile:active{transform:scale(.96)}
 .tile .tl{font-weight:800;font-size:clamp(13px,2.4vw,18px);text-align:center;line-height:1.1}
 .tile .tn{font:800 clamp(36px,7vw,64px)/1 ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
-.tile.big{min-height:150px}
-.tile.big .tn{font-size:clamp(72px,16vw,150px)}
+.tile.big{min-height:250px}
+.tile.big .tn{font-size:clamp(110px,26vw,240px)}
 .tile.big .tl{font-size:clamp(18px,3.4vw,30px);text-transform:uppercase}
 .tgrid{display:grid;gap:8px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.tgrid>*,.sb{min-width:0}
+.tswb{display:grid;justify-items:center;gap:6px}.tswt{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.55);border-radius:14px;padding:3px 10px;font:inherit;font-size:.78em;cursor:pointer;display:inline-flex;align-items:center;gap:6px}.tswt i{width:12px;height:12px;border-radius:6px;display:inline-block;border:1px solid rgba(255,255,255,.5)}
 .tsw{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .tsw button{width:34px;height:34px;border-radius:17px;border:2px solid rgba(255,255,255,.4);padding:0;cursor:pointer}
 .tsw button[aria-pressed=true]{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.35)}
@@ -557,13 +558,13 @@ body.hwork #sessBanner,body.twork #sessBanner{display:none!important}
 .hbrand p{margin:3px 0 0;opacity:.85;font-size:.9em}
 .hgrid{display:grid;gap:10px;grid-auto-rows:1fr;grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:900px){.hgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.htile{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;align-content:center;padding:10px 12px;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:0 1px 3px rgba(15,30,50,.08);color:inherit;text-decoration:none;min-height:74px;font:inherit;text-align:left;cursor:pointer;position:relative;transition:transform .1s,box-shadow .1s}
+.htile{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;align-content:center;padding:10px 12px;border-radius:16px;background:#0b1020;border:1px solid #0b1020;box-shadow:0 1px 3px rgba(15,30,50,.25);color:#fff;text-decoration:none;min-height:74px;font:inherit;text-align:left;cursor:pointer;position:relative;transition:transform .1s,box-shadow .1s}
 .htile:active{transform:scale(.97)}
 .htile .hn{display:none}
-.htile .hi{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;line-height:1;background:linear-gradient(135deg,#e0f2f7,#fde3f0)}
+.htile .hi{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;line-height:1;background:linear-gradient(135deg,#ed1680,#f97316)}
 .htile .ht{flex:1;min-width:0;display:grid;gap:1px}
 .htile b{font-size:1em;line-height:1.15}
-.htile span.hd{opacity:.65;font-size:.78em;line-height:1.2}
+.htile span.hd{opacity:.75;font-size:.78em;line-height:1.2}
 .htile .hsub{display:inline-block;padding:6px 10px;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;font-size:.82em;text-decoration:none}
 .htile .hbtns{display:flex;gap:6px;flex-basis:100%;margin-top:2px}
 .htile.hfield{background:#0b1020;color:#fff;border-color:#0b1020}
@@ -5041,26 +5042,34 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   $('#sbNo').addEventListener('click',function(){try{sessionStorage.removeItem(PK);}catch(_){}$('#sessBanner').classList.remove('on');});
   /* mode terrain */
   var run={i:0,left:0,on:false,t:0,end:0};
+  function alarm(){
+    try{var AC=window.AudioContext||window.webkitAudioContext;var a=run.ac||new AC();run.ac=a;if(a.resume)a.resume();var t0=a.currentTime;
+      for(var k=0;k<10;k++){var o=a.createOscillator(),g=a.createGain();o.type='square';o.frequency.value=k%2?1175:880;o.connect(g);g.connect(a.destination);var t=t0+k*.42;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.35,t+.02);g.gain.setValueAtTime(.35,t+.3);g.gain.linearRampToValueAtTime(0,t+.36);o.start(t);o.stop(t+.4);}
+    }catch(_){}
+    try{if(navigator.vibrate)navigator.vibrate([400,150,400,150,400,150,400]);}catch(_){}
+  }
   function beep(){try{var AC=window.AudioContext||window.webkitAudioContext,a=new AC(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.25;o.start();setTimeout(function(){o.stop();a.close();},700);}catch(_){}try{if(navigator.vibrate)navigator.vibrate([300,100,300]);}catch(_){}}
   function runUI(){
     var s=cs(),r=$('#sessRun');r.innerHTML='';if(!s||!s.ex.length)return;
     var e=s.ex[run.i],st=stOf(e),tn=teamN(s);
     function dv(c,t){var d=document.createElement('div');if(c)d.className=c;if(t!=null)d.textContent=t;return d;}
     function bn(l,fn,cls){var b=document.createElement('button');b.type='button';b.className='btn'+(cls?' '+cls:'');b.textContent=l;b.addEventListener('click',fn);return b;}
-    var top=dv('rrow');top.appendChild(bn('\u2715 Quitter',stopRun));
+    var top=dv('rrow');top.appendChild(bn('\u2715 Quitter',stopRun));top.appendChild(bn('\u25C0',function(){goRun(run.i-1);}));
     var info=dv('',(s.title||'Séance')+' · exercice '+(run.i+1)+' / '+s.ex.length);info.style.alignSelf='center';info.style.opacity='.8';top.appendChild(info);
-    top.appendChild(bn('Bilan',function(){showBilan(s);}));r.appendChild(top);
+    top.appendChild(bn('\u25B6',function(){goRun(run.i+1);}));top.appendChild(bn('Bilan',function(){showBilan(s);}));r.appendChild(top);
     var nm=dv('rn',(e.name||e.type));nm.style.color=tcol(e.type)==='#64748b'?'#cbd5e1':tcol(e.type);nm.style.textAlign='center';r.appendChild(nm);
     var g=dv('rgrid');
     /* colonne gauche : chrono + consignes */
     var L=dv();L.style.display='grid';L.style.gap='12px';
     var tbx=dv('rtimer');var tm=dv('rt','');tm.id='runT';tbx.appendChild(tm);
     var ctl=dv('rrow');
-    ctl.appendChild(bn('\u25C0',function(){goRun(run.i-1);}));
+
     var pp=bn(run.on?'Pause':'\u25B6 Démarrer',function(){toggleRun();},'primary');pp.id='runPP';ctl.appendChild(pp);
-    ctl.appendChild(bn('+1 min',function(){run.left+=60;if(run.on)run.end+=60000;paintRun();}));
-    ctl.appendChild(bn('\u25B6',function(){goRun(run.i+1);}));
-    tbx.appendChild(ctl);L.appendChild(tbx);
+    function adj(d){run.left=Math.max(0,run.left+d*60);if(run.on)run.end=Date.now()+run.left*1000;run.alarm=false;paintRun();var ab=$('#runAl');if(ab)ab.hidden=true;}
+    
+    ctl.appendChild(bn('\u23F1 Régler',function(){var v=window.prompt('Durée de l\u2019exercice en minutes',String(Math.round(run.left/60*10)/10));if(v===null)return;v=parseFloat(String(v).replace(',','.'));if(!(v>=0&&v<=600))return;run.left=v*60;if(run.on)run.end=Date.now()+run.left*1000;e.min=v;save();paintRun();}));
+
+    tbx.appendChild(ctl);var alb2=bn('\uD83D\uDD14 Temps écoulé : arrêter la sonnerie',function(){try{if(run.ac&&run.ac.close){run.ac.close();run.ac=null;}}catch(_){}try{if(navigator.vibrate)navigator.vibrate(0);}catch(_){}alb2.hidden=true;},'primary');alb2.id='runAl';alb2.hidden=!(run.left<=0&&!run.on&&run.i>=0&&run.alarm);tbx.appendChild(alb2);L.appendChild(tbx);
 
     var tx=dv();[['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(z){if(z[1]){var p=document.createElement('p');var b=document.createElement('b');b.textContent=z[0]+' : ';p.appendChild(b);p.appendChild(document.createTextNode(z[1]));tx.appendChild(p);}});
     var nx=s.ex[run.i+1];if(nx){var n2=dv('',('Ensuite : '+(nx.name||nx.type)+' ('+(+nx.min||0)+' min)'));n2.style.opacity='.75';tx.appendChild(n2);}
@@ -5082,17 +5091,20 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       return b;
     }
     function swatches(key){
-      var w=dv('tsw');PALT.forEach(function(c){var x=document.createElement('button');x.type='button';x.style.background=c;x.setAttribute('aria-label','Couleur de l\u2019équipe '+c);x.setAttribute('aria-pressed',String(tn[key]===c));x.addEventListener('click',function(){tn[key]=c;save();runUI();});w.appendChild(x);});return w;
+      var box=dv('tswb');var tg=document.createElement('button');tg.type='button';tg.className='tswt';tg.setAttribute('aria-label','Choisir la couleur de l\u2019équipe');tg.innerHTML='<i style="background:'+tn[key]+'"></i> Couleur';
+      run.sw=run.sw||{};tg.addEventListener('click',function(){run.sw[key]=!run.sw[key];runUI();});box.appendChild(tg);if(!run.sw[key])return box;
+      var w=dv('tsw');PALT.forEach(function(c){var x=document.createElement('button');x.type='button';x.style.background=c;x.setAttribute('aria-label','Couleur de l\u2019équipe '+c);x.setAttribute('aria-pressed',String(tn[key]===c));x.addEventListener('click',function(){tn[key]=c;save();runUI();});w.appendChild(x);});box.appendChild(w);return box;
     }
     var th=dv('tgrid');
     [['a','ca'],['b','cb']].forEach(function(k){
       var col=dv();col.style.cssText='display:grid;gap:8px;justify-items:stretch';
       var inp=document.createElement('input');inp.value=tn[k[0]];inp.maxLength=14;inp.setAttribute('aria-label','Nom de l\u2019équipe');inp.style.cssText='min-height:44px;text-align:center;font:800 18px/1 var(--disp);text-transform:uppercase;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:transparent;color:#fff';
-      inp.addEventListener('input',function(){tn[k[0]]=inp.value;save();});col.appendChild(inp);col.appendChild(swatches(k[1]));
+      inp.addEventListener('input',function(){tn[k[0]]=inp.value;save();});col.appendChild(inp);
       col.appendChild(tile(tn[k[0]]||'Équipe',function(){return st[k[0]];},function(v){st[k[0]]=v;},tn[k[1]],true));
       th.appendChild(col);
     });
     Rr.appendChild(th);
+    var cgr=dv('tgrid');cgr.appendChild(swatches('ca'));cgr.appendChild(swatches('cb'));Rr.appendChild(cgr);
     var keys=statList(s).concat(Object.keys(st.c).filter(function(k){return statList(s).indexOf(k)<0;}));
     var sg=dv('tgrid');
     keys.forEach(function(k){
@@ -5130,14 +5142,14 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   function goRun(i){var s=cs();if(!s||i<0||i>=s.ex.length)return;clearInterval(run.t);run.on=false;run.i=i;run.left=(+s.ex[i].min||0)*60;runUI();}
   function toggleRun(){
     if(run.on){clearInterval(run.t);run.on=false;var pb=$('#runPP');if(pb)pb.textContent='\u25B6 Reprendre';return;}
-    run.on=true;run.end=Date.now()+run.left*1000;var pb2=$('#runPP');if(pb2)pb2.textContent='Pause';
+    run.on=true;run.alarm=false;try{var AC0=window.AudioContext||window.webkitAudioContext;if(!run.ac&&AC0)run.ac=new AC0();if(run.ac&&run.ac.resume)run.ac.resume();}catch(_){}run.end=Date.now()+run.left*1000;var pb2=$('#runPP');if(pb2)pb2.textContent='Pause';
     try{if(navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){run.wl=w;}).catch(function(){});}catch(_){}
     clearInterval(run.t);run.t=setInterval(function(){
       run.left=Math.max(0,(run.end-Date.now())/1000);paintRun();
-      if(run.left<=0){clearInterval(run.t);run.on=false;beep();var pb3=$('#runPP');if(pb3)pb3.textContent='Terminé';}
+      if(run.left<=0){clearInterval(run.t);run.on=false;run.alarm=true;alarm();var pb3=$('#runPP');if(pb3)pb3.textContent='Terminé';var alb=$('#runAl');if(alb)alb.hidden=false;}
     },250);
   }
-  function stopRun(){clearInterval(run.t);run.on=false;try{if(run.wl)run.wl.release();}catch(_){}$('#sessRun').classList.remove('on');}
+  function stopRun(){window.__fieldQuit=true;clearInterval(run.t);run.on=false;try{if(run.wl)run.wl.release();}catch(_){}$('#sessRun').classList.remove('on');if(/^#page=terrain/.test(location.hash||'')&&window.__fieldShow)window.__fieldShow();}
   $('#sRun').addEventListener('click',function(){var s=cs();if(!s||!s.ex.length){msg('Ajoute d\u2019abord au moins un exercice.');return;}$('#sessRun').classList.add('on');goRun(0);});
   /* ===== PDF (fiche de séance) ===== */
   function svgImg(svg,w,h){
@@ -5285,11 +5297,21 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   $('#tlDelTheme').addEventListener('click',function(){if(tlSel==='*'||tlSel==='')return;var b=this;if(!tdArm){tdArm=1;b.textContent='Confirmer (les éléments passent en « sans thématique »)';setTimeout(function(){tdArm=0;b.textContent='Supprimer la thématique choisie';},3500);return;}
     tdArm=0;b.textContent='Supprimer la thématique choisie';TL.themes=TL.themes.filter(function(t){return t!==tlSel;});TL.items.forEach(function(it){if(it.theme===tlSel)it.theme='';});tlSel='*';tlStore();tlRender();});
   tlLoad();$('#tlHost').appendChild($('#tlib'));
-  window.addEventListener('hashchange',function(){if($('#sessRun').classList.contains('on'))stopRun();});
+  window.addEventListener('hashchange',function(){if(!/^#page=terrain/.test(location.hash||'')&&$('#sessRun').classList.contains('on')){stopRun();window.__fieldQuit=false;}});
   /* page mode terrain */
   window.__fieldShow=function(){
     if(!/^#page=terrain/.test(location.hash||''))return;
-    load();var L=$('#fList');L.innerHTML='';
+    load();
+    if(!$('#sessRun').classList.contains('on')&&!window.__fieldQuit){
+      var pick=null,sv='';try{sv=localStorage.getItem('hb-sess-cur')||'';}catch(_){}
+      var g0=getS(sv);if(g0&&(g0.ex||[]).length)pick=g0;
+      if(!pick){var ok=SES.filter(function(x){return (x.ex||[]).length;}).sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''));});pick=ok[0]||null;}
+      if(!pick){pick=newSes();pick.title='Séance libre';var e1=newEx('Jeu / opposition',15);e1.name='Match / jeu';pick.ex.push(e1);SES.push(pick);store();}
+      cur=pick.id;try{localStorage.setItem('hb-sess-cur',pick.id);}catch(_){}
+      $('#sessRun').classList.add('on');goRun(0);
+    }
+    window.__fieldQuit=false;
+    var L=$('#fList');L.innerHTML='';
     if(!SES.length){var e0=document.createElement('p');e0.className='hint';e0.textContent='Aucune séance enregistrée. Crée-en une dans « Séances d\u2019entraînement » : elle apparaîtra ici.';L.appendChild(e0);return;}
     SES.slice().sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''));}).forEach(function(x){
       var b=document.createElement('button');b.type='button';b.className='fbtn';
@@ -5308,6 +5330,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   };
   load();showBanner();
   window.__sessShow();
+  if(window.__fieldShow)window.__fieldShow();
 })();
 
 /* boot */
