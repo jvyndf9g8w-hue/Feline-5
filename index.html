@@ -740,6 +740,13 @@ body.hwork .hlogo{transform:scale(.7);transform-origin:left center}
 body.hwork .hgrid2{min-height:0;grid-auto-rows:minmax(0,1fr);gap:clamp(6px,1.2vh,10px)}
 body.hwork .htile{padding-top:4px;padding-bottom:4px;min-height:0;overflow:hidden}
 body.hwork .htile .hi{width:clamp(30px,5vh,42px);height:clamp(30px,5vh,42px);font-size:clamp(16px,2.6vh,22px)}
+
+body.hwork{padding-right:12px!important}
+body.hwork #vscroll{display:none!important}
+body.hwork .hgrid2{grid-template-columns:repeat(6,minmax(0,1fr))}
+body.hwork .hgrid2>.ht2{grid-column:span 2}
+body.hwork .hgrid2>.ht2:nth-child(n+4){grid-column:span 3}
+body.hwork .hgrid2>.ht2.hterr:nth-child(n){grid-column:1/-1}
 </style>
 
 <div class="wrap">
@@ -760,9 +767,8 @@ body.hwork .htile .hi{width:clamp(30px,5vh,42px);height:clamp(30px,5vh,42px);fon
     </div>
     <div class="hgrid2" id="hGrid">
       <a class="ht2" href="#page=biblio"><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16l9 5 9-5"/></svg></span><b>Bibliothèque tactique</b><span class="td">Tes systèmes et schémas enregistrés</span><i class="tb"></i></a>
-      <a class="ht2" href="#page=seance"><span class="ti"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></span><b>Séances d&rsquo;entraînement</b><span class="td">Créer et planifier tes séances</span><i class="tb"></i></a>
       <a class="ht2" href="#page=exo"><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 3l5 15H7z"/><path d="M9 11h6M3 21h18M5 18h14"/></svg></span><b>Schémas d&rsquo;entraînement</b><span class="td">Plots, mannequins, haies, ballons</span><i class="tb"></i></a>
-      <a class="ht2" href="#page=bibses"><span class="ti"><svg viewBox="0 0 24 24"><path d="M3 6.5A2.5 2.5 0 015.5 4H10l2 2.5h6.5A2.5 2.5 0 0121 9v8.5a2.5 2.5 0 01-2.5 2.5h-13A2.5 2.5 0 013 17.5z"/><path d="M3 10h18"/></svg></span><b>Bibliothèque séances</b><span class="td">Tes séances prêtes à l&rsquo;emploi</span><i class="tb"></i></a>
+      <a class="ht2" href="#page=bibses"><span class="ti"><svg viewBox="0 0 24 24"><path d="M3 6.5A2.5 2.5 0 015.5 4H10l2 2.5h6.5A2.5 2.5 0 0121 9v8.5a2.5 2.5 0 01-2.5 2.5h-13A2.5 2.5 0 013 17.5z"/><path d="M3 10h18"/></svg></span><b>Bibliothèque de séances d&rsquo;entraînement</b><span class="td">Tes séances prêtes à l&rsquo;emploi</span><i class="tb"></i></a>
       <a class="ht2" href="#page=video"><span class="ti"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="M15.5 10l6-3v10l-6-3"/><path d="M8 10.5v3l2.6-1.5z"/></svg></span><b>Analyse vidéo</b><span class="td">Importer, découper et analyser</span><i class="tb"></i></a>
       <a class="ht2" href="#page=vlib"><span class="ti"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/><path d="M10.5 9.5v5l4-2.5z"/></svg></span><b>Vidéothèque</b><span class="td">Toutes tes vidéos et séquences</span><i class="tb"></i></a>
       <a class="ht2 hterr" href="#page=terrain"><span class="ti"><svg viewBox="0 0 48 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="44" height="28" rx="2"/><path d="M24 2v28"/><circle cx="24" cy="16" r="4"/><path d="M2 9a8 8 0 010 14M46 9a8 8 0 000 14"/></svg></span><span class="hterrt"><b>Mode terrain</b><span class="td">Chrono, score et stats en direct sur le terrain.</span></span><span class="hdirect">&#9679; Direct</span></a>
@@ -1139,8 +1145,8 @@ body.hwork .htile .hi{width:clamp(30px,5vh,42px);height:clamp(30px,5vh,42px);fon
   </section>
 
   <div class="snav" id="zNav"><a class="btn" href="#page=home">&#127968; Accueil</a><strong>Vidéothèque</strong><span class="grow"></span><a class="btn" href="#page=video">&#127916; Analyse vidéo</a></div>
-  <div class="snav" id="bsNav"><a class="btn" href="#page=home">&#127968; Accueil</a><strong>Bibliothèque séances</strong><span class="grow"></span><a class="btn" href="#page=seance">&#127947; Séances d&rsquo;entraînement</a></div>
-  <section id="bsPage" aria-label="Bibliothèque séances">
+  <div class="snav" id="bsNav"><a class="btn" href="#page=home">&#127968; Accueil</a><strong>Bibliothèque de séances d&rsquo;entraînement</strong><span class="grow"></span><a class="btn" href="#page=seance">&#127947; Séances d&rsquo;entraînement</a></div>
+  <section id="bsPage" aria-label="Bibliothèque de séances d&rsquo;entraînement">
     <div class="panel" style="display:grid;gap:10px">
       <div class="libhead"><h2>Mes séances</h2><span class="grow"></span><input id="bsSearch" type="search" placeholder="Rechercher…" aria-label="Rechercher une séance"></div>
       <div class="slist" id="bsThemes" role="group" aria-label="Thématiques"></div>
