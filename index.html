@@ -696,7 +696,7 @@ body.bwork #bNav{display:flex}
 body.bwork .wrap>*:not(#libPanel):not(#bNav){display:none!important}
 body.bwork #libPanel{display:block!important}
 body:not(.bwork) #libPanel{display:none!important}
-body:not(.vwork) #vidPanel,body:not(.vwork) #vlibPanel{display:none!important}
+body:not(.vwork) #vidPanel{display:none!important}
 body.swork #sessPage,body.xwork #exoPage{} 
 .hheroes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media (max-width:900px){.hheroes{grid-template-columns:1fr}}
@@ -704,10 +704,31 @@ body.swork #sessPage,body.xwork #exoPage{}
 .hheroes .hhero h2{font-size:clamp(20px,2.6vw,30px);color:#fff}
 .hheroes .htab{width:clamp(96px,14vw,170px)}
 .hheroes .hhero::before{right:34%}
+
+#bsNav,#bsPage{display:none}
+body.ywork #bsNav{display:flex}
+body.ywork #bsPage{display:grid}
+body.ywork .wrap>*:not(#bsPage):not(#bsNav){display:none!important}
+body.ywork #sessBanner{display:none!important}
+#pdfView{position:fixed;inset:0;z-index:130;background:#0b1020;display:flex;flex-direction:column}
+#pdfView[hidden]{display:none}
+#pdfView .pvh{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:calc(env(safe-area-inset-top,0px) + 26px) 14px 10px;color:#fff}
+#pdfView .btn:not(.primary){background:#2a3350;color:#fff;border-color:rgba(121,146,204,.5)}
+#pdfView .pvh strong{font:800 20px var(--disp);text-transform:uppercase;font-style:italic}
+#pdfView .pvb{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:6px 12px 24px;display:grid;gap:12px;justify-items:center;align-content:start}
+#pdfView .pvb img{width:min(100%,820px);height:auto;background:#fff;border-radius:6px;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+
+#zNav{display:none}
+body.zwork #zNav{display:flex}
+body.zwork .wrap>*:not(#vlibPanel):not(#zNav){display:none!important}
+body.zwork #vlibPanel{display:block!important}
+body:not(.vwork):not(.zwork) #vlibPanel{display:none!important}
+body.vwork #vlibPanel,body.vwork #saveBar{display:none!important}
+body.zwork #sessBanner{display:none!important}
 </style>
 
 <div class="wrap">
-  <div class="vwnav" id="vwNav"><a class="btn" href="#page=home">&#127968; Accueil</a><a class="btn" id="vwBack" href="#page=main">&larr; Retour au tableau</a><strong>Page de travail vidéo</strong><span class="grow"></span><a class="btn" href="#vlibPanel" id="vwToLib">Vidéothèque &darr;</a></div>
+  <div class="vwnav" id="vwNav"><a class="btn" href="#page=home">&#127968; Accueil</a><a class="btn" id="vwBack" href="#page=main">&larr; Retour au tableau</a><strong>Page de travail vidéo</strong><span class="grow"></span><a class="btn" href="#page=vlib" id="vwToLib">&#127910; Vidéothèque</a></div>
   <div class="snav" id="bNav"><a class="btn" href="#page=home">&#127968; Accueil</a><strong>Bibliothèque tactique</strong><span class="grow"></span><a class="btn" href="#page=main">&#9998; Créer un schéma</a></div>
   <header>
     <h1 id="h1">Tableau tactique handball</h1>
@@ -726,9 +747,9 @@ body.swork #sessPage,body.xwork #exoPage{}
       <a class="ht2" href="#page=biblio"><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16l9 5 9-5"/></svg></span><b>Bibliothèque tactique</b><span class="td">Tes systèmes et schémas enregistrés</span><i class="tb"></i></a>
       <a class="ht2" href="#page=seance"><span class="ti"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></span><b>Séances d&rsquo;entraînement</b><span class="td">Créer et planifier tes séances</span><i class="tb"></i></a>
       <a class="ht2" href="#page=exo"><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 3l5 15H7z"/><path d="M9 11h6M3 21h18M5 18h14"/></svg></span><b>Schémas d&rsquo;entraînement</b><span class="td">Plots, mannequins, haies, ballons</span><i class="tb"></i></a>
-      <a class="ht2" href="#page=seance" data-scroll="tlib"><span class="ti"><svg viewBox="0 0 24 24"><path d="M3 6.5A2.5 2.5 0 015.5 4H10l2 2.5h6.5A2.5 2.5 0 0121 9v8.5a2.5 2.5 0 01-2.5 2.5h-13A2.5 2.5 0 013 17.5z"/><path d="M3 10h18"/></svg></span><b>Bibliothèque séances</b><span class="td">Tes séances prêtes à l&rsquo;emploi</span><i class="tb"></i></a>
+      <a class="ht2" href="#page=bibses"><span class="ti"><svg viewBox="0 0 24 24"><path d="M3 6.5A2.5 2.5 0 015.5 4H10l2 2.5h6.5A2.5 2.5 0 0121 9v8.5a2.5 2.5 0 01-2.5 2.5h-13A2.5 2.5 0 013 17.5z"/><path d="M3 10h18"/></svg></span><b>Bibliothèque séances</b><span class="td">Tes séances prêtes à l&rsquo;emploi</span><i class="tb"></i></a>
       <a class="ht2" href="#page=video"><span class="ti"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="M15.5 10l6-3v10l-6-3"/><path d="M8 10.5v3l2.6-1.5z"/></svg></span><b>Analyse vidéo</b><span class="td">Importer, découper et analyser</span><i class="tb"></i></a>
-      <a class="ht2" href="#page=video" data-scroll="vlibPanel"><span class="ti"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/><path d="M10.5 9.5v5l4-2.5z"/></svg></span><b>Vidéothèque</b><span class="td">Toutes tes vidéos et séquences</span><i class="tb"></i></a>
+      <a class="ht2" href="#page=vlib"><span class="ti"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/><path d="M10.5 9.5v5l4-2.5z"/></svg></span><b>Vidéothèque</b><span class="td">Toutes tes vidéos et séquences</span><i class="tb"></i></a>
       <a class="ht2 hterr" href="#page=terrain"><span class="ti"><svg viewBox="0 0 48 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="44" height="28" rx="2"/><path d="M24 2v28"/><circle cx="24" cy="16" r="4"/><path d="M2 9a8 8 0 010 14M46 9a8 8 0 000 14"/></svg></span><span class="hterrt"><b>Mode terrain</b><span class="td">Chrono, score et stats en direct sur le terrain.</span></span><span class="hdirect">&#9679; Direct</span></a>
     </div>
   </section>
@@ -1101,8 +1122,19 @@ body.swork #sessPage,body.xwork #exoPage{}
     <div class="panel" style="display:grid;gap:10px"><div class="libhead"><h2>Mes schémas d'entraînement</h2><span class="grow"></span><span class="hint" id="xCount"></span></div><ul class="liblist" id="xList" style="display:grid;gap:8px;margin:0;padding:0"></ul></div>
   </section>
 
+  <div class="snav" id="zNav"><a class="btn" href="#page=home">&#127968; Accueil</a><strong>Vidéothèque</strong><span class="grow"></span><a class="btn" href="#page=video">&#127916; Analyse vidéo</a></div>
+  <div class="snav" id="bsNav"><a class="btn" href="#page=home">&#127968; Accueil</a><strong>Bibliothèque séances</strong><span class="grow"></span><a class="btn" href="#page=seance">&#127947; Séances d&rsquo;entraînement</a></div>
+  <section id="bsPage" aria-label="Bibliothèque séances">
+    <div class="panel" style="display:grid;gap:10px">
+      <div class="libhead"><h2>Mes séances</h2><span class="grow"></span><input id="bsSearch" type="search" placeholder="Rechercher…" aria-label="Rechercher une séance"></div>
+      <div class="slist" id="bsThemes" role="group" aria-label="Thématiques"></div>
+      <p class="hint" id="bsMsg" aria-live="polite"></p>
+      <ul class="liblist" id="bsList" style="display:grid;gap:8px;margin:0;padding:0"></ul>
+    </div>
+  </section>
+
   <section id="sessPage" aria-label="Séances d'entraînement">
-    <div class="snav"><a class="btn" href="#page=home">&#127968; Accueil</a><a class="btn" href="#page=main">&larr; Tableau</a><a class="btn" href="#page=terrain">&#9201; Mode terrain</a><strong>Séances d'entraînement</strong><span class="grow"></span><a class="btn" href="#page=exo">&#9998; Schémas d'entraînement</a><button type="button" class="btn" id="sNew">+ Nouvelle séance</button></div>
+    <div class="snav"><a class="btn" href="#page=home">&#127968; Accueil</a><a class="btn" href="#page=main">&larr; Tableau</a><a class="btn" href="#page=bibses">&#128193; Bibliothèque séances</a><a class="btn" href="#page=terrain">&#9201; Mode terrain</a><strong>Séances d'entraînement</strong><span class="grow"></span><a class="btn" href="#page=exo">&#9998; Schémas d'entraînement</a><button type="button" class="btn" id="sNew">+ Nouvelle séance</button></div>
     <div class="panel" style="display:grid;gap:10px">
       <div class="libhead"><h2>Mes séances</h2><span class="grow"></span><span class="hint" id="sCount"></span></div>
       <div class="slist" id="sList" role="group" aria-label="Séances enregistrées"></div>
@@ -1139,7 +1171,7 @@ body.swork #sessPage,body.xwork #exoPage{}
   </section>
 
   <section class="panel" id="tlib" style="display:grid;gap:10px" hidden>
-    <div class="libhead"><h2>Bibliothèque d'entraînement</h2><span class="grow"></span><input id="tlSearch" type="search" placeholder="Rechercher…" aria-label="Rechercher"></div>
+    <div class="libhead"><h2>Bibliothèque d'exercices</h2><span class="grow"></span><input id="tlSearch" type="search" placeholder="Rechercher…" aria-label="Rechercher"></div>
     <div class="slist" id="tlThemes" role="group" aria-label="Thématiques"></div>
     <div class="autorow">
       <input id="tlNewTheme" type="text" maxlength="40" placeholder="Nom de thématique">
@@ -1157,6 +1189,7 @@ body.swork #sessPage,body.xwork #exoPage{}
       <p class="hint" id="vlibCount"></p>
     </div>
     <p class="hint">Les séquences découpées s'y rangent sous le nom que tu leur donnes. Tu peux aussi y ajouter tes vidéos pour les retrouver sans les rechercher. Tout reste sur cet appareil.</p>
+    <div class="field"><label class="lbl" for="vlibSearch">Rechercher une vidéo</label><input id="vlibSearch" type="search" placeholder="Titre de la vidéo" autocomplete="off"></div>
     <div class="autorow">
       <label class="btn primary" for="vlibFile">+ Ajouter des vidéos</label>
       <input type="file" id="vlibFile" accept="video/*" multiple hidden>
@@ -1182,6 +1215,7 @@ body.swork #sessPage,body.xwork #exoPage{}
 
 <div id="vscroll" hidden><div id="vthumb"></div></div>
 <div id="sessBanner" role="status"><span id="sbTxt"></span><button type="button" class="btn primary" id="sbOk">Associer ce schéma et revenir à la séance</button><button type="button" class="btn" id="sbNo">Annuler</button></div>
+  <div id="pdfView" role="dialog" aria-modal="true" aria-label="Aperçu PDF" hidden><div class="pvh"><button type="button" class="btn" id="pvClose">&#10005; Fermer</button><strong id="pvTitle"></strong><span class="grow"></span><button type="button" class="btn primary" id="pvShare">Envoyer / enregistrer le PDF</button></div><div class="pvb" id="pvBody"></div></div>
 <div id="sessRun" role="dialog" aria-modal="true" aria-label="Séance en cours"></div>
 <div id="sessPrint"></div>
 <script>
@@ -4056,12 +4090,15 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
     });
   }
   $('#montGo').addEventListener('click',montGo);
+  $('#vlibSearch').addEventListener('input',function(){vRender();});
   function vRender(){
     var ul=$('#vlibList');
     return vAll().then(function(items){
       ul.innerHTML='';
       items.sort(function(a,b){return b.date-a.date;});
-      $('#vlibCount').textContent=items.length?items.length+(items.length>1?' vidéos':' vidéo'):'Aucune vidéo';$('#jumpVN').textContent=items.length?String(items.length):'';
+      var vq=($('#vlibSearch').value||'').trim().toLowerCase(),vtotal=items.length;
+      if(vq)items=items.filter(function(r){return (r.name||'').toLowerCase().indexOf(vq)>=0;});
+      $('#vlibCount').textContent=vtotal?(vq?items.length+' / '+vtotal+' vidéos':vtotal+(vtotal>1?' vidéos':' vidéo')):'Aucune vidéo';$('#jumpVN').textContent=items.length?String(items.length):'';
       items.forEach(function(r){
         var li=document.createElement('li');li.className='vrow';
         var th=document.createElement('div');th.className='vthumb';
@@ -4080,7 +4117,7 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
             if(!rec)return;
             var f=new File([rec.blob],rec.name,{type:rec.type||'video/mp4'});
             window.__loadVideo(f);
-            try{$('#vidPanel').scrollIntoView({behavior:'smooth',block:'start'});}catch(_){}
+            try{location.hash='#page=video';if(window.__applyPage)window.__applyPage();window.scrollTo(0,0);}catch(_){}
           });
         },'primary');
         b('+ Montage',function(){mAdd(r);});
@@ -4142,7 +4179,7 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
 (function(){
   function apply(){
     var vw=/^#page=video/.test(location.hash||'');
-    document.body.classList.toggle('vwork',vw);document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));if(window.__fieldShow)window.__fieldShow();
+    document.body.classList.toggle('vwork',vw);document.body.classList.toggle('zwork',/^#page=vlib/.test(location.hash||''));document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));document.body.classList.toggle('ywork',/^#page=bibses/.test(location.hash||''));if(window.__bsShow)window.__bsShow();var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));if(window.__fieldShow)window.__fieldShow();
     document.body.classList.toggle('swork',/^#page=seance/.test(location.hash||''));
     document.body.classList.toggle('xwork',/^#page=exo/.test(location.hash||''));
     if(window.__sessShow)window.__sessShow();
@@ -5353,6 +5390,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     var tl=totLines(s);
     if(tl.length){if(y+120>PH-M)np();font('800',32);x.fillStyle='#111';x.fillText('Bilan de la séance',M,y);y+=48;tl.forEach(function(l){para(l,'500',26,'#0a6b87',34);});}
     pages.forEach(function(c,i){var g=c.getContext('2d');g.font='500 22px system-ui,sans-serif';g.fillStyle='#888';g.textBaseline='top';g.fillText((s.title||'Séance')+' · page '+(i+1)+'/'+pages.length,M,PH-50);});
+    window.__pdfPages=pages;
     /* assemblage du PDF (une image JPEG par page A4) */
     function enc(str){var u=new Uint8Array(str.length);for(var k=0;k<str.length;k++)u[k]=str.charCodeAt(k)&255;return u;}
     var parts=[],off=0,xr=[];
@@ -5410,12 +5448,12 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     var host=$('#tlHost'),pan=$('#tlib');if(pan.parentNode!==host)host.appendChild(pan);pan.hidden=!cs()&&false;pan.hidden=false;
     var th=$('#tlThemes');th.innerHTML='';
     function chip(label,val,n){var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=label+(n!=null?' ('+n+')':'');b.setAttribute('aria-current',String(tlSel===val));b.addEventListener('click',function(){tlSel=val;tlRender();});th.appendChild(b);}
-    function cnt(v){return TL.items.filter(function(i){return v==='*'?true:(i.theme||'')===v;}).length;}
+    function cnt(v){return TL.items.filter(function(i){return i.kind==='ex'&&(v==='*'?true:(i.theme||'')===v);}).length;}
     chip('Tout','*',cnt('*'));TL.themes.forEach(function(t){chip(t,t,cnt(t));});chip('Sans thématique','',cnt(''));
     $('#tlRenTheme').disabled=$('#tlDelTheme').disabled=(tlSel==='*'||tlSel==='');
     var q=($('#tlSearch').value||'').trim().toLowerCase(),ul=$('#tlList');ul.innerHTML='';
-    var items=TL.items.filter(function(i){return (tlSel==='*'||(i.theme||'')===tlSel)&&(!q||(i.title||'').toLowerCase().indexOf(q)>=0);});
-    if(!items.length){var li=document.createElement('li');li.className='hint';li.textContent=TL.items.length?'Rien dans cette thématique.':'La bibliothèque est vide : touche ★ sur un exercice, ou « Enregistrer la séance en bibliothèque ».';ul.appendChild(li);return;}
+    var items=TL.items.filter(function(i){return i.kind==='ex'&&(tlSel==='*'||(i.theme||'')===tlSel)&&(!q||(i.title||'').toLowerCase().indexOf(q)>=0);});
+    if(!items.length){var li=document.createElement('li');li.className='hint';li.textContent=TL.items.length?'Rien dans cette thématique.':'Aucun exercice enregistré : touche ★ sur un exercice de ta séance.';ul.appendChild(li);return;}
     items.forEach(function(it){
       var li=document.createElement('li');li.className='tl-i';li.style.setProperty('--tc',it.kind==='ex'?tcol(it.data.type):'#0a6b87');
       var le=it.kind==='ex'?thumbFor(it.data):null;
@@ -5445,6 +5483,59 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     tdArm=0;b.textContent='Supprimer la thématique choisie';TL.themes=TL.themes.filter(function(t){return t!==tlSel;});TL.items.forEach(function(it){if(it.theme===tlSel)it.theme='';});tlSel='*';tlStore();tlRender();});
   tlLoad();$('#tlHost').appendChild($('#tlib'));
   window.addEventListener('hashchange',function(){if(!/^#page=terrain/.test(location.hash||'')&&$('#sessRun').classList.contains('on')){stopRun();window.__fieldQuit=false;}});
+  /* ===== page Bibliothèque séances ===== */
+  var bsSel='*';
+  async function pdfView(sx){
+    var pv=$('#pdfView'),body=$('#pvBody');pv.hidden=false;body.innerHTML='<p style="color:#fff;padding:20px">Création du PDF…</p>';$('#pvTitle').textContent=sx.title||'Séance';
+    try{
+      var blob=await pdfBlob(sx),pages=window.__pdfPages||[];body.innerHTML='';
+      pages.forEach(function(c){var im=document.createElement('img');im.src=c.toDataURL('image/jpeg',0.9);im.alt='Page du PDF';body.appendChild(im);});
+      pv._blob=blob;pv._name=((sx.title||'Séance').replace(/[\\\/:*?"<>|]+/g,' ').trim().slice(0,50)||'Séance')+'.pdf';
+    }catch(err){body.innerHTML='<p style="color:#fff;padding:20px">Création du PDF impossible ('+(err&&err.message||'erreur')+').</p>';}
+  }
+  $('#pvClose').addEventListener('click',function(){$('#pdfView').hidden=true;$('#pvBody').innerHTML='';});
+  $('#pvShare').addEventListener('click',async function(){
+    var pv=$('#pdfView');if(!pv._blob)return;var f=new File([pv._blob],pv._name,{type:'application/pdf'});
+    try{
+      if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:pv._name});}
+      else{var u=URL.createObjectURL(pv._blob),a=document.createElement('a');a.href=u;a.download=pv._name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},5000);}
+    }catch(err){}
+  });
+  function bsMsg(t){$('#bsMsg').textContent=t||'';}
+  function bsRender(){
+    load();tlLoad();
+    var rows=[];
+    SES.forEach(function(x){rows.push({mine:true,s:x,theme:x.theme||'',title:x.title||'Séance sans titre',upd:x.updated||0});});
+    TL.items.forEach(function(it){if(it.kind==='ses')rows.push({mine:false,it:it,s:it.data,theme:it.theme||'',title:it.title||'Séance',upd:it.updated||0});});
+    var th=$('#bsThemes');th.innerHTML='';
+    function chip(label,val,n){var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=label+' ('+n+')';b.setAttribute('aria-current',String(bsSel===val));b.addEventListener('click',function(){bsSel=val;bsRender();});th.appendChild(b);}
+    function cnt(v){return rows.filter(function(r){return v==='*'||r.theme===v;}).length;}
+    chip('Toutes','*',cnt('*'));TL.themes.forEach(function(t){chip(t,t,cnt(t));});chip('Sans thématique','',cnt(''));
+    var q=($('#bsSearch').value||'').trim().toLowerCase(),ul=$('#bsList');ul.innerHTML='';
+    rows=rows.filter(function(r){return (bsSel==='*'||r.theme===bsSel)&&(!q||r.title.toLowerCase().indexOf(q)>=0);}).sort(function(a,b){return b.upd-a.upd;});
+    if(!rows.length){var li0=document.createElement('li');li0.className='hint';li0.textContent='Aucune séance ici. Crée-en une dans « Séances d’entraînement ».';ul.appendChild(li0);return;}
+    rows.forEach(function(r){
+      var li=document.createElement('li');li.className='tl-i';li.style.setProperty('--tc','#1c3f8c');
+      var ic=document.createElement('div');ic.className='ic';ic.textContent='📋';li.appendChild(ic);
+      var tb=document.createElement('div');tb.className='tb';
+      var t=document.createElement('div');t.className='tt';t.textContent=r.title;tb.appendChild(t);
+      var m=document.createElement('div');m.className='tm';var ex=(r.s.ex||[]);
+      m.textContent=[r.s.date?r.s.date.split('-').reverse().join('/'):'',ex.length+(ex.length>1?' exercices':' exercice'),fmtMin(total(r.s)),r.mine?'':'modèle enregistré'].filter(Boolean).join(' · ');tb.appendChild(m);
+      var a=document.createElement('div');a.className='ta';
+      var sel=document.createElement('select');sel.setAttribute('aria-label','Thématique');
+      var o0=document.createElement('option');o0.value='';o0.textContent='Sans thématique';sel.appendChild(o0);
+      TL.themes.forEach(function(x){var o=document.createElement('option');o.value=x;o.textContent=x;sel.appendChild(o);});sel.value=r.theme;
+      sel.addEventListener('change',function(){if(r.mine){r.s.theme=sel.value;store();}else{r.it.theme=sel.value;tlStore();}bsRender();});a.appendChild(sel);
+      function bt(l,fn,cls){var b=document.createElement('button');b.type='button';b.className='btn'+(cls?' '+cls:'');b.textContent=l;b.addEventListener('click',fn);a.appendChild(b);return b;}
+      bt('📄 Voir le PDF',function(){if(!ex.length){bsMsg('Cette séance n’a pas encore d’exercice.');return;}pdfView(r.s);},'primary');
+      if(r.mine)bt('Modifier',function(){cur=r.s.id;try{localStorage.setItem('hb-sess-cur',r.s.id);}catch(_){}location.hash='#page=seance';if(window.__applyPage)window.__applyPage();});
+      else bt('Utiliser (nouvelle séance)',function(){var c=JSON.parse(JSON.stringify(r.it.data));c.id=sid();c.date=new Date().toISOString().slice(0,10);c.ex.forEach(function(e){e.id=sid();});c.updated=Date.now();SES.push(c);cur=c.id;store();try{localStorage.setItem('hb-sess-cur',c.id);}catch(_){}location.hash='#page=seance';if(window.__applyPage)window.__applyPage();});
+      if(!r.mine){var ar=0;bt('Supprimer',function(ev){var x=ev.currentTarget;if(!ar){ar=1;x.textContent='Confirmer';setTimeout(function(){ar=0;x.textContent='Supprimer';},2500);return;}TL.items=TL.items.filter(function(z){return z.id!==r.it.id;});tlStore();bsRender();},'danger');}
+      tb.appendChild(a);li.appendChild(tb);ul.appendChild(li);
+    });
+  }
+  $('#bsSearch').addEventListener('input',bsRender);
+  window.__bsShow=function(){if(/^#page=bibses/.test(location.hash||''))bsRender();};
   /* ===== mode terrain indépendant ===== */
   var TK='handball-terrain-v1',TT=null;
   var TDEF=['Tirs','Arrêts gardienne','Neutralisations','Pertes de balle'];
@@ -5584,6 +5675,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   load();showBanner();
   window.__sessShow();
   if(window.__fieldShow)window.__fieldShow();
+  if(window.__bsShow)window.__bsShow();
 })();
 
 /* boot */
