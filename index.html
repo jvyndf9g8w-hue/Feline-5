@@ -147,7 +147,8 @@ body.viewer .vlib{display:none}
 .vwnav strong{font:700 20px/1.1 var(--disp);letter-spacing:.02em;text-transform:uppercase}
 body.vwork .vwnav{display:flex}
 body.vwork header,body.vwork .bar,body.vwork .stage,body.vwork .deck,body.vwork .lib{display:none!important}
-body:not(.vwork) #cutBox,body:not(.vwork) #autoStart{display:none!important}
+body:not(.vwork) #cutBox,body:not(.vwork) #vwCutGo{display:none!important}
+#autoStart,#autoPanel,#fsConv,body.vwork #vidStep{display:none!important}
 body.vwork .vwopen{display:none}
 body.vwork #vlibPanel{order:5}
 .vwopen{text-decoration:none}
@@ -725,6 +726,20 @@ body.zwork #vlibPanel{display:block!important}
 body:not(.vwork):not(.zwork) #vlibPanel{display:none!important}
 body.vwork #vlibPanel,body.vwork #saveBar{display:none!important}
 body.zwork #sessBanner{display:none!important}
+
+/* accueil : tout sur un écran, sans défilement */
+html:has(body.hwork),body.hwork{height:100dvh;overflow:hidden}
+body.hwork{padding:8px 12px!important;margin:0;box-sizing:border-box}
+body.hwork .wrap{height:100%;max-width:1180px;gap:0}
+body.hwork #homePage{height:100%;min-height:0;grid-template-rows:auto auto minmax(0,1fr);gap:clamp(6px,1.4vh,12px);overflow:hidden}
+body.hwork .hh{gap:10px}
+body.hwork .hhero{padding:clamp(6px,1.4vh,14px) 14px}
+body.hwork .hhero h2{font-size:clamp(16px,2.8vh,26px)!important}
+body.hwork .hhero p{font-size:clamp(11px,1.6vh,14px)}
+body.hwork .hlogo{transform:scale(.7);transform-origin:left center}
+body.hwork .hgrid2{min-height:0;grid-auto-rows:minmax(0,1fr);gap:clamp(6px,1.2vh,10px)}
+body.hwork .htile{padding-top:4px;padding-bottom:4px;min-height:0;overflow:hidden}
+body.hwork .htile .hi{width:clamp(30px,5vh,42px);height:clamp(30px,5vh,42px);font-size:clamp(16px,2.6vh,22px)}
 </style>
 
 <div class="wrap">
@@ -1012,9 +1027,10 @@ body.zwork #sessBanner{display:none!important}
     </details>
   </section>
 
-  <section class="panel vid" id="vidPanel" aria-label="Vidéo import">
-    <div class="libhead"><h2>Vidéo import</h2><span class="grow"></span><a class="btn primary vwopen" href="#page=video">&#127916; Ouvrir la page de travail vidéo</a></div>
-    <p class="hint" id="vidHint">Dépose une vidéo de match ou d'entraînement : elle reste sur ton appareil (rien n'est envoyé). Regarde-la au ralenti, puis reproduis chaque moment clé sur le terrain avec « + Étape ». Pour découper ou convertir en schéma, ouvre la page de travail vidéo.</p>
+  <section class="panel vid" id="vidPanel" aria-label="Découpage vidéo">
+    <div class="libhead"><h2 id="vidTitle">Découpage vidéo</h2><span class="grow"></span><a class="btn primary vwopen" href="#page=video">&#127916; Ouvrir la page de travail vidéo</a></div>
+    <p class="hint" id="vidHint">Dépose une vidéo de match ou d'entraînement : elle reste sur ton appareil (rien n'est envoyé). Regarde-la au ralenti, puis découpe les séquences utiles : elles sont enregistrées dans la vidéothèque.</p>
+    <button type="button" class="btn primary bigcut" id="vwCutGo">&#9986; Découper une séquence</button>
     <label class="drop" id="vidDrop" for="vidFile">
       <input type="file" id="vidFile" accept="video/*" hidden>
       <span id="vidDropT">Touche ici pour choisir une vidéo, ou dépose-la</span>
@@ -3521,6 +3537,10 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
   $('#vidStep').addEventListener('click',function(){
     vid.pause();$('#btnAdd').click();
     $('#vidHint').textContent='Étape '+S.frames.length+' ajoutée à '+fmt(vid.currentTime)+'. Déplace maintenant les joueuses pour qu\'elles correspondent à la vidéo.';
+  });
+  $('#vwCutGo').addEventListener('click',function(){
+    if($('#vidBox').hidden){$('#vidFile').click();return;}
+    vid.pause();try{$('#cutBox').scrollIntoView({behavior:'smooth',block:'start'});}catch(_){}
   });
   $('#vidClose').addEventListener('click',function(){
     vid.pause();vid.removeAttribute('src');vid.load();if(url){URL.revokeObjectURL(url);url=null;}
