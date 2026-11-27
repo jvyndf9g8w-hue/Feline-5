@@ -654,6 +654,26 @@ body.hwork::after{content:"";position:fixed;inset:0;z-index:-1;background:linear
 .hterrt{flex:1;display:grid;gap:2px;min-width:0}
 .hterr .tb{display:none}
 .hdirect{flex:none;background:#7992CC;color:#0e2347;font-weight:800;font-style:italic;text-transform:uppercase;padding:9px 18px;border-radius:999px;position:relative}
+
+html:has(#sessRun.on),html:has(#sessRun.on) body{background:#0b1020}
+body:has(#sessRun.on)::before,body:has(#sessRun.on)::after{display:none}
+#tBil{position:absolute;inset:0;z-index:5;overflow:auto;-webkit-overflow-scrolling:touch;background:#0b1020;color:#fff;padding:calc(env(safe-area-inset-top,0px) + 26px) 16px 24px}
+#tBil .tbh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+#tBil .tbh strong{font:800 clamp(20px,3vw,28px) var(--disp);text-transform:uppercase;color:#7992CC}
+#tBil .tbs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+#tBil .tbc{border-radius:16px;padding:10px;text-align:center}
+#tBil .tbg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+#tBil .tbch{background:#141c33;border:1px solid rgba(121,146,204,.35);border-radius:14px;padding:8px 10px}
+#tBil .tbch b{font-size:1.05em}
+#tBil .tbl{font-size:.82em;opacity:.9;margin:2px 0 4px}
+#tBil .tbl i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin:0 4px 0 8px}
+#tBil .tbl i:first-child{margin-left:0}
+#tBil .tbsvg{width:100%;height:auto;display:block}
+#tBil .tbt{width:100%;border-collapse:collapse;background:#141c33;border-radius:12px;overflow:hidden}
+#tBil .tbt th,#tBil .tbt td{padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:middle}
+#tBil .tbt th{font-weight:800;text-transform:uppercase;font-size:.85em}
+#tBil .tbb{height:8px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+#tBil .tbb div{height:100%}
 </style>
 
 <div class="wrap">
@@ -5225,7 +5245,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     r.insertBefore(box,r.children[2]);
   }
   function paintRun(){var t=$('#runT');if(!t)return;var l=Math.max(0,Math.round(run.left));t.textContent=Math.floor(l/60)+':'+((l%60)<10?'0':'')+(l%60);t.style.color=(l<=30&&l>0)?'#ffb020':(l===0?'#ff5a5a':'#fff');}
-  function goRun(i){var s=cs();if(!s||i<0||i>=s.ex.length)return;clearInterval(run.t);run.on=false;run.i=i;run.left=(+s.ex[i].min||0)*60;runUI();}
+  function goRun(i){run.mode=null;var s=cs();if(!s||i<0||i>=s.ex.length)return;clearInterval(run.t);run.on=false;run.i=i;run.left=(+s.ex[i].min||0)*60;runUI();}
   function toggleRun(){
     if(run.on){clearInterval(run.t);run.on=false;var pb=$('#runPP');if(pb)pb.textContent='\u25B6 Reprendre';return;}
     run.on=true;run.alarm=false;try{var AC0=window.AudioContext||window.webkitAudioContext;if(!run.ac&&AC0)run.ac=new AC0();if(run.ac&&run.ac.resume)run.ac.resume();}catch(_){}run.end=Date.now()+run.left*1000;var pb2=$('#runPP');if(pb2)pb2.textContent='Pause';
@@ -5235,7 +5255,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       if(run.left<=0){clearInterval(run.t);run.on=false;run.alarm=true;alarm();var pb3=$('#runPP');if(pb3)pb3.textContent='Terminé';var alb=$('#runAl');if(alb)alb.hidden=false;}
     },250);
   }
-  function stopRun(){window.__fieldQuit=true;clearInterval(run.t);run.on=false;try{if(run.wl)run.wl.release();}catch(_){}$('#sessRun').classList.remove('on');if(/^#page=terrain/.test(location.hash||'')&&window.__fieldShow)window.__fieldShow();}
+  function stopRun(){run.mode=null;var tb0=$('#tBil');if(tb0)tb0.remove();window.__fieldQuit=true;clearInterval(run.t);run.on=false;try{if(run.wl)run.wl.release();}catch(_){}$('#sessRun').classList.remove('on');if(/^#page=terrain/.test(location.hash||'')&&window.__fieldShow)window.__fieldShow();}
   $('#sRun').addEventListener('click',function(){var s=cs();if(!s||!s.ex.length){msg('Ajoute d\u2019abord au moins un exercice.');return;}$('#sessRun').classList.add('on');goRun(0);});
   /* ===== PDF (fiche de séance) ===== */
   function svgImg(svg,w,h){
@@ -5384,28 +5404,134 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     tdArm=0;b.textContent='Supprimer la thématique choisie';TL.themes=TL.themes.filter(function(t){return t!==tlSel;});TL.items.forEach(function(it){if(it.theme===tlSel)it.theme='';});tlSel='*';tlStore();tlRender();});
   tlLoad();$('#tlHost').appendChild($('#tlib'));
   window.addEventListener('hashchange',function(){if(!/^#page=terrain/.test(location.hash||'')&&$('#sessRun').classList.contains('on')){stopRun();window.__fieldQuit=false;}});
-  /* page mode terrain */
+  /* ===== mode terrain indépendant ===== */
+  var TK='handball-terrain-v1',TT=null;
+  var TDEF=['Tirs','Arrêts gardienne','Neutralisations','Pertes de balle'];
+  function tLoad(){var o=null;try{o=JSON.parse(localStorage.getItem(TK)||'null');}catch(_){}
+    if(!o||typeof o!=='object')o={};
+    o.a=o.a||'Rose';o.b=o.b||'Bleu';o.ca=o.ca||'#ed1680';o.cb=o.cb||'#1c3f8c';o.min=(+o.min>=0&&o.min!=null)?+o.min:15;if(o.min===0&&!('min' in o))o.min=15;
+    o.sc=o.sc&&o.sc.length===2?o.sc:[0,0];o.c=o.c||{};o.sl=(o.sl&&o.sl.length)?o.sl:TDEF.slice();o.ev=o.ev||[];TT=o;return o;}
+  function tSave(){try{localStorage.setItem(TK,JSON.stringify(TT));}catch(_){}}
+  function tElapsed(){return Math.max(0,Math.round(TT.min*60-run.left));}
+  function tLog(k,ti,d){TT.ev.push({t:tElapsed(),k:k,m:ti,d:d});if(TT.ev.length>2000)TT.ev.shift();}
+  function tCount(k,ti){if(k==='\u0000score')return TT.sc[ti];TT.c[k]=TT.c[k]||[0,0];return TT.c[k][ti];}
+  function tUI(){
+    var r=$('#sessRun');r.innerHTML='';var T=TT;
+    function dv(c,t){var d=document.createElement('div');if(c)d.className=c;if(t!=null)d.textContent=t;return d;}
+    function bn(l,fn,cls){var x=document.createElement('button');x.type='button';x.className='btn'+(cls?' '+cls:'');x.textContent=l;x.addEventListener('click',fn);return x;}
+    var top=dv('rrow');top.appendChild(bn('🏠 Accueil',function(){location.hash='#page=home';}));top.appendChild(bn('Bilan',function(){tBilan();}));r.appendChild(top);
+    var nm=dv('rn','Mode terrain');nm.style.color='#7992CC';nm.style.textAlign='center';r.appendChild(nm);
+    var g=dv('rgrid');var L=dv();L.style.display='grid';L.style.gap='12px';
+    var tbx=dv('rtimer');var tm=dv('rt','');tm.id='runT';tbx.appendChild(tm);
+    var ctl=dv('rrow');
+    var pp=bn(run.on?'Pause':'▶ Démarrer',function(){toggleRun();},'primary');pp.id='runPP';ctl.appendChild(pp);
+    ctl.appendChild(bn('⏱ Régler',function(){var v=window.prompt('Durée en minutes',String(Math.round(run.left/60*10)/10));if(v===null)return;v=parseFloat(String(v).replace(',','.'));if(!(v>=0&&v<=600))return;run.left=v*60;if(run.on)run.end=Date.now()+run.left*1000;T.min=v;tSave();paintRun();}));
+    ctl.appendChild(bn('↺ Remise à zéro',function(){if(!window.confirm('Remettre à zéro le score, les stats et le chrono ?'))return;clearInterval(run.t);run.on=false;T.sc=[0,0];T.c={};T.ev=[];run.left=T.min*60;run.alarm=false;tSave();tUI();}));
+    tbx.appendChild(ctl);
+    var alb=bn('🔔 Temps écoulé : arrêter la sonnerie',function(){try{if(run.ac&&run.ac.close){run.ac.close();run.ac=null;}}catch(_){}try{if(navigator.vibrate)navigator.vibrate(0);}catch(_){}alb.hidden=true;},'primary');alb.id='runAl';alb.hidden=!(run.left<=0&&!run.on&&run.alarm);tbx.appendChild(alb);L.appendChild(tbx);
+    var PALT=['#dc0000','#1c3f8c','#ed1680','#2a3c96','#16a34a','#f97316','#facc15','#ef4444','#111827','#f8fafc','#06b6d4','#8b5cf6'];
+    function ink(hex){var m=/^#?([0-9a-f]{6})$/i.exec(hex||'');if(!m)return '#fff';var n=parseInt(m[1],16),r1=n>>16,g2=(n>>8)&255,b2=n&255;return (0.299*r1+0.587*g2+0.114*b2)>150?'#111':'#fff';}
+    function tile(label,key,ti,color,big){
+      var x=document.createElement('button');x.type='button';x.className='tile'+(big?' big':'');x.style.background=color;x.style.color=ink(color);
+      var l=document.createElement('span');l.className='tl';l.textContent=label;var n=document.createElement('span');n.className='tn';n.textContent=String(tCount(key,ti));x.appendChild(l);x.appendChild(n);
+      function setv(v){if(key==='\u0000score')T.sc[ti]=v;else{T.c[key]=T.c[key]||[0,0];T.c[key][ti]=v;}n.textContent=String(v);}
+      var tm2=0,long=false;
+      x.addEventListener('pointerdown',function(){long=false;clearTimeout(tm2);tm2=setTimeout(function(){long=true;var v=tCount(key,ti);if(v>0){setv(v-1);tLog(key,ti,-1);tSave();try{if(navigator.vibrate)navigator.vibrate([20,40,20]);}catch(_){}}},650);});
+      function end(){clearTimeout(tm2);}
+      x.addEventListener('pointerleave',end);x.addEventListener('pointercancel',end);
+      x.addEventListener('pointerup',function(){end();if(long)return;setv(tCount(key,ti)+1);tLog(key,ti,1);tSave();try{if(navigator.vibrate)navigator.vibrate(12);}catch(_){}});
+      x.addEventListener('contextmenu',function(ev){ev.preventDefault();});
+      return x;
+    }
+    function swatches(key,nk){
+      var box=dv('tswb');var tg=document.createElement('button');tg.type='button';tg.className='tswt';tg.setAttribute('aria-label','Choisir la couleur de l’équipe');tg.innerHTML='<i style="background:'+T[key]+'"></i> Couleur';
+      run.sw=run.sw||{};tg.addEventListener('click',function(){run.sw[key]=!run.sw[key];tUI();});box.appendChild(tg);if(!run.sw[key])return box;
+      var w=dv('tsw');PALT.forEach(function(c){var x=document.createElement('button');x.type='button';x.style.background=c;x.setAttribute('aria-label','Couleur '+c);x.setAttribute('aria-pressed',String(T[key]===c));x.addEventListener('click',function(){T[key]=c;tSave();tUI();});w.appendChild(x);});box.appendChild(w);return box;
+    }
+    var th=dv('tgrid');
+    [['a','ca',0],['b','cb',1]].forEach(function(k){
+      var col=dv();col.style.cssText='display:grid;gap:8px;justify-items:stretch';
+      var inp=document.createElement('input');inp.value=T[k[0]];inp.maxLength=14;inp.setAttribute('aria-label','Nom de l’équipe');inp.style.cssText='min-height:44px;text-align:center;font:800 18px/1 var(--disp);text-transform:uppercase;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:transparent;color:#fff';
+      inp.addEventListener('input',function(){T[k[0]]=inp.value;tSave();});col.appendChild(inp);
+      col.appendChild(tile(T[k[0]]||'Équipe','\u0000score',k[2],T[k[1]],true));th.appendChild(col);
+    });
+    L.appendChild(th);
+    var cgr=dv('tgrid');cgr.appendChild(swatches('ca'));cgr.appendChild(swatches('cb'));L.appendChild(cgr);
+    var Rr=dv('sb');var sg=dv('tgrid');
+    T.sl.forEach(function(k){[0,1].forEach(function(ti){sg.appendChild(tile(k,k,ti,ti?T.cb:T.ca,false));});});
+    Rr.appendChild(sg);
+    var hint2=dv('','Appui = +1 · appui long = −1');hint2.style.cssText='text-align:center;opacity:.7;font-size:.9em';Rr.appendChild(hint2);
+    var ad=dv('sbadd');var ai=document.createElement('input');ai.placeholder='Ajouter une stat (ex. : tir au poteau)';ai.maxLength=30;
+    var ab=bn('+ Stat',function(){var v=ai.value.trim();if(!v)return;if(T.sl.indexOf(v)<0)T.sl.push(v);tSave();tUI();});
+    ai.addEventListener('keydown',function(ev){if(ev.key==='Enter')ab.click();});ad.appendChild(ai);ad.appendChild(ab);L.appendChild(ad);
+    g.appendChild(L);g.appendChild(Rr);r.appendChild(g);paintRun();
+  }
+  function tBilan(){
+    var old=$('#tBil');if(old){old.remove();return;}
+    var T=TT,NS='http://www.w3.org/2000/svg';
+    var box=document.createElement('div');box.id='tBil';
+    function h(t,tag){var e=document.createElement(tag||'div');if(t!=null)e.textContent=t;return e;}
+    var hd=h(null);hd.className='tbh';var tt=h('Bilan du match','strong');hd.appendChild(tt);
+    var cb=h('✕ Fermer','button');cb.type='button';cb.className='btn';cb.addEventListener('click',function(){box.remove();});hd.appendChild(cb);box.appendChild(hd);
+    var tot=h(null);tot.className='tbs';
+    [[T.a,T.sc[0],T.ca],[T.b,T.sc[1],T.cb]].forEach(function(z,i){var c=h(null);c.className='tbc';c.style.background=z[2];c.style.color=/^#(f|e|d)/i.test(z[2])&&z[2].toLowerCase()!=='#ef4444'&&z[2].toLowerCase()!=='#ed1680'&&z[2].toLowerCase()!=='#f97316'?'#111':'#fff';var n=h(z[0]||'Équipe');n.style.fontWeight='800';var v=h(String(z[1]));v.style.cssText='font:800 54px/1 var(--disp)';c.appendChild(n);c.appendChild(v);tot.appendChild(c);});
+    box.appendChild(tot);
+    var evs=T.ev||[];var maxT=0;evs.forEach(function(e){if(e.t>maxT)maxT=e.t;});
+    var useT=maxT>0;
+    function chart(title,key){
+      var pts=[[0,0,0]];var cur=[0,0];
+      evs.forEach(function(e,i){if(e.k!==key)return;cur[e.m]=Math.max(0,cur[e.m]+e.d);pts.push([useT?e.t:i+1,cur[0],cur[1]]);});
+      var W=520,H=210,m={l:34,r:12,t:14,b:30};
+      var xmax=useT?Math.max(maxT,T.min*60*0+1):Math.max(evs.length,1);
+      var ymax=1;pts.forEach(function(p){ymax=Math.max(ymax,p[1],p[2]);});
+      function X(v){return m.l+(W-m.l-m.r)*v/xmax;}function Y(v){return H-m.b-(H-m.t-m.b)*v/ymax;}
+      var svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.setAttribute('class','tbsvg');
+      function E(n,at,p){var e=document.createElementNS(NS,n);for(var k in at)e.setAttribute(k,at[k]);(p||svg).appendChild(e);return e;}
+      for(var i=0;i<=Math.min(ymax,5);i++){var yv=ymax<=5?i:Math.round(ymax*i/5);E('line',{x1:m.l,x2:W-m.r,y1:Y(yv),y2:Y(yv),stroke:'rgba(255,255,255,.14)'});var tx=E('text',{x:m.l-6,y:Y(yv)+4,'text-anchor':'end',fill:'#9fb0d6','font-size':11});tx.textContent=yv;}
+      var nt=useT?Math.min(6,Math.max(2,Math.ceil(xmax/60))):Math.min(6,xmax);
+      for(var j=0;j<=nt;j++){var xv=xmax*j/nt;var lab=useT?(Math.floor(xv/60)+':'+('0'+Math.round(xv%60)).slice(-2)):String(Math.round(xv));var t2=E('text',{x:X(xv),y:H-10,'text-anchor':'middle',fill:'#9fb0d6','font-size':11});t2.textContent=lab;}
+      [1,2].forEach(function(ti){var col=ti===1?T.ca:T.cb;var d='M'+X(0)+' '+Y(0);var lastv=0;pts.forEach(function(p,ix){if(ix===0)return;d+=' L'+X(p[0])+' '+Y(lastv)+' L'+X(p[0])+' '+Y(p[ti]);lastv=p[ti];});d+=' L'+X(xmax)+' '+Y(lastv);E('path',{d:d,fill:'none',stroke:col,'stroke-width':3.5,'stroke-linejoin':'round','stroke-linecap':'round'});});
+      var wrap=h(null);wrap.className='tbch';var ttl=h(title,'b');wrap.appendChild(ttl);var lg=h(null);lg.className='tbl';lg.innerHTML='<i style="background:'+T.ca+'"></i>'+esc2(T.a)+' <i style="background:'+T.cb+'"></i>'+esc2(T.b);wrap.appendChild(lg);wrap.appendChild(svg);
+      if(pts.length===1){var nd=h('Pas encore de donnée.');nd.style.cssText='opacity:.6;font-size:.9em';wrap.appendChild(nd);}
+      return wrap;
+    }
+    function esc2(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    var gh=h(useT?'Évolution au fil du temps (min:s)':'Évolution selon l’ordre des actions (lance le chrono pour voir le temps)','div');gh.style.cssText='opacity:.75;font-size:.9em;margin:4px 0';box.appendChild(gh);
+    var cg=h(null);cg.className='tbg';
+    cg.appendChild(chart('Buts','\u0000score'));
+    ['Tirs','Pertes de balle'].forEach(function(k){if(T.sl.indexOf(k)>=0||T.c[k])cg.appendChild(chart(k,k));});
+    var oth=T.sl.filter(function(k){return ['Tirs','Pertes de balle'].indexOf(k)<0;});
+    box.appendChild(cg);
+    /* pourcentages */
+    function g(k,i){return k==='\u0000score'?T.sc[i]:((T.c[k]||[0,0])[i]);}
+    function pc(n,d){return d>0?Math.min(100,Math.round(n*100/d)):null;}
+    var rows=[
+      ['Efficacité au tir (buts / tirs)',[pc(g('\u0000score',0),g('Tirs',0)),pc(g('\u0000score',1),g('Tirs',1))]],
+      ['Arrêts de la gardienne (arrêts / tirs adverses)',[pc(g('Arrêts gardienne',0),g('Tirs',1)),pc(g('Arrêts gardienne',1),g('Tirs',0))]],
+      ['Part des buts',[pc(T.sc[0],T.sc[0]+T.sc[1]),pc(T.sc[1],T.sc[0]+T.sc[1])]],
+      ['Part des tirs',[pc(g('Tirs',0),g('Tirs',0)+g('Tirs',1)),pc(g('Tirs',1),g('Tirs',0)+g('Tirs',1))]],
+      ['Part des neutralisations',[pc(g('Neutralisations',0),g('Neutralisations',0)+g('Neutralisations',1)),pc(g('Neutralisations',1),g('Neutralisations',0)+g('Neutralisations',1))]],
+      ['Part des pertes de balle',[pc(g('Pertes de balle',0),g('Pertes de balle',0)+g('Pertes de balle',1)),pc(g('Pertes de balle',1),g('Pertes de balle',0)+g('Pertes de balle',1))]]
+    ];
+    var h2=h('Tableau des pourcentages','strong');h2.style.cssText='display:block;margin:14px 0 6px';box.appendChild(h2);
+    var tb=document.createElement('table');tb.className='tbt';
+    var r0=document.createElement('tr');['',T.a,T.b].forEach(function(x,i){var c=document.createElement('th');c.textContent=x;if(i){c.style.borderBottom='3px solid '+(i===1?T.ca:T.cb);}r0.appendChild(c);});tb.appendChild(r0);
+    rows.forEach(function(rw){var tr=document.createElement('tr');var c0=document.createElement('td');c0.textContent=rw[0];tr.appendChild(c0);
+      rw[1].forEach(function(v,i){var c=document.createElement('td');if(v===null){c.textContent='—';c.style.opacity='.5';}else{var bx=h(null);bx.className='tbb';var bar=h(null);bar.style.cssText='width:'+v+'%;background:'+(i?T.cb:T.ca);bx.appendChild(bar);var tx=h(v+' %');tx.style.cssText='font-weight:800;margin-bottom:3px';c.appendChild(tx);c.appendChild(bx);}tr.appendChild(c);});tb.appendChild(tr);});
+    box.appendChild(tb);
+    var note=h('Tirs = tentatives (buts compris). Les pourcentages à « — » n’ont pas assez de données.','p');note.style.cssText='opacity:.65;font-size:.85em;margin:6px 0 10px';box.appendChild(note);
+    /* totaux bruts */
+    var h3=h('Totaux','strong');h3.style.cssText='display:block;margin:10px 0 6px';box.appendChild(h3);
+    var t2=document.createElement('table');t2.className='tbt';var q=document.createElement('tr');['',T.a,T.b].forEach(function(x){var c=document.createElement('th');c.textContent=x;q.appendChild(c);});t2.appendChild(q);
+    [['Buts',T.sc[0],T.sc[1]]].concat(T.sl.map(function(k){return [k,g(k,0),g(k,1)];})).forEach(function(rw){var tr=document.createElement('tr');rw.forEach(function(x,i){var c=document.createElement('td');c.textContent=x;if(i)c.style.fontWeight='800';tr.appendChild(c);});t2.appendChild(tr);});
+    box.appendChild(t2);
+    $('#sessRun').appendChild(box);
+  }
   window.__fieldShow=function(){
     if(!/^#page=terrain/.test(location.hash||''))return;
-    load();
-    if(!$('#sessRun').classList.contains('on')&&!window.__fieldQuit){
-      var pick=null,sv='';try{sv=localStorage.getItem('hb-sess-cur')||'';}catch(_){}
-      var g0=getS(sv);if(g0&&(g0.ex||[]).length)pick=g0;
-      if(!pick){var ok=SES.filter(function(x){return (x.ex||[]).length;}).sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''));});pick=ok[0]||null;}
-      if(!pick){pick=newSes();pick.title='Séance libre';var e1=newEx('Jeu / opposition',15);e1.name='Match / jeu';pick.ex.push(e1);SES.push(pick);store();}
-      cur=pick.id;try{localStorage.setItem('hb-sess-cur',pick.id);}catch(_){}
-      $('#sessRun').classList.add('on');goRun(0);
-    }
-    window.__fieldQuit=false;
-    var L=$('#fList');L.innerHTML='';
-    if(!SES.length){var e0=document.createElement('p');e0.className='hint';e0.textContent='Aucune séance enregistrée. Crée-en une dans « Séances d\u2019entraînement » : elle apparaîtra ici.';L.appendChild(e0);return;}
-    SES.slice().sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''));}).forEach(function(x){
-      var b=document.createElement('button');b.type='button';b.className='fbtn';
-      var d=document.createElement('div');var t=document.createElement('b');t.textContent=x.title||'Séance sans titre';var sm=document.createElement('small');sm.textContent=[x.date,(x.ex||[]).length+' exercice(s)',x.team].filter(Boolean).join(' \u00b7 ');d.appendChild(t);d.appendChild(sm);
-      var i=document.createElement('i');i.textContent='\u25B6 Lancer';b.appendChild(d);b.appendChild(i);
-      b.addEventListener('click',function(){if(!(x.ex||[]).length){sm.textContent='Cette séance n\u2019a pas encore d\u2019exercice.';return;}cur=x.id;try{localStorage.setItem('hb-sess-cur',x.id);}catch(_){}$('#sessRun').classList.add('on');goRun(0);});
-      L.appendChild(b);
-    });
+    var r=$('#sessRun');if(r.classList.contains('on')&&run.mode==='terrain')return;
+    tLoad();run.mode='terrain';run.i=0;clearInterval(run.t);run.on=false;run.alarm=false;run.left=TT.min*60;run.sw={};
+    r.classList.add('on');tUI();
   };
   /* affichage de la page */
   window.__sessShow=function(){
