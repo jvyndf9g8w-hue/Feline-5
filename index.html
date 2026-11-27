@@ -747,6 +747,53 @@ body.hwork .hgrid2{grid-template-columns:repeat(6,minmax(0,1fr))}
 body.hwork .hgrid2>.ht2{grid-column:span 2}
 body.hwork .hgrid2>.ht2:nth-child(n+4){grid-column:span 3}
 body.hwork .hgrid2>.ht2.hterr:nth-child(n){grid-column:1/-1}
+
+body.hwork{padding-bottom:max(clamp(16px,3.2vh,30px),env(safe-area-inset-bottom,0px))!important;padding-top:max(8px,env(safe-area-inset-top,0px))!important}
+body.hwork .hgrid2>.ht2.hterr:nth-child(n){margin-bottom:0}
+
+body.hwork .hname h1 br{display:none}
+body.hwork .hname h1{font-size:clamp(20px,3.6vh,30px);white-space:nowrap}
+body.hwork .hname p{margin-top:3px}
+body.hwork .hlogo{width:44px;height:50px;transform:none}
+
+/* séances : compact, bleus de la charte, griffes */
+#sEdit{gap:8px!important}
+.sgrid{gap:6px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.sgrid label,.sx label{font-size:.82em;gap:2px}
+.sgrid input,.sgrid select,.sx input,.sx select{min-height:38px;padding:4px 8px}
+#sGoal{min-height:44px!important;height:44px}
+.sx{gap:6px;padding:6px 8px 6px 10px;border-left-width:6px;position:relative;overflow:hidden}
+.sx::after{content:"";position:absolute;right:6px;bottom:4px;width:100px;height:120px;background:var(--griffes) center/contain no-repeat;opacity:.16;pointer-events:none}
+.sxh{gap:6px}
+.sxh .n{background:var(--tc,#888);color:var(--ti,#fff);min-width:28px;height:28px}
+.sxh .nm{min-height:38px;flex:1 1 160px}
+.sxh .mn{min-height:38px;width:64px}
+.sxh .btn{min-height:36px!important;padding:0 8px!important}
+.sxb{grid-template-columns:minmax(150px,230px) 1fr;gap:8px}
+.sxb[hidden]{display:none}
+.sxs{gap:4px}
+.sxs svg{max-width:230px;border-radius:6px}
+.sxs .btn{min-height:34px;font-size:13px;padding:0 8px}
+.sxs .hint{font-size:12px;min-height:0}
+.sxf{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:6px}
+.sx textarea{min-height:46px;height:46px;padding:6px 8px;line-height:1.25}
+.sx textarea:focus{height:110px}
+.snav{position:relative;overflow:hidden}
+.snav::after{content:"";position:absolute;right:0;top:0;bottom:0;width:150px;background:var(--griffes) right center/auto 150% no-repeat;opacity:.3;pointer-events:none}
+.xps{display:grid;gap:6px}
+.xph{display:flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--fg);font:700 15px/1 var(--body);text-align:left;cursor:pointer}
+.xph[aria-expanded=true]{background:#143466;color:#fff;border-color:#143466}
+.xpg[hidden]{display:none}
+#xPal{display:flex;flex-wrap:wrap;gap:6px}
+.xps{display:contents}
+.xph{order:0;flex:0 0 auto}
+.xpg{order:1;flex:1 0 100%}
+.xpg[hidden]{display:none}
+.xpg>b{display:none}
+.sxf{align-items:start;align-content:start;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.sxf label{align-self:start}
+.sxs .none{aspect-ratio:auto;min-height:48px;font-size:.8em;padding:4px}
+.sx textarea{height:52px}
 </style>
 
 <div class="wrap">
@@ -760,7 +807,7 @@ body.hwork .hgrid2>.ht2.hterr:nth-child(n){grid-column:1/-1}
 
 
   <section id="homePage" aria-label="Accueil">
-    <div class="hh"><span class="hlogo"></span><span class="hsep"></span><div class="hname"><h1>Tactique<br>Training<br><em>Féline</em></h1><p>Coaching &bull; Handball &bull; Performance</p></div></div>
+    <div class="hh"><span class="hlogo"></span><span class="hsep"></span><div class="hname"><h1>Tactique<br> Training<br> <em>Féline</em></h1><p>Coaching &bull; Handball &bull; Performance</p></div></div>
     <div class="hheroes">
     <div class="hhero"><div class="hhtxt"><span class="hpill">Accès rapide</span><h2>Créer un schéma tactique</h2><p>Dessiner, animer et préparer tes systèmes de jeu.</p><div class="hbtns"><a class="hcta" href="#page=main">&#9654; Ouvrir l&rsquo;atelier tactique &rarr;</a><button type="button" class="hcta ghost" id="hFs">&#9974; Grand écran</button></div></div><svg viewBox="0 0 360 230" aria-hidden="true" class="htab"><rect x="14" y="14" width="332" height="202" rx="22" fill="#0d2550" stroke="#7992CC" stroke-width="5"/><rect x="26" y="26" width="308" height="178" rx="12" fill="#143466" stroke="#3A5CAF" stroke-width="2"/><g fill="none" stroke="#7992CC" stroke-width="2.4"><path d="M60 190V70h240v120"/><path d="M130 70a50 50 0 00100 0" stroke-dasharray="6 5"/><path d="M110 70a70 70 0 00140 0" stroke="#5576C6"/></g><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M110 150l32-34 28-18"/><path d="M200 150l-14-30 4-28"/><path d="M250 138l-30-24"/></g><g fill="#143466" stroke="#fff" stroke-width="2.6"><circle cx="110" cy="150" r="7"/><circle cx="170" cy="98" r="7"/><circle cx="200" cy="150" r="7"/><circle cx="190" cy="92" r="7"/><circle cx="250" cy="138" r="7"/><circle cx="220" cy="114" r="7"/></g><path d="M300 120l46-48" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg></div>
     <div class="hhero hhero2"><div class="hhtxt"><span class="hpill">Accès rapide</span><h2>Créer une séance d&rsquo;entraînement</h2><p>Construire, modifier et lancer tes séances.</p><div class="hbtns"><button type="button" class="hcta" id="hNewSes">&#43; Nouvelle séance</button><a class="hcta ghost" href="#page=seance">&#9998; Modifier une séance</a></div></div><svg viewBox="0 0 120 120" class="htab" aria-hidden="true"><g fill="none" stroke="#7992CC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="16" width="72" height="92" rx="10" fill="#0d2550"/><path d="M46 16v-6h28v6"/><path d="M40 46h12M40 66h12M40 86h12" stroke="#fff"/><path d="M60 46h20M60 66h20M60 86h14"/></g></svg></div>
@@ -1179,7 +1226,8 @@ body.hwork .hgrid2>.ht2.hterr:nth-child(n){grid-column:1/-1}
       <div style="display:grid;gap:10px" id="sEx"></div>
       <div class="autorow">
         <button type="button" class="btn primary" id="sRun">&#9654; Lancer la séance (mode terrain)</button>
-        <button type="button" class="btn primary" id="sPdf">PDF (envoi WhatsApp)</button>
+        <button type="button" class="btn primary" id="sPreview">&#128065; Aperçu avant envoi</button>
+        <button type="button" class="btn primary" id="sPdf">Envoyer le PDF (WhatsApp)</button>
         <button type="button" class="btn" id="sPrint">Imprimer</button>
         <button type="button" class="btn" id="sToLib">Enregistrer la séance en bibliothèque</button>
         <a class="btn wa" id="sWa" target="_blank" rel="noopener">Résumé WhatsApp</a>
@@ -4743,6 +4791,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   var DK='handball-drills-v1',CK='hb-drill-cur',PK2='hb-sess-pend2',SK2='handball-seances-v1';
   var NS='http://www.w3.org/2000/svg';
   var COLS=[['orange','#f97316'],['jaune','#facc15'],['rouge','#ef4444'],['bleu','#3b82f6'],['vert','#22c55e'],['blanc','#f8fafc'],['rose','#ed1680'],['noir','#1f2937']];
+  var palOpen=0;
   var PAL=[
     ['Joueuses',[['pa','Attaquante'],['pd','Défenseure'],['gk','Gardienne'],['gx','Gardienne verte'],['co','Entraîneur']]],
     ['Ballons',[['ball','Ballon']]],
@@ -4843,7 +4892,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   function buildPal(){
     var p=$x('xPal');p.innerHTML='';
     PAL.forEach(function(gr){
-      var row=document.createElement('div');row.className='xpg';var h=document.createElement('b');h.textContent=gr[0];row.appendChild(h);
+      var gi=PAL.indexOf(gr),open=(gi===palOpen),sect=document.createElement('div');sect.className='xps';var hb=document.createElement('button');hb.type='button';hb.className='xph';hb.setAttribute('aria-expanded',String(open));hb.textContent=(open?'\u25BE ':'\u25B8 ')+gr[0]+' ('+gr[1].length+')';hb.addEventListener('click',function(){palOpen=(palOpen===gi?-1:gi);buildPal();});sect.appendChild(hb);var row=document.createElement('div');row.className='xpg';row.hidden=!open;sect.appendChild(row);
       gr[1].forEach(function(it){
         var b=document.createElement('button');b.type='button';b.className='xb';b.setAttribute('data-t',it[0]);b.setAttribute('aria-pressed',String(tool===it[0]));
         b.appendChild(icon(it[0]));var sp=document.createElement('span');sp.textContent=it[1];b.appendChild(sp);
@@ -4851,7 +4900,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
           $x('xHint').textContent=tool?(tool.indexOf('a:')===0?'Glisse sur le terrain pour tracer la flèche. Touche à nouveau le bouton pour arrêter.':'Touche le terrain pour poser « '+it[1]+' » (autant de fois que tu veux). Touche à nouveau le bouton pour arrêter.'):'Touche un élément posé pour le déplacer ou le régler.';});
         row.appendChild(b);
       });
-      p.appendChild(row);
+      p.appendChild(sect);
     });
   }
   /* ----- sélection ----- */
@@ -4987,7 +5036,11 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
 (function(){
   if(VIEWER)return;
   var SK='handball-seances-v1',PK='hb-sess-pend';
-  var TYPES=[['Échauffement','#f59e0b'],['Technique','#3b82f6'],['Tactique','#ed1680'],['Jeu / opposition','#10b981'],['Gardiennes','#8b5cf6'],['Physique','#ef4444'],['Retour au calme','#64748b']];
+  var TYPES=[['Échauffement','#A9BCE6'],['Technique','#7992CC'],['Tactique','#5576C6'],['Jeu / opposition','#3A5CAF'],['Gardiennes','#2A4C9C'],['Physique','#1C3F8C'],['Retour au calme','#143466']];
+  function bcol(i,n){var t=n>1?i/(n-1):0,a=[169,188,230],b=[20,52,102];return 'rgb('+a.map(function(v,k){return Math.round(v+(b[k]-v)*t);}).join(',')+')';}
+  function bink(i,n){return (n>1?i/(n-1):0)<.5?'#0b1f44':'#fff';}
+  function imgVar(nm){return new Promise(function(res){var v=getComputedStyle(document.documentElement).getPropertyValue(nm)||'',m=v.match(/url\(\s*["']?([^"')]+)["']?\s*\)/);if(!m){res(null);return;}var im=new Image();im.onload=function(){res(im);};im.onerror=function(){res(null);};im.src=m[1];});}
+  function halfCrop(sv){var vb=(sv.getAttribute('viewBox')||'').split(' ').map(Number);if(vb.length<4||vb[2]<40)return sv;var r0=sv.querySelector('rect');if(r0&&r0.getAttribute('fill')==='#d7dfe8')return sv;var sum=0,n=0;Array.prototype.forEach.call(sv.querySelectorAll('g[transform]'),function(g){var m=/translate\(([-\d.]+)/.exec(g.getAttribute('transform')||'');if(m){sum+=+m[1];n++;}});sv.setAttribute('viewBox',((n&&sum/n<20)?'-1.6':'19.4')+' -1.6 21.9 23.2');return sv;}
   function tcol(t){for(var i=0;i<TYPES.length;i++)if(TYPES[i][0]===t)return TYPES[i][1];return '#888';}
   var SES=[],cur=null,tmr=0;
   function load(){try{var r=localStorage.getItem(SK);SES=r?JSON.parse(r):[];if(!Array.isArray(SES))SES=[];}catch(_){SES=[];}}
@@ -5063,7 +5116,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   function renderTl(){
     var s=cs(),tl=$('#sTl');tl.innerHTML='';if(!s)return;
     var t=total(s);
-    s.ex.forEach(function(e){var i=document.createElement('i');i.style.flex=String(Math.max(.01,+e.min||0));i.style.background=tcol(e.type);i.textContent=(+e.min||0)+"'";i.title=e.name||e.type;tl.appendChild(i);});
+    s.ex.forEach(function(e,k){var i=document.createElement('i');i.style.flex=String(Math.max(.01,+e.min||0));i.style.background=bcol(k,s.ex.length);i.style.color=bink(k,s.ex.length);i.style.textShadow='none';i.textContent=(+e.min||0)+"'";i.title=e.name||e.type;tl.appendChild(i);});
     $('#sTot').textContent='Durée totale : '+fmtMin(t);
     $('#sEnd').textContent=t?'· de '+clock(s.start,0)+' à '+clock(s.start,t):'';
   }
@@ -5076,11 +5129,11 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     var s=cs(),box=$('#sEx');box.innerHTML='';if(!s)return;
     var acc=0;
     s.ex.forEach(function(e,i){
-      var card=document.createElement('div');card.className='sx';card.style.setProperty('--tc',tcol(e.type));
+      var card=document.createElement('div');card.className='sx';card.style.setProperty('--tc',bcol(i,s.ex.length));card.style.setProperty('--ti',bink(i,s.ex.length));
       var h=document.createElement('div');h.className='sxh';
       var n=document.createElement('span');n.className='n';n.textContent=String(i+1);h.appendChild(n);
       var ty=document.createElement('select');TYPES.forEach(function(t){var o=document.createElement('option');o.value=t[0];o.textContent=t[0];ty.appendChild(o);});ty.value=e.type;
-      ty.addEventListener('change',function(){e.type=ty.value;save();card.style.setProperty('--tc',tcol(e.type));renderTl();});h.appendChild(ty);
+      ty.addEventListener('change',function(){e.type=ty.value;save();renderTl();});h.appendChild(ty);
       var nm=document.createElement('input');nm.type='text';nm.className='nm';nm.placeholder='Nom de l\u2019exercice';nm.value=e.name;nm.maxLength=80;nm.addEventListener('input',function(){e.name=nm.value;save();});h.appendChild(nm);
       var mn=document.createElement('input');mn.type='number';mn.className='mn';mn.min=0;mn.max=240;mn.value=e.min;mn.setAttribute('inputmode','numeric');mn.setAttribute('aria-label','Durée en minutes');
       var clk=document.createElement('span');clk.className='clk';
@@ -5088,17 +5141,18 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       var mm=document.createElement('span');mm.textContent='min';h.appendChild(mm);
       clk.textContent=clock(s.start,acc)+' → '+clock(s.start,acc+(+e.min||0));clk.setAttribute('data-i',String(i));h.appendChild(clk);acc+=(+e.min||0);
       function bt(l,fn,lab,dis){var x=document.createElement('button');x.type='button';x.className='btn';x.style.minHeight='40px';x.style.padding='0 10px';x.textContent=l;x.setAttribute('aria-label',lab);x.disabled=!!dis;x.addEventListener('click',fn);h.appendChild(x);}
+      bt(e.col?'\u25B8':'\u25BE',function(ev){e.col=!e.col;save();b.hidden=e.col;ev.currentTarget.textContent=e.col?'\u25B8':'\u25BE';},'Replier / déplier');
       bt('\u25B2',function(){var t=s.ex[i-1];s.ex[i-1]=s.ex[i];s.ex[i]=t;save();renderAll();},'Monter',i===0);
       bt('\u25BC',function(){var t=s.ex[i+1];s.ex[i+1]=s.ex[i];s.ex[i]=t;save();renderAll();},'Descendre',i===s.ex.length-1);
       bt('\u2605',function(){saveExLib(e);},'Enregistrer en bibliothèque d\u2019entraînement');
       bt('\u29C9',function(){var c=JSON.parse(JSON.stringify(e));c.id=sid();s.ex.splice(i+1,0,c);save();renderAll();},'Dupliquer l\u2019exercice');
       var armed=0;bt('\u2715',function(ev){var x=ev.currentTarget;if(!armed){armed=1;x.textContent='Sûr ?';setTimeout(function(){armed=0;x.textContent='\u2715';},2500);return;}s.ex.splice(i,1);save();renderAll();},'Supprimer l\u2019exercice');
       card.appendChild(h);
-      var b=document.createElement('div');b.className='sxb';
+      var b=document.createElement('div');b.className='sxb';b.hidden=!!e.col;
       var sc=document.createElement('div');sc.className='sxs';
       var le=e.lib?byId(e.lib):null;
       var dsel0=e.drill&&window.__drillThumb?window.__drillThumb(e.drill):null;
-      if(dsel0){var cd=document.createElement('div');cd.className='hint';cd.textContent='Schéma d\u2019entraînement';sc.appendChild(cd);dsel0.addEventListener('click',function(){window.__exoOpen(s.id,e.id,e.drill,e.name);});sc.appendChild(dsel0);}
+      if(dsel0){var cd=document.createElement('div');cd.className='hint';cd.textContent='Schéma d\u2019entraînement';sc.appendChild(cd);halfCrop(dsel0);dsel0.addEventListener('click',function(){window.__exoOpen(s.id,e.id,e.drill,e.name);});sc.appendChild(dsel0);}
       if(le){var tv=thumb(le);tv.addEventListener('click',function(){openSchema(s,e,'play');});var cd2=document.createElement('div');cd2.className='hint';cd2.textContent='Schéma tactique : « '+(le.title||'Sans titre')+' » · '+le.frames.length+' étape'+(le.frames.length>1?'s':'');sc.appendChild(cd2);sc.appendChild(tv);}
       if(!dsel0&&!le){var no=document.createElement('div');no.className='none';no.textContent='Aucun schéma associé';sc.appendChild(no);}
       var dsel=document.createElement('select');drillOptions(dsel,e.drill);dsel.setAttribute('aria-label','Schéma d\u2019entraînement');
@@ -5203,7 +5257,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     if(s.goal){var g=document.createElement('p');g.className='pl';g.textContent='Objectif : '+s.goal;p.appendChild(g);}
     var acc=0;
     s.ex.forEach(function(e,i){
-      var d=document.createElement('div');d.className='pe';d.style.setProperty('--tc',tcol(e.type));
+      var d=document.createElement('div');d.className='pe';d.style.setProperty('--tc',bcol(i,s.ex.length));
       var tf=thumbFor(e);var l=document.createElement('div');if(tf)l.appendChild(tf);d.appendChild(l);
       var r=document.createElement('div');var h2=document.createElement('h2');h2.textContent=(i+1)+'. '+(e.name||e.type)+' — '+e.type+' · '+(+e.min||0)+' min ('+clock(s.start,acc)+')';r.appendChild(h2);
       [['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(x){if(x[1]){var q=document.createElement('p');q.className='pl';q.textContent=x[0]+' : '+x[1];r.appendChild(q);}});
@@ -5383,14 +5437,19 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     np();
     function font(w,sz){x.font=w+' '+sz+'px system-ui,-apple-system,Segoe UI,Roboto,sans-serif';}
     function para(t,w,sz,col,lh){font(w,sz);x.fillStyle=col;wrapTxt(x,t,PW-2*M).forEach(function(l){if(y+lh>PH-M){np();font(w,sz);x.fillStyle=col;}x.fillText(l,M,y);y+=lh;});}
-    font('800',56);x.fillStyle='#111';x.fillText(s.title||'Séance d\u2019entraînement',M,y);y+=70;
+    var IMH=await imgVar('--tete-w'),IMG=await imgVar('--griffes'),IMB=await imgVar('--tete-b');
+    x.fillStyle='#143466';x.fillRect(0,0,PW,250);
+    if(IMG){x.globalAlpha=.5;var gh=250,gw=IMG.width*gh/IMG.height;x.drawImage(IMG,PW-gw,0,gw,gh);x.globalAlpha=1;}
+    var tx0=M;if(IMH){var hw=IMH.width*140/IMH.height;x.drawImage(IMH,M,48,hw,140);tx0=M+hw+34;}
+    font('800',54);x.fillStyle='#fff';x.fillText(s.title||'Séance d\u2019entraînement',tx0,66);
+    y=250+30;
     var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push(s.start.replace(':','h')+' → '+clock(s.start,total(s)));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');meta.push(fmtMin(total(s)));
-    para(meta.join(' · '),'500',30,'#444',40);
+    font('500',28);x.fillStyle='#C9D6F2';wrapTxt(x,meta.join(' · '),PW-tx0-M-200).slice(0,2).forEach(function(l,k){x.fillText(l,tx0,140+k*38);});
     if(s.goal){y+=6;para('Objectif : '+s.goal,'600',30,'#111',40);}
     y+=14;
     /* barre de temps */
     var t=total(s)||1,bx=M,bw=PW-2*M;
-    s.ex.forEach(function(e){var w=bw*(+e.min||0)/t;x.fillStyle=tcol(e.type);x.fillRect(bx,y,Math.max(1,w-2),26);bx+=w;});
+    s.ex.forEach(function(e,k){var w=bw*(+e.min||0)/t;x.fillStyle=bcol(k,s.ex.length);x.fillRect(bx,y,Math.max(1,w-2),26);bx+=w;});
     y+=50;
     var acc=0;
     for(var i=0;i<s.ex.length;i++){
@@ -5405,7 +5464,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       sl.forEach(function(l){wrapTxt(x,l,txW).forEach(function(w){rows.push(w);});});
       var hh=Math.max(TH,rows.length*34)+64;
       if(y+hh>PH-M)np();
-      x.fillStyle=tcol(e.type);x.fillRect(M-12,y,10,hh-12);
+      x.fillStyle=bcol(i,s.ex.length);x.fillRect(M-12,y,10,hh-12);if(IMG){x.globalAlpha=.13;var ch=hh-12,cw=IMG.width*ch/IMG.height;x.drawImage(IMG,PW-M-cw,y,cw,ch);x.globalAlpha=1;}
       font('800',32);x.fillStyle='#111';x.fillText((i+1)+'. '+(e.name||e.type)+' — '+e.type+' · '+(+e.min||0)+' min ('+clock(s.start,acc)+')',M+8,y+4);
       var ty=y+54;
       if(le){var im=await svgImg(le,TW,TH);if(im)x.drawImage(im,M+8,ty,TW,TH);}
@@ -5415,7 +5474,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     }
     var tl=totLines(s);
     if(tl.length){if(y+120>PH-M)np();font('800',32);x.fillStyle='#111';x.fillText('Bilan de la séance',M,y);y+=48;tl.forEach(function(l){para(l,'500',26,'#0a6b87',34);});}
-    pages.forEach(function(c,i){var g=c.getContext('2d');g.font='500 22px system-ui,sans-serif';g.fillStyle='#888';g.textBaseline='top';g.fillText((s.title||'Séance')+' · page '+(i+1)+'/'+pages.length,M,PH-50);});
+    pages.forEach(function(c,i){var g=c.getContext('2d');g.font='500 22px system-ui,sans-serif';g.fillStyle='#888';g.textBaseline='top';g.fillText((s.title||'Séance')+' · page '+(i+1)+'/'+pages.length,M,PH-50);if(IMB)g.drawImage(IMB,PW-M-46,PH-76,IMB.width*52/IMB.height,52);});
     window.__pdfPages=pages;
     /* assemblage du PDF (une image JPEG par page A4) */
     function enc(str){var u=new Uint8Array(str.length);for(var k=0;k<str.length;k++)u[k]=str.charCodeAt(k)&255;return u;}
@@ -5438,6 +5497,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     w('trailer\n<< /Size '+(nObj+1)+' /Root 1 0 R >>\nstartxref\n'+xo+'\n%%EOF');
     return new Blob(parts,{type:'application/pdf'});
   }
+  $('#sPreview').addEventListener('click',function(){var s=cs();if(!s)return;if(!s.ex.length){msg('Ajoute d\u2019abord au moins un exercice.');return;}pdfView(s);});
   $('#sPdf').addEventListener('click',async function(){
     var s=cs();if(!s)return;if(!s.ex.length){msg('Ajoute d\u2019abord au moins un exercice.');return;}
     var b=this,lab=b.textContent;b.disabled=true;b.textContent='Création du PDF…';
