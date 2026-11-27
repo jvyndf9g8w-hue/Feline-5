@@ -674,22 +674,56 @@ body:has(#sessRun.on)::before,body:has(#sessRun.on)::after{display:none}
 #tBil .tbt th{font-weight:800;text-transform:uppercase;font-size:.85em}
 #tBil .tbb{height:8px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
 #tBil .tbb div{height:100%}
+
+/* ===== harmonisation (charte Féline) ===== */
+:root{--accent:#1c3f8c;--on-accent:#fff;--line:#c4cfe6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--accent:#7992CC;--on-accent:#0e2347;--line:#2c3a5c}}
+:root[data-theme="dark"]{--accent:#7992CC;--on-accent:#0e2347;--line:#2c3a5c}
+h2{font-style:italic;font-weight:800;color:#143466}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) h2{color:#aebfe6}}
+.panel{border:1px solid rgba(121,146,204,.5);border-radius:18px;box-shadow:0 4px 14px rgba(8,22,50,.22)}
+.btn,.chip,select,.seg{border-radius:999px}
+.seg button{border-radius:0}
+.btn.primary{font-weight:800}
+.snav,.vwnav{background:linear-gradient(120deg,#143466,#1c3f8c 75%,#2a4f9f);border:1px solid rgba(121,146,204,.55);border-radius:18px;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.snav strong,.vwnav strong{font-style:italic;font-weight:800}
+.snav .btn,.vwnav .btn{background:#7992CC;color:#0e2347;border-color:transparent;font-weight:800}
+header .chip{background:rgba(20,52,102,.9);color:#fff;border:1px solid rgba(121,146,204,.6);font-weight:700}
+header .chip:active{transform:scale(.97)}
+header h1{font-style:italic;font-weight:800}
+#bNav{display:none}
+body.bwork #bNav{display:flex}
+body.bwork .wrap>*:not(#libPanel):not(#bNav){display:none!important}
+body.bwork #libPanel{display:block!important}
+body:not(.bwork) #libPanel{display:none!important}
+body:not(.vwork) #vidPanel,body:not(.vwork) #vlibPanel{display:none!important}
+body.swork #sessPage,body.xwork #exoPage{} 
+.hheroes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.hheroes{grid-template-columns:1fr}}
+.hheroes .hhero{padding:14px 16px}
+.hheroes .hhero h2{font-size:clamp(20px,2.6vw,30px);color:#fff}
+.hheroes .htab{width:clamp(96px,14vw,170px)}
+.hheroes .hhero::before{right:34%}
 </style>
 
 <div class="wrap">
   <div class="vwnav" id="vwNav"><a class="btn" href="#page=home">&#127968; Accueil</a><a class="btn" id="vwBack" href="#page=main">&larr; Retour au tableau</a><strong>Page de travail vidéo</strong><span class="grow"></span><a class="btn" href="#vlibPanel" id="vwToLib">Vidéothèque &darr;</a></div>
+  <div class="snav" id="bNav"><a class="btn" href="#page=home">&#127968; Accueil</a><strong>Bibliothèque tactique</strong><span class="grow"></span><a class="btn" href="#page=main">&#9998; Créer un schéma</a></div>
   <header>
     <h1 id="h1">Tableau tactique handball</h1>
     <p class="sub" id="sub">Déplace les joueuses et le ballon, enregistre des étapes, puis lance la lecture.</p>
-    <nav class="jump" id="jumpNav" aria-label="Accès rapide"><a class="chip" href="#page=home">&#127968; Accueil</a><button type="button" class="chip" data-go="libPanel">&#128218; Bibliothèque</button><button type="button" class="chip" data-go="vlibPanel">&#127910; Vidéothèque <span class="chipn" id="jumpVN"></span></button><a class="chip" href="#page=video">&#127916; Page de travail vidéo</a><a class="chip" href="#page=seance">&#127947; Séances d'entraînement</a><a class="chip" href="#page=exo">&#9998; Schémas d'entraînement</a></nav>
+    <nav class="jump" id="jumpNav" aria-label="Accès rapide"><a class="chip" href="#page=home">&#127968; Accueil</a><a class="chip" href="#page=biblio">&#128218; Bibliothèque tactique</a><a class="chip" href="#page=exo">&#9998; Schémas d'entraînement</a><a class="chip" href="#page=seance">&#127947; Séances</a><a class="chip" href="#page=video">&#127916; Vidéo</a><span id="jumpVN" hidden></span></nav>
   </header>
 
 
   <section id="homePage" aria-label="Accueil">
     <div class="hh"><span class="hlogo"></span><span class="hsep"></span><div class="hname"><h1>Tactique<br>Training<br><em>Féline</em></h1><p>Coaching &bull; Handball &bull; Performance</p></div></div>
+    <div class="hheroes">
     <div class="hhero"><div class="hhtxt"><span class="hpill">Accès rapide</span><h2>Créer un schéma tactique</h2><p>Dessiner, animer et préparer tes systèmes de jeu.</p><div class="hbtns"><a class="hcta" href="#page=main">&#9654; Ouvrir l&rsquo;atelier tactique &rarr;</a><button type="button" class="hcta ghost" id="hFs">&#9974; Grand écran</button></div></div><svg viewBox="0 0 360 230" aria-hidden="true" class="htab"><rect x="14" y="14" width="332" height="202" rx="22" fill="#0d2550" stroke="#7992CC" stroke-width="5"/><rect x="26" y="26" width="308" height="178" rx="12" fill="#143466" stroke="#3A5CAF" stroke-width="2"/><g fill="none" stroke="#7992CC" stroke-width="2.4"><path d="M60 190V70h240v120"/><path d="M130 70a50 50 0 00100 0" stroke-dasharray="6 5"/><path d="M110 70a70 70 0 00140 0" stroke="#5576C6"/></g><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M110 150l32-34 28-18"/><path d="M200 150l-14-30 4-28"/><path d="M250 138l-30-24"/></g><g fill="#143466" stroke="#fff" stroke-width="2.6"><circle cx="110" cy="150" r="7"/><circle cx="170" cy="98" r="7"/><circle cx="200" cy="150" r="7"/><circle cx="190" cy="92" r="7"/><circle cx="250" cy="138" r="7"/><circle cx="220" cy="114" r="7"/></g><path d="M300 120l46-48" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg></div>
+    <div class="hhero hhero2"><div class="hhtxt"><span class="hpill">Accès rapide</span><h2>Créer une séance d&rsquo;entraînement</h2><p>Construire, modifier et lancer tes séances.</p><div class="hbtns"><button type="button" class="hcta" id="hNewSes">&#43; Nouvelle séance</button><a class="hcta ghost" href="#page=seance">&#9998; Modifier une séance</a></div></div><svg viewBox="0 0 120 120" class="htab" aria-hidden="true"><g fill="none" stroke="#7992CC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="16" width="72" height="92" rx="10" fill="#0d2550"/><path d="M46 16v-6h28v6"/><path d="M40 46h12M40 66h12M40 86h12" stroke="#fff"/><path d="M60 46h20M60 66h20M60 86h14"/></g></svg></div>
+    </div>
     <div class="hgrid2" id="hGrid">
-      <a class="ht2" href="#page=main" data-scroll="libPanel"><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16l9 5 9-5"/></svg></span><b>Bibliothèque tactique</b><span class="td">Tes systèmes et schémas enregistrés</span><i class="tb"></i></a>
+      <a class="ht2" href="#page=biblio"><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16l9 5 9-5"/></svg></span><b>Bibliothèque tactique</b><span class="td">Tes systèmes et schémas enregistrés</span><i class="tb"></i></a>
       <a class="ht2" href="#page=seance"><span class="ti"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></span><b>Séances d&rsquo;entraînement</b><span class="td">Créer et planifier tes séances</span><i class="tb"></i></a>
       <a class="ht2" href="#page=exo"><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 3l5 15H7z"/><path d="M9 11h6M3 21h18M5 18h14"/></svg></span><b>Schémas d&rsquo;entraînement</b><span class="td">Plots, mannequins, haies, ballons</span><i class="tb"></i></a>
       <a class="ht2" href="#page=seance" data-scroll="tlib"><span class="ti"><svg viewBox="0 0 24 24"><path d="M3 6.5A2.5 2.5 0 015.5 4H10l2 2.5h6.5A2.5 2.5 0 0121 9v8.5a2.5 2.5 0 01-2.5 2.5h-13A2.5 2.5 0 013 17.5z"/><path d="M3 10h18"/></svg></span><b>Bibliothèque séances</b><span class="td">Tes séances prêtes à l&rsquo;emploi</span><i class="tb"></i></a>
@@ -905,11 +939,7 @@ body:has(#sessRun.on)::before,body:has(#sessRun.on)::after{display:none}
       <span><i class="dot b"></i>Ballon (dépose-le sur une joueuse pour qu'elle le porte)</span>
     </div>
   </section>
-  <section class="panel lib" id="libPanel" aria-label="Bibliothèque d'actions">
-    <div class="libhead">
-      <h2>Bibliothèque</h2>
-      <p class="hint" id="libCount"></p>
-    </div>
+  <section class="panel" id="saveBar" aria-label="Enregistrer le schéma">
     <div class="field">
       <label class="lbl" for="titleIn">Titre de l'action</label>
       <div class="row">
@@ -920,6 +950,14 @@ body:has(#sessRun.on)::before,body:has(#sessRun.on)::after{display:none}
       </div>
     </div>
     <p class="hint" id="libHint" aria-live="polite"></p>
+    <div class="row"><a class="btn primary" href="#page=biblio">&#128218; Ouvrir la bibliothèque tactique</a></div>
+  </section>
+
+  <section class="panel lib" id="libPanel" aria-label="Bibliothèque d'actions">
+    <div class="libhead">
+      <h2>Bibliothèque tactique</h2>
+      <p class="hint" id="libCount"></p>
+    </div>
     <div class="field">
       <label class="lbl" for="libSearch">Rechercher dans la bibliothèque</label>
       <input id="libSearch" type="search" placeholder="Titre de l'action" autocomplete="off">
@@ -2885,7 +2923,8 @@ function renderLib(){
     lk.setAttribute('aria-label',e.locked?'Déverrouiller « '+e.title+' »':'Verrouiller « '+e.title+' »');
     lk.title=e.locked?'Verrouillée — toucher pour déverrouiller':'Déverrouillée — toucher pour verrouiller';
     acts.appendChild(lk);
-    acts.appendChild(mkBtn('Ouvrir',cur?'':'primary',function(){openEntry(e.id);}));
+    acts.appendChild(mkBtn('\u26F6 Grand écran','primary',function(){openEntry(e.id);goMainPage();setFs(true);}));
+    acts.appendChild(mkBtn('Ouvrir',cur?'':'',function(){openEntry(e.id);goMainPage();}));
     var wa=document.createElement('a');wa.className='btn wa';wa.target='_blank';wa.rel='noopener';wa.textContent='WhatsApp';wa.href=waHref(e);wa.addEventListener('click',function(ev){sendWa(ev,e);});
     acts.appendChild(wa);
     acts.appendChild(mkBtn('Copier le lien','',function(){copyLink(e);}));
@@ -2910,6 +2949,7 @@ function renderLib(){
     li.appendChild(txt);li.appendChild(acts);list.appendChild(li);
   });
 }
+function goMainPage(){if(/^#page=biblio/.test(location.hash||'')){location.hash='#page=main';if(window.__applyPage)window.__applyPage();window.scrollTo(0,0);}}
 function openEntry(id){
   var e=byId(id);if(!e)return;
   stop();
@@ -4102,7 +4142,7 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
 (function(){
   function apply(){
     var vw=/^#page=video/.test(location.hash||'');
-    document.body.classList.toggle('vwork',vw);var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));if(window.__fieldShow)window.__fieldShow();
+    document.body.classList.toggle('vwork',vw);document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));if(window.__fieldShow)window.__fieldShow();
     document.body.classList.toggle('swork',/^#page=seance/.test(location.hash||''));
     document.body.classList.toggle('xwork',/^#page=exo/.test(location.hash||''));
     if(window.__sessShow)window.__sessShow();
@@ -4113,6 +4153,7 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
   }
   window.addEventListener('hashchange',apply);window.__applyPage=apply;apply();
   Array.prototype.forEach.call(document.querySelectorAll('#hGrid [data-scroll]'),function(a){a.addEventListener('click',function(){var id=a.getAttribute('data-scroll');setTimeout(function(){var el=document.getElementById(id);if(el)el.scrollIntoView({block:'start'});},350);});});
+  $('#hNewSes').addEventListener('click',function(){location.hash='#page=seance';apply();setTimeout(function(){try{$('#sNew').click();}catch(_){}},80);});
   $('#hFs').addEventListener('click',function(){location.hash='#page=main';apply();setTimeout(function(){try{$('#btnFs').click();}catch(_){}},60);});
   Array.prototype.forEach.call(document.querySelectorAll('[data-go]'),function(b){
     b.addEventListener('click',function(){var el=document.getElementById(b.getAttribute('data-go'));if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
