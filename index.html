@@ -832,6 +832,19 @@ body.hwork .hhero{padding-top:clamp(5px,1.1vh,12px);padding-bottom:clamp(5px,1.1
 #impBox{position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(5,12,30,.72)}
 #impBox[hidden]{display:none}
 #impTxt{width:100%;min-height:70px}
+
+/* plein écran : seulement schéma ou schéma + vidéo ; les outils vidéo sont sur la page Analyse vidéo */
+.stage.fs #fsVMark,.stage.fs #fsVEnd,.stage.fs #fsVQ5,.stage.fs #fsVQ10,.stage.fs #fsVCR,.stage.fs #fsVCut,.stage.fs #inkShot,.stage.fs #fsVMarks,.stage.fs #fsVSeq{display:none!important}
+#vwHost{display:none}
+body.vwork #vwHost{display:grid;gap:8px;position:relative}
+body.vwork #vidBox>video,body.vwork #vidSeek,body.vwork .vidctl,body.vwork #vidStep{display:none!important}
+body.vwork #vwHost #fsVidWrap{display:flex;flex-direction:column;justify-content:center;align-items:stretch;position:relative;background:#000;border-radius:12px;overflow:hidden;padding:6px;--fsbarh:0px}
+body.vwork #vwHost #fsVidWrap video{max-height:52vh}
+body.vwork #vwHost #fsVidCtl{background:#1b1b1b}
+body.vwork #vwHost #fsVidCtl #fsVBtns{flex-wrap:wrap}
+body.vwork #vwHost #fsVidCtl #fsVBtns .vb{flex:1 1 56px;height:44px;font-size:13px!important}
+body.vwork #fsInk:not([hidden]){display:flex;position:static;margin:0;width:auto;max-width:none;flex-wrap:wrap;gap:8px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--panel);align-items:center;justify-content:flex-start}
+.vwtools{display:flex;gap:8px;flex-wrap:wrap}
 </style>
 
 <div class="wrap">
@@ -1125,6 +1138,7 @@ body.hwork .hhero{padding-top:clamp(5px,1.1vh,12px);padding-bottom:clamp(5px,1.1
     </label>
     <div class="vidbox" id="vidBox" hidden>
       <div class="vidhead" id="vidDrag"><span id="vidName"></span><span class="grow"></span><button type="button" class="btn" id="vidPin" aria-pressed="false">Détacher</button><button type="button" class="btn" id="vidClose">Retirer</button></div>
+      <div id="vwHost"><div class="vwtools"><button type="button" class="btn" id="vwPen" aria-pressed="false">&#9998; Annoter la vidéo</button></div></div>
       <video id="vid" playsinline preload="metadata"></video>
       <input type="range" id="vidSeek" min="0" max="1000" value="0" aria-label="Position dans la vidéo">
       <div class="vidctl">
@@ -2809,7 +2823,7 @@ function inkClearBoard(){inkS.innerHTML='';var k=inkStack.filter(function(x){ret
 var annSaveFn=function(){};
 function inkClear(keepVid){inkS.innerHTML='';if(!keepVid)vInkS.innerHTML='';inkStack.length=0;inkCur=null;}
 function inkSet(on){
-  inkOn=on&&fsOn;
+  inkOn=on&&(fsOn||document.body.classList.contains('vwork'));
   inkG.classList.toggle('on',inkOn);
   document.body.classList.toggle('drawing',inkOn);
   stage3.classList.toggle('inking',inkOn);if(!inkOn)ink3Clear();
@@ -3632,6 +3646,7 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
     vid.pause();$('#btnAdd').click();
     $('#vidHint').textContent='Étape '+S.frames.length+' ajoutée à '+fmt(vid.currentTime)+'. Déplace maintenant les joueuses pour qu\'elles correspondent à la vidéo.';
   });
+  $('#vwPen').addEventListener('click',function(){document.getElementById('fsPen').click();var on=document.body.classList.contains('drawing');this.setAttribute('aria-pressed',String(on));this.classList.toggle('primary',on);});
   $('#vwCutGo').addEventListener('click',function(){
     if($('#vidBox').hidden){$('#vidFile').click();return;}
     vid.pause();try{$('#cutBox').scrollIntoView({behavior:'smooth',block:'start'});}catch(_){}
@@ -4291,9 +4306,23 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
 
 /* page de travail vidéo : même appli, autre vue (bouton Retour du navigateur compris) */
 (function(){
+  var vwFsHome=null;
+  function vwHost(on){
+    var wrap=document.getElementById('fsVidWrap'),ink=document.getElementById('fsInk'),txt=document.getElementById('inkTxt'),host=document.getElementById('vwHost'),v=document.getElementById('vid');
+    if(!wrap||!host)return;
+    if(on){
+      if(!vwFsHome)vwFsHome={w:[wrap.parentNode,wrap.nextSibling],i:[ink.parentNode,ink.nextSibling],t:[txt.parentNode,txt.nextSibling]};
+      if(wrap.parentNode!==host){host.appendChild(wrap);host.appendChild(ink);host.appendChild(txt);}
+      if(v.parentNode.id!=='vstage'){var was=!v.paused;document.getElementById('vstage').insertBefore(v,document.getElementById('vInk'));if(was)v.play();}
+    }else if(vwFsHome&&wrap.parentNode===host){
+      var k=0;while(document.body.classList.contains('drawing')&&k++<3)document.getElementById('fsPen').click();
+      try{v.pause();}catch(_){}
+      vwFsHome.w[0].insertBefore(wrap,vwFsHome.w[1]);vwFsHome.i[0].insertBefore(ink,vwFsHome.i[1]);vwFsHome.t[0].insertBefore(txt,vwFsHome.t[1]);
+    }
+  }
   function apply(){
     var vw=/^#page=video/.test(location.hash||'');
-    document.body.classList.toggle('vwork',vw);document.body.classList.toggle('zwork',/^#page=vlib/.test(location.hash||''));document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));document.body.classList.toggle('ywork',/^#page=bibses/.test(location.hash||''));if(window.__bsShow)window.__bsShow();var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));if(window.__fieldShow)window.__fieldShow();
+    document.body.classList.toggle('vwork',vw);vwHost(vw);document.body.classList.toggle('zwork',/^#page=vlib/.test(location.hash||''));document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));document.body.classList.toggle('ywork',/^#page=bibses/.test(location.hash||''));if(window.__bsShow)window.__bsShow();var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));if(window.__fieldShow)window.__fieldShow();
     document.body.classList.toggle('swork',/^#page=seance/.test(location.hash||''));
     document.body.classList.toggle('xwork',/^#page=exo/.test(location.hash||''));
     if(window.__sessShow)window.__sessShow();
@@ -4437,7 +4466,7 @@ $('#fsVid').addEventListener('click',function(){
     fsToast('Choisis une vidéo : elle s\'affichera à côté du schéma.');
     pendingSplit=true;$('#vidFile').click();return;
   }
-  setLayout(fsLayout==='schema'?'split':fsLayout==='split'?'vonly':'schema');
+  setLayout(fsLayout==='schema'?'split':'schema');
 });
 var pendingSplit=false;
 document.addEventListener('vidloaded',function(){
