@@ -867,13 +867,31 @@ body.pwork #sessBanner{display:none!important}
 #pmaPage .pnext{border-radius:18px;padding:6px;text-align:center;color:#000;background:#9bff48}
 #pmaPage .pnext .pn{font-size:clamp(18px,3.4vh,30px);font-weight:900;text-transform:uppercase}
 #pmaPage .pnext .pt{font-size:clamp(40px,9vh,90px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
-#pmaPage .pbot{display:grid;grid-template-columns:1fr 1fr auto 1fr;align-items:center;gap:10px;background:#262626;border-radius:18px;padding:8px 14px}
+#pmaPage .pbot{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;background:#262626;border-radius:18px;padding:8px 14px}
 #pmaPage .pbot .pk b{display:block;font-size:clamp(36px,7vh,64px);color:#3fb4f0;line-height:1}
 #pmaPage .pbot .pk span{font-weight:800;text-transform:uppercase;font-size:14px}
 #pmaPage .pgo{width:96px;height:96px;border-radius:50%;border:6px solid #fcff3c;background:#fcff3c;color:#222;font-size:40px;cursor:pointer;box-shadow:inset 0 0 0 4px #262626}
 #pmaPage .pside{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
 #pmaPage .pside .btn{background:#7992CC;color:#0e2347}
 @media (max-width:640px){#pmaPage .pcfg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#indivPage{display:none;gap:10px;color:#fff}
+body.iwork #indivPage{display:grid}
+body.iwork .wrap>*:not(#indivPage){display:none!important}
+body.iwork #sessBanner{display:none!important}
+#indivPage .ivwrap{overflow:auto;background:rgba(20,52,102,.92);border-radius:16px;padding:8px}
+.ivt{border-collapse:collapse;width:100%;min-width:560px}
+.ivt th,.ivt td{padding:6px;text-align:center;border-bottom:1px solid rgba(255,255,255,.15);vertical-align:middle}
+.ivt th{font-size:12px;text-transform:uppercase;color:#cfdcff;font-weight:700}
+.ivt input,.ivt select{font:700 16px inherit;font-family:inherit;border:2px solid #5576C6;border-radius:8px;background:#fff;color:#143466;padding:6px 4px;text-align:center;min-width:0}
+.ivt .nm{width:120px;text-align:left;padding-left:8px}
+.ivt .sp{width:68px}
+.ivt .cs{width:58px}.ivt .cp{width:52px}
+.ivt .hd{display:grid;gap:4px;justify-items:center}
+.ivt .hd .r{display:flex;gap:3px;align-items:center}
+.ivt td.d{font-size:22px;font-weight:900;color:#fff}
+.ivt td.d small{font-size:12px;font-weight:700;color:#cfdcff}
+.ivt .x{border:0;background:#7992CC;color:#0e2347;border-radius:50%;width:28px;height:28px;font-weight:800;cursor:pointer}
+.ivnote{font-size:13px;opacity:.85;margin:0}
 </style>
 
 <div class="wrap">
@@ -905,13 +923,19 @@ body.pwork #sessBanner{display:none!important}
     <div class="panel" style="display:grid;gap:10px"><div class="libhead"><h2>Choisis la séance à lancer</h2></div><div class="hrow" id="fList"></div></div>
   </section>
 
+  <section id="indivPage" aria-label="Individualisation du joueur">
+    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><a class="btn" href="#page=pma">&#9201; PMA</a><strong>Individualisation du joueur</strong><span class="grow"></span><button type="button" class="btn" id="ivAddCol">+ Format</button><button type="button" class="btn" id="ivAddP">+ Joueuse</button></div>
+    <div class="ivwrap"><table class="ivt" id="ivT"></table></div>
+    <p class="ivnote">Distance par effort = vitesse (km/h) &divide; 3,6 &times; % &times; durée de l&rsquo;effort. VIFT pour le 30-15, VMA pour les autres formats : choisis la référence dans chaque colonne.</p>
+  </section>
+
   <section id="pmaPage" aria-label="PMA Intermittent">
-    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><strong>PMA &ndash; Intermittent</strong><span class="grow"></span><button type="button" class="btn" id="pmaCfgBtn">&#9881; Réglages</button></div>
+    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><strong>PMA &ndash; Intermittent</strong><span class="grow"></span><a class="btn" href="#page=indiv">&#128100; Individualisation</a><button type="button" class="btn" id="pmaCfgBtn">&#9881; Réglages</button></div>
     <div class="pcfg" id="pmaCfg"></div>
     <div class="pinfo"><strong id="pmaTot">00:00</strong><span id="pmaSub" style="opacity:.85"></span></div>
     <div class="pphase" id="pmaPh"><div class="pn" id="pmaPn">Prêt</div><div class="pt" id="pmaPt">00:00</div></div>
     <div class="pnext" id="pmaNx"><div class="pn" id="pmaNn">Suivant</div><div class="pt" id="pmaNt">00:00</div></div>
-    <div class="pbot"><div class="pk"><b id="pmaRem">0</b><span>Répétitions restantes</span></div><div class="pk" style="text-align:center"><b id="pmaRemT" style="color:#fff"></b><span>Temps restant série</span></div><button type="button" class="pgo" id="pmaGo" aria-label="Démarrer">&#9654;</button><div class="pside"><button type="button" class="btn" id="pmaSkip">&#9197; Passer</button><button type="button" class="btn" id="pmaRst">&#8634; Reset</button></div></div>
+    <div class="pbot"><div class="pk" style="text-align:center"><b id="pmaRemT" style="color:#fff"></b><span>Temps restant série</span></div><button type="button" class="pgo" id="pmaGo" aria-label="Démarrer">&#9654;</button><div class="pside"><button type="button" class="btn" id="pmaSkip">&#9197; Passer</button><button type="button" class="btn" id="pmaRst">&#8634; Reset</button></div></div>
   </section>
 
   <section class="panel bar" aria-label="Réglages du terrain">
@@ -4361,7 +4385,7 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
   }
   function apply(){
     var vw=/^#page=video/.test(location.hash||'');
-    document.body.classList.toggle('vwork',vw);vwHost(vw);document.body.classList.toggle('zwork',/^#page=vlib/.test(location.hash||''));document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));document.body.classList.toggle('ywork',/^#page=bibses/.test(location.hash||''));if(window.__bsShow)window.__bsShow();var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));document.body.classList.toggle('pwork',/^#page=pma/.test(hh));if(window.__pmaShow)window.__pmaShow();if(window.__fieldShow)window.__fieldShow();
+    document.body.classList.toggle('vwork',vw);vwHost(vw);document.body.classList.toggle('zwork',/^#page=vlib/.test(location.hash||''));document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));document.body.classList.toggle('ywork',/^#page=bibses/.test(location.hash||''));if(window.__bsShow)window.__bsShow();var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));document.body.classList.toggle('pwork',/^#page=pma/.test(hh));document.body.classList.toggle('iwork',/^#page=indiv/.test(hh));if(window.__ivShow)window.__ivShow();if(window.__pmaShow)window.__pmaShow();if(window.__fieldShow)window.__fieldShow();
     document.body.classList.toggle('swork',/^#page=seance/.test(location.hash||''));
     document.body.classList.toggle('xwork',/^#page=exo/.test(location.hash||''));
     if(window.__sessShow)window.__sessShow();
@@ -6069,8 +6093,8 @@ hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle
     for(var s=1;s<=C.series;s++){for(var r=1;r<=C.reps;r++){ph.push({n:'Effort',d:C.work,c:'#9bff48',k:'w',s:s,r:r});
       if((r<C.reps||s<C.series)&&C.rest>0)ph.push({n:'Récup',d:C.rest,c:'#3fb4f0',k:'r',s:s,r:r});}
       if(s<C.series&&C.srest>0)ph.push({n:'Repos séries',d:C.srest,c:'#ff9f43',k:'s',s:s});}}
-  function totalLeft(){var t=left;for(var i=idx+1;i<ph.length;i++)t+=ph[i].d;return t;}
-  function serLeft(){var t=left;for(var i=idx+1;i<ph.length&&ph[i].k!=='s';i++)t+=ph[i].d;return ph[idx]&&ph[idx].k==='s'?0:t;}
+  function totalLeft(){var t=ph[idx]&&ph[idx].k==='p'?0:left;for(var i=idx+1;i<ph.length;i++)t+=ph[i].d;return t;}
+  function serLeft(){var t=ph[idx]&&ph[idx].k==='p'?0:left;for(var i=idx+1;i<ph.length&&ph[i].k!=='s';i++)t+=ph[i].d;return ph[idx]&&ph[idx].k==='s'?0:t;}
   function repsLeft(){var n=0;for(var i=idx;i<ph.length;i++)if(ph[i].k==='w')n++;return n;}
   function cfgUI(){var h=$('#pmaCfg');h.innerHTML='';FIELDS.forEach(function(f){var d=document.createElement('div');d.className='pc';
     var l=document.createElement('label');l.textContent=f[1];var r=document.createElement('div');r.className='pr';
@@ -6084,10 +6108,10 @@ hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle
   function serT(){var el=$('#pmaSerT');if(el)el.textContent=fmt(C.reps*(C.work+C.rest));}
   function chg(){save();serT();if(!on&&(idx===0||done)){reset();}}
   function show(){var p=ph[idx];
-    if(!p){$('#pmaPn').textContent='Terminé';$('#pmaPt').textContent='00:00';$('#pmaPh').style.background='#fff';$('#pmaNn').textContent='Bravo !';$('#pmaNt').textContent='';$('#pmaRem').textContent='0';$('#pmaRemT').textContent='00:00';$('#pmaTot').textContent='00:00';$('#pmaSub').textContent='';return;}
+    if(!p){$('#pmaPn').textContent='Terminé';$('#pmaPt').textContent='00:00';$('#pmaPh').style.background='#fff';$('#pmaNn').textContent='Bravo !';$('#pmaNt').textContent='';$('#pmaRemT').textContent='00:00';$('#pmaTot').textContent='00:00';$('#pmaSub').textContent='';return;}
     $('#pmaPh').style.background=p.c;$('#pmaPn').textContent=p.n;$('#pmaPt').textContent=fmt(left);
     var q=ph[idx+1];$('#pmaNx').style.background=q?q.c:'#fff';$('#pmaNn').textContent=q?'Ensuite : '+q.n:'Dernière phase';$('#pmaNt').textContent=q?fmt(q.d):'';
-    $('#pmaRem').textContent=repsLeft();$('#pmaRemT').textContent=fmt(serLeft());$('#pmaTot').textContent='Reste '+fmt(totalLeft());
+    $('#pmaRemT').textContent=fmt(serLeft());$('#pmaTot').textContent='Reste '+fmt(totalLeft());
     $('#pmaSub').textContent=p.s?('Série '+p.s+'/'+C.series+(p.r?' · Répétition '+p.r+'/'+C.reps:'')):'';}
   function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(_){}}
   function beep(f,d,v,at){try{if(!ac)return;var o=ac.createOscillator(),g=ac.createGain();o.type='square';o.frequency.value=f;var t=ac.currentTime+(at||0);g.gain.setValueAtTime(v||.4,t);g.gain.setValueAtTime(0.0001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.02);}catch(_){}}
@@ -6109,6 +6133,40 @@ hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle
   $('#pmaCfgBtn').onclick=function(){$('#pmaCfg').classList.toggle('off');};
   window.__pmaShow=function(){if(!/^#page=pma/.test(location.hash||'')){if(on)pause();return;}if(!ph.length){cfgUI();reset();}};
   window.__pmaShow();
+})();
+
+/* ===== Individualisation du joueur ===== */
+(function(){
+  var K='hb-indiv-v1',$=function(q){return document.querySelector(q)};
+  var M={cols:[{s:10,p:120,r:'VMA'},{s:15,p:110,r:'VMA'},{s:30,p:100,r:'VMA'},{s:15,p:90,r:'VIFT'}],ps:[]};
+  try{var o=JSON.parse(localStorage.getItem(K)||'null');if(o&&o.cols&&o.ps)M=o;}catch(_){}
+  function save(){try{localStorage.setItem(K,JSON.stringify(M));}catch(_){}}
+  function num(v){v=parseFloat(String(v).replace(',','.'));return isFinite(v)&&v>0?v:0;}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+  function secStr(n){var m=Math.floor(n/60),s=n%60;return m?m+':'+(s<10?'0':'')+s:String(s);}
+  function secParse(v){v=String(v).trim();var m=v.match(/^(\d+)[:.,](\d{1,2})$/);return m?parseInt(m[1],10)*60+parseInt(m[2],10):(parseInt(v,10)||0);}
+  function dist(p,c){var v=num(c.r==='VIFT'?p.vift:p.vma);return v?Math.round(v/3.6*c.p/100*c.s):null;}
+  function upd(){M.ps.forEach(function(p,i){M.cols.forEach(function(c,j){var t=$('#ivd'+i+'_'+j);if(t){var d=dist(p,c);t.innerHTML=d==null?'&ndash;':d+' <small>m</small>';}});});}
+  function render(){var T=$('#ivT');T.innerHTML='';var h=el('tr');
+    h.appendChild(el('th',null,'Joueuse'));h.appendChild(el('th',null,'VMA km/h'));h.appendChild(el('th',null,'VIFT km/h'));
+    M.cols.forEach(function(c,j){var th=el('th'),d=el('div','hd');
+      var r1=el('div','r'),a=el('input','cs');a.value=secStr(c.s);a.inputMode='numeric';a.onchange=function(){c.s=Math.max(1,secParse(a.value));a.value=secStr(c.s);save();upd();};
+            r1.appendChild(a);r1.appendChild(el('span',null,'s'));d.appendChild(r1);
+      var r2=el('div','r'),p=el('input','cp');p.value=c.p;p.inputMode='numeric';p.onchange=function(){c.p=Math.max(1,num(p.value)||100);p.value=c.p;save();upd();};
+      r2.appendChild(p);r2.appendChild(el('span',null,'%'));d.appendChild(r2);
+      var sel=el('select');['VMA','VIFT'].forEach(function(x){var o=el('option',null,x);o.value=x;if(c.r===x)o.selected=true;sel.appendChild(o);});sel.onchange=function(){c.r=sel.value;save();upd();};d.appendChild(sel);
+      var x=el('button','x','×');x.type='button';x.title='Supprimer la colonne';x.onclick=function(){M.cols.splice(j,1);save();render();};d.appendChild(x);
+      th.appendChild(d);h.appendChild(th);});
+    h.appendChild(el('th'));T.appendChild(h);
+    M.ps.forEach(function(p,i){var r=el('tr'),td=el('td'),n=el('input','nm');n.placeholder='Nom';n.value=p.n||'';n.oninput=function(){p.n=n.value;save();};td.appendChild(n);r.appendChild(td);
+      ['vma','vift'].forEach(function(k){var t=el('td'),inp=el('input','sp');inp.inputMode='decimal';inp.placeholder='km/h';inp.value=p[k]||'';inp.oninput=function(){p[k]=inp.value;save();upd();};t.appendChild(inp);r.appendChild(t);});
+      M.cols.forEach(function(c,j){var t=el('td','d');t.id='ivd'+i+'_'+j;r.appendChild(t);});
+      var tx=el('td'),x=el('button','x','×');x.type='button';x.title='Supprimer la joueuse';x.onclick=function(){M.ps.splice(i,1);save();render();};tx.appendChild(x);r.appendChild(tx);T.appendChild(r);});
+    upd();}
+  $('#ivAddP').onclick=function(){M.ps.push({n:'',vma:'',vift:''});save();render();var a=document.querySelectorAll('#ivT .nm');if(a.length)a[a.length-1].focus();};
+  $('#ivAddCol').onclick=function(){M.cols.push({s:30,p:100,r:'VMA'});save();render();};
+  window.__ivShow=function(){if(/^#page=indiv/.test(location.hash||''))render();};
+  window.__ivShow();
 })();
 </script>
 <script>
