@@ -820,6 +820,18 @@ body:not(.viewer) #sub{display:none}
 .insf{display:flex;gap:8px;align-items:center}
 body.hwork{padding-bottom:calc(clamp(30px,5.5vh,56px) + env(safe-area-inset-bottom,0px))!important}
 body.hwork .hhero{padding-top:clamp(5px,1.1vh,12px);padding-bottom:clamp(5px,1.1vh,12px)}
+.xsave{justify-self:end;min-height:40px;font-size:14px;position:relative;z-index:1}.xsave.done{background:#16a34a;border-color:#16a34a}
+
+.sx label,.sgrid label,.xtm>strong{color:#1C3F8C;font-weight:800}
+.sx textarea,.sx input,.sx select,.sgrid input{color:var(--fg);font-weight:500}
+.xtb{flex:1 1 100%;align-items:flex-start}
+.xtb textarea{flex:1;min-width:0;min-height:36px;height:36px;resize:none;border:0;background:transparent;padding:6px 4px;overflow:hidden;line-height:1.25;font-weight:700}
+.xtb textarea:focus{box-shadow:none}
+.xsrow{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;position:relative;z-index:1}
+.xsave{justify-self:auto}
+#impBox{position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(5,12,30,.72)}
+#impBox[hidden]{display:none}
+#impTxt{width:100%;min-height:70px}
 </style>
 
 <div class="wrap">
@@ -1218,7 +1230,7 @@ body.hwork .hhero{padding-top:clamp(5px,1.1vh,12px);padding-bottom:clamp(5px,1.1
   <div class="snav" id="bsNav"><a class="btn" href="#page=home">&#127968; Accueil</a><strong>Bibliothèque de séances d&rsquo;entraînement</strong><span class="grow"></span><a class="btn" href="#page=seance">&#127947; Séances d&rsquo;entraînement</a></div>
   <section id="bsPage" aria-label="Bibliothèque de séances d&rsquo;entraînement">
     <div class="panel" style="display:grid;gap:10px">
-      <div class="libhead"><h2>Mes séances</h2><span class="grow"></span><input id="bsSearch" type="search" placeholder="Rechercher…" aria-label="Rechercher une séance"></div>
+      <div class="libhead"><h2>Mes séances</h2><span class="grow"></span><button type="button" class="btn" id="bsImp">&#128229; Importer</button><input id="bsSearch" type="search" placeholder="Rechercher…" aria-label="Rechercher une séance"></div>
       <div class="slist" id="bsThemes" role="group" aria-label="Thématiques"></div>
       <p class="hint" id="bsMsg" aria-live="polite"></p>
       <ul class="liblist" id="bsList" style="display:grid;gap:8px;margin:0;padding:0"></ul>
@@ -1253,6 +1265,8 @@ body.hwork .hhero{padding-top:clamp(5px,1.1vh,12px);padding-bottom:clamp(5px,1.1
         <button type="button" class="btn primary" id="sPreview">&#128065; Aperçu avant envoi</button>
         <button type="button" class="btn primary" id="sPdf">Envoyer le PDF (WhatsApp)</button>
         <button type="button" class="btn" id="sPrint">Imprimer</button>
+        <button type="button" class="btn" id="sLink">&#128279; Envoyer par lien</button>
+        <button type="button" class="btn" id="sImp">&#128229; Importer (lien ou PDF)</button>
         <button type="button" class="btn" id="sToLib">Enregistrer la séance en bibliothèque</button>
         <a class="btn wa" id="sWa" target="_blank" rel="noopener">Résumé WhatsApp</a>
         <button type="button" class="btn" id="sCopy">Copier le résumé</button>
@@ -1310,6 +1324,7 @@ body.hwork .hhero{padding-top:clamp(5px,1.1vh,12px);padding-bottom:clamp(5px,1.1
 <div id="vscroll" hidden><div id="vthumb"></div></div>
 <div id="sessBanner" role="status"><span id="sbTxt"></span><button type="button" class="btn primary" id="sbOk">Associer ce schéma et revenir à la séance</button><button type="button" class="btn" id="sbNo">Annuler</button></div>
   <div id="pdfView" role="dialog" aria-modal="true" aria-label="Aperçu PDF" hidden><div class="pvh"><button type="button" class="btn" id="pvClose">&#10005; Fermer</button><strong id="pvTitle"></strong><span class="grow"></span><button type="button" class="btn primary" id="pvShare">Envoyer / enregistrer le PDF</button></div><div class="pvb" id="pvBody"></div></div>
+<div id="impBox" role="dialog" aria-modal="true" aria-label="Importer" hidden><div class="insbox"><div class="insh"><strong>Importer une séance ou un exercice</strong><span class="grow"></span><button type="button" class="btn" id="impX">&#10005; Fermer</button></div><p class="hint">Colle un lien reçu, ou choisis un PDF envoyé depuis cette appli.</p><textarea id="impTxt" rows="3" placeholder="Colle le lien ici…"></textarea><div class="autorow"><button type="button" class="btn" id="impRead">Lire le lien</button><label class="btn" for="impFile">&#128196; Choisir un PDF</label><input id="impFile" type="file" accept="application/pdf,.pdf" hidden></div><p class="hint" id="impPrev" aria-live="polite"></p><div class="insf"><span class="grow"></span><button type="button" class="btn primary" id="impOk" disabled>Ajouter à ma bibliothèque</button></div></div></div>
 <div id="insLib" role="dialog" aria-modal="true" aria-label="Insérer des exercices" hidden><div class="insbox"><div class="insh"><strong id="insT">Insérer depuis la bibliothèque</strong><span class="grow"></span><button type="button" class="btn" id="insX">&#10005; Fermer</button></div><input id="insQ" type="search" placeholder="Rechercher un exercice…" aria-label="Rechercher"><div class="slist" id="insTh"></div><ul class="liblist" id="insL"></ul><div class="insf"><span class="hint" id="insN"></span><span class="grow"></span><button type="button" class="btn primary" id="insOk">Insérer</button></div></div></div>
 <div id="sessRun" role="dialog" aria-modal="true" aria-label="Séance en cours"></div>
 <div id="sessPrint"></div>
@@ -4984,6 +4999,8 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   /* ----- bibliothèque ----- */
   function miniSvg(d){var sv=document.createElementNS(NS,'svg');sv.setAttribute('xmlns',NS);var saveSel=sel,savePrev=prev;sel=null;prev=null;buildSvg(sv,d,false);sel=saveSel;prev=savePrev;return sv;}
   window.__drillThumb=function(id){for(var i=0;i<LIBD.length;i++)if(LIBD[i].id===id)return miniSvg(LIBD[i]);return null;};
+  window.__drillGet=function(id){loadLib();for(var i=0;i<LIBD.length;i++)if(LIBD[i].id===id)return JSON.parse(JSON.stringify(LIBD[i]));return null;};
+  window.__drillPut=function(rec){loadLib();var c=JSON.parse(JSON.stringify(rec));c.id=uid();c.updated=Date.now();LIBD.unshift(c);storeLib();return c.id;};
   window.__drillList=function(){loadLib();return LIBD.map(function(d){return {id:d.id,title:d.title||'Sans titre'};});};
   function saveCur(copy){
     var t=($x('xTitle').value||'').trim()||'Schéma sans titre';D.title=t;
@@ -5092,11 +5109,13 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
         var sel=document.createElement('select');sel.setAttribute('aria-label','Couleur de l\u2019équipe');
         COLS.forEach(function(c){var o=document.createElement('option');o.value=c[1];o.textContent=c[0];sel.appendChild(o);});
         sel.value=t.c;
-        function paint(){sel.style.background=t.c;sel.style.color=(t.c==='#ffffff'||t.c==='#facc15'||t.c==='#7992CC')?'#111':'#fff';box.style.borderColor=t.c;}
+        function paint(){if(typeof inp!=='undefined'&&inp)inp.style.color=(t.c==='#ffffff'||t.c==='#facc15')?'':t.c;sel.style.background=t.c;sel.style.color=(t.c==='#ffffff'||t.c==='#facc15'||t.c==='#7992CC')?'#111':'#fff';box.style.borderColor=t.c;}
         sel.addEventListener('change',function(){t.c=sel.value;save();paint();});paint();
-        var inp=document.createElement('input');inp.type='text';inp.maxLength=120;inp.value=t.t||'';inp.placeholder='Ex. : 6 joueuses + 1 gardienne';inp.addEventListener('input',function(){t.t=inp.value;save();});
+        var inp=document.createElement('textarea');inp.rows=1;inp.maxLength=300;inp.value=t.t||'';inp.placeholder='Ex. : 6 joueuses + 1 gardienne';
+        function fit(){inp.style.height='auto';inp.style.height=Math.max(36,inp.scrollHeight)+'px';}
+        inp.addEventListener('input',function(){t.t=inp.value;save();fit();});paint();
         var x=document.createElement('button');x.type='button';x.className='btn';x.textContent='\u2715';x.setAttribute('aria-label','Supprimer l\u2019équipe');x.addEventListener('click',function(){e.teams.splice(k,1);save();draw();});
-        box.appendChild(sel);box.appendChild(inp);box.appendChild(x);row.appendChild(box);
+        box.appendChild(sel);box.appendChild(inp);box.appendChild(x);row.appendChild(box);setTimeout(fit,0);
       });
       var add=document.createElement('button');add.type='button';add.className='btn';add.textContent='+ Équipe';
       add.addEventListener('click',function(){var used=e.teams.map(function(t){return t.c;}),c=COLS.filter(function(c){return used.indexOf(c[1])<0;})[0]||COLS[0];e.teams.push({c:c[1],t:''});save();draw();});
@@ -5200,7 +5219,6 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       bt(e.col?'\u25B8':'\u25BE',function(ev){e.col=!e.col;save();b.hidden=e.col;ev.currentTarget.textContent=e.col?'\u25B8':'\u25BE';},'Replier / déplier');
       bt('\u25B2',function(){var t=s.ex[i-1];s.ex[i-1]=s.ex[i];s.ex[i]=t;save();renderAll();},'Monter',i===0);
       bt('\u25BC',function(){var t=s.ex[i+1];s.ex[i+1]=s.ex[i];s.ex[i]=t;save();renderAll();},'Descendre',i===s.ex.length-1);
-      bt('\u2605 Biblio',function(){saveExLib(e);},'Enregistrer l\u2019exercice en bibliothèque');
       bt('\u29C9',function(){var c=JSON.parse(JSON.stringify(e));c.id=sid();s.ex.splice(i+1,0,c);save();renderAll();},'Dupliquer l\u2019exercice');
       var armed=0;bt('\u2715',function(ev){var x=ev.currentTarget;if(!armed){armed=1;x.textContent='Sûr ?';setTimeout(function(){armed=0;x.textContent='\u2715';},2500);return;}s.ex.splice(i,1);save();renderAll();},'Supprimer l\u2019exercice');
       card.appendChild(h);
@@ -5232,7 +5250,15 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       ta('Points de coaching / critères de réussite','pts','Ex. : timing de l\u2019appel, orientation du corps…');
       var l2=document.createElement('label');l2.textContent='Matériel et effectif';var m2=document.createElement('input');m2.type='text';m2.value=e.mat||'';m2.placeholder='Ex. : 6 plots, 8 ballons, chasubles';m2.addEventListener('input',function(){e.mat=m2.value;save();});l2.appendChild(m2);
       var n2=document.createElement('input');n2.type='text';n2.value=e.nb||'';n2.placeholder='Joueuses : ex. 12 en 2 groupes';n2.addEventListener('input',function(){e.nb=n2.value;save();});l2.appendChild(n2);f.appendChild(l2);
-      f.appendChild(teamsUI(e));b.appendChild(f);card.appendChild(b);box.appendChild(card);
+      f.appendChild(teamsUI(e));b.appendChild(f);card.appendChild(b);
+      var sv=document.createElement('button');sv.type='button';sv.className='btn primary xsave';
+      function svLab(){sv.textContent=e.tlId?'\u2714 Enregistré dans la bibliothèque \u00B7 mettre à jour':'\u2605 Enregistrer cet exercice dans la bibliothèque';}
+      svLab();sv.addEventListener('click',function(){saveExLib(e);svLab();sv.classList.add('done');setTimeout(function(){sv.classList.remove('done');},1500);});
+      var srow=document.createElement('div');srow.className='xsrow';
+      function sbtn(l,fn){var q=document.createElement('button');q.type='button';q.className='btn';q.textContent=l;q.addEventListener('click',fn);srow.appendChild(q);}
+      sbtn('\uD83D\uDCC4 Envoyer en PDF',function(){sendPdf(exAsSes(e),msg);});
+      sbtn('\uD83D\uDD17 Envoyer par lien',function(){shareLink('ex',e,e.name||e.type,msg);});
+      srow.appendChild(sv);card.appendChild(srow);box.appendChild(card);
     });
     if(!s.ex.length){var p=document.createElement('p');p.className='hint';p.textContent='Ajoute un exercice avec les boutons ci-dessus, ou pars de la « Séance type ».';box.appendChild(p);}
   }
@@ -5342,7 +5368,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   function buildPrint(s){
     var p=$('#sessPrint');p.innerHTML='';
     var h=document.createElement('h1');h.textContent=s.title||'Séance d\u2019entraînement';p.appendChild(h);
-    var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push(s.start.replace(':','h')+' → '+(s.end?s.end.replace(':','h'):clock(s.start,total(s))));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');meta.push(fmtMin(total(s)));
+    var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push(s.start.replace(':','h')+' → '+(s.end?s.end.replace(':','h'):clock(s.start,total(s))));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');
     var pm=document.createElement('p');pm.className='pm';pm.textContent=meta.join(' · ');p.appendChild(pm);
     if(s.goal){var g=document.createElement('p');g.className='pl';g.textContent='Objectif : '+s.goal;p.appendChild(g);}
     var acc=0;
@@ -5541,7 +5567,7 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     var tx0=M;if(IMH){var hw=IMH.width*140/IMH.height;x.drawImage(IMH,M,48,hw,140);tx0=M+hw+34;}
     font('800',54);x.fillStyle='#fff';x.fillText(s.title||'Séance d\u2019entraînement',tx0,66);
     y=250+30;
-    var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push(s.start.replace(':','h')+' → '+(s.end?s.end.replace(':','h'):clock(s.start,total(s))));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');meta.push(fmtMin(total(s)));
+    var meta=[];if(s.date)meta.push(s.date.split('-').reverse().join('/'));if(s.start)meta.push(s.start.replace(':','h')+' → '+(s.end?s.end.replace(':','h'):clock(s.start,total(s))));if(s.team)meta.push(s.team);if(s.place)meta.push(s.place);if(s.nb)meta.push(s.nb+' joueuses');
     font('500',28);x.fillStyle='#C9D6F2';wrapTxt(x,meta.join(' · '),PW-tx0-M-200).slice(0,2).forEach(function(l,k){x.fillText(l,tx0,140+k*38);});
     if(s.goal){y+=6;para('Objectif : '+s.goal,'600',30,'#111',40);}
     y+=14;
@@ -5558,19 +5584,22 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       [['Organisation',e.desc],['Variables',e.vars],['À travailler',e.pts],['Matériel',e.mat],['Effectif',e.nb]].forEach(function(z){if(z[1])lines.push([z[0]+' : ',z[1]]);});
       var sl=stLines(s,e);
       font('500',26);
-      var rows=[];lines.forEach(function(l){wrapTxt(x,l[0]+l[1],txW).forEach(function(w){rows.push(w);});});
-      sl.forEach(function(l){wrapTxt(x,l,txW).forEach(function(w){rows.push(w);});});
-      var tms=(e.teams||[]).filter(function(t){return t.t;}),tmH=tms.length?44:0;
+      var rows=[],labs=[];lines.forEach(function(l){wrapTxt(x,l[0]+l[1],txW).forEach(function(w,wi){rows.push(w);labs.push(wi===0?l[0].length:0);});});
+      sl.forEach(function(l){wrapTxt(x,l,txW).forEach(function(w){rows.push(w);labs.push(0);});});
+      var tms=(e.teams||[]).filter(function(t){return t.t;}),tmRows=[],tmH=0;font('800',26);tms.forEach(function(t){var w=wrapTxt(x,t.t,PW-2*M-16-44);tmRows.push(w);tmH+=w.length*34+8;});if(tmH)tmH+=8;font('500',26);
       var hh=Math.max(TH,rows.length*34)+64+tmH;
       if(y+hh>BOT)np();
       x.fillStyle=bcol(i,s.ex.length);x.fillRect(M-12,y,10,hh-12);if(IMGB){x.globalAlpha=.10;var ch=hh-12,cw=IMGB.width*ch/IMGB.height;x.drawImage(IMGB,PW-M-cw,y,cw,ch);x.globalAlpha=1;}
-      font('800',32);x.fillStyle='#111';if(IMB)x.drawImage(IMB,M+8,y-2,IMB.width*46/IMB.height,46);x.fillText((i+1)+'. '+(e.name||e.type)+' — '+e.type+' · '+(+e.min||0)+' min ('+clock(s.start,acc)+')',M+8+(IMB?IMB.width*46/IMB.height+10:0),y+4);
+      font('800',32);x.fillStyle='#111';if(IMB)x.drawImage(IMB,M+8,y-2,IMB.width*46/IMB.height,46);x.fillText((i+1)+'. '+(e.name||e.type)+' — '+e.type+' · '+(+e.min||0)+' min'+(s.noclock?'':' ('+clock(s.start,acc)+')'),M+8+(IMB?IMB.width*46/IMB.height+10:0),y+4);
       var ty=y+54;
       if(le){var im=await svgImg(le,TW,TH);if(im)x.drawImage(im,M+8,ty,TW,TH);}
       font('500',26);x.fillStyle='#222';
-      rows.forEach(function(l,k){x.fillStyle=(k>=rows.length-sl.length&&sl.length)?'#0a6b87':'#222';x.fillText(l,M+8+TW+gap,ty+k*34);});
-      if(tms.length){var tx1=M+8,ty1=ty+Math.max(TH,rows.length*34)+6,slot=(PW-2*M-16)/tms.length;
-        tms.forEach(function(t,k){var bx1=tx1+k*slot;x.fillStyle=t.c;x.fillRect(bx1,ty1+2,26,26);x.strokeStyle='#888';x.lineWidth=1;x.strokeRect(bx1,ty1+2,26,26);font('600',24);x.fillStyle='#222';var tt=t.t;while(tt.length>3&&x.measureText(tt).width>slot-44)tt=tt.slice(0,-2);if(tt!==t.t)tt+='…';x.fillText(tt,bx1+34,ty1+3);});}
+      rows.forEach(function(l,k){var xx=M+8+TW+gap,yy=ty+k*34;if(labs[k]){font('800',26);x.fillStyle='#1C3F8C';var lb=l.slice(0,labs[k]);x.fillText(lb,xx,yy);var wl=x.measureText(lb).width;font('500',26);x.fillStyle='#222';x.fillText(l.slice(labs[k]),xx+wl,yy);}else{font('500',26);x.fillStyle=(k>=rows.length-sl.length&&sl.length)?'#0a6b87':'#222';x.fillText(l,xx,yy);}});
+      if(tms.length){var ty1=ty+Math.max(TH,rows.length*34)+10;
+        tms.forEach(function(t,k){var w=tmRows[k],cc=t.c,r0=parseInt(cc.slice(1,3),16),g0=parseInt(cc.slice(3,5),16),b0=parseInt(cc.slice(5,7),16),light=(0.299*r0+0.587*g0+0.114*b0)>165;
+          x.fillStyle=cc;x.fillRect(M+8,ty1+2,26,26);x.strokeStyle='#888';x.lineWidth=1;x.strokeRect(M+8,ty1+2,26,26);font('800',26);
+          w.forEach(function(ln,j){if(light){x.lineJoin='round';x.lineWidth=4;x.strokeStyle='#555';x.strokeText(ln,M+8+40,ty1+j*34);}x.fillStyle=cc;x.fillText(ln,M+8+40,ty1+j*34);});
+          ty1+=w.length*34+8;});}
       y+=hh+10;acc+=(+e.min||0);
     }
     var tl=totLines(s);
@@ -5578,11 +5607,12 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
     pages.forEach(function(c,i){var g=c.getContext('2d');band(g,PH-FH,FH);if(IMG){g.globalAlpha=.45;g.drawImage(IMG,PW-IMG.width*FH/IMG.height-10,PH-FH,IMG.width*FH/IMG.height,FH);g.globalAlpha=1;}
       if(IMH)g.drawImage(IMH,M,PH-FH+12,IMH.width*60/IMH.height,60);g.font='500 24px system-ui,sans-serif';g.fillStyle='#fff';g.textBaseline='middle';g.fillText((s.title||'Séance')+' · page '+(i+1)+'/'+pages.length,M+(IMH?IMH.width*60/IMH.height+20:0),PH-FH/2);g.textBaseline='top';});
     window.__pdfPages=pages;
+    var payloadStr='';try{payloadStr=await pack(s.__ex?bundle('ex',s.__ex):bundle('ses',s));}catch(_){}
     /* assemblage du PDF (une image JPEG par page A4) */
     function enc(str){var u=new Uint8Array(str.length);for(var k=0;k<str.length;k++)u[k]=str.charCodeAt(k)&255;return u;}
     var parts=[],off=0,xr=[];
     function w(b){if(typeof b==='string')b=enc(b);parts.push(b);off+=b.length;}
-    w('%PDF-1.4\n');
+    w('%PDF-1.4\n');if(payloadStr)w('%HBAPP1:'+payloadStr+'\n');
     var nObj=2+pages.length*3;
     xr[1]=off;w('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
     var kids=[];pages.forEach(function(_,k){kids.push((3+k*3)+' 0 R');});
@@ -5622,9 +5652,12 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   function tm(t){$('#tlMsg').textContent=t||'';}
   function curTheme(){return (tlSel==='*'||tlSel==='')?'':tlSel;}
   function saveExLib(e){
-    var c=JSON.parse(JSON.stringify(e));c.id=sid();delete c.st;
-    TL.items.unshift({id:sid(),kind:'ex',theme:curTheme(),title:e.name||e.type,data:c,updated:Date.now()});tlStore();tlRender();
-    msg('Exercice enregistré dans la bibliothèque d\u2019entraînement'+(curTheme()?' (thématique « '+curTheme()+' »)':' (sans thématique : tu peux la choisir plus bas)')+'.');
+    tlLoad();var c=JSON.parse(JSON.stringify(e));delete c.st;delete c.tlId;var ex=null;
+    for(var i=0;i<TL.items.length;i++)if(e.tlId&&TL.items[i].id===e.tlId)ex=TL.items[i];
+    if(ex){c.id=ex.data&&ex.data.id||sid();ex.data=c;ex.title=e.name||e.type;ex.updated=Date.now();tlStore();tlRender();msg('Exercice « '+ex.title+' » mis à jour dans la bibliothèque.');return true;}
+    c.id=sid();var it={id:sid(),kind:'ex',theme:curTheme(),title:e.name||e.type,data:c,updated:Date.now()};
+    TL.items.unshift(it);e.tlId=it.id;save();tlStore();tlRender();
+    msg('Exercice « '+it.title+' » enregistré dans la bibliothèque'+(curTheme()?' (thématique « '+curTheme()+' »)':'')+'.');return false;
   }
   function saveSesLib(s){
     var c=JSON.parse(JSON.stringify(s));c.id=sid();c.ex.forEach(function(e){e.id=sid();delete e.st;});
@@ -5689,6 +5722,81 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       else{var u=URL.createObjectURL(pv._blob),a=document.createElement('a');a.href=u;a.download=pv._name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},5000);}
     }catch(err){}
   });
+
+  /* ===== partage : lien / PDF, import ===== */
+  async function pack(obj){
+    var u8=new TextEncoder().encode(JSON.stringify(obj)),tag='p';
+    if(window.CompressionStream){try{var cs=new CompressionStream('deflate-raw'),wr=cs.writable.getWriter();wr.write(u8);wr.close();u8=new Uint8Array(await new Response(cs.readable).arrayBuffer());tag='z';}catch(_){tag='p';u8=new TextEncoder().encode(JSON.stringify(obj));}}
+    var bin='';for(var i=0;i<u8.length;i+=8192)bin+=String.fromCharCode.apply(null,u8.subarray(i,i+8192));
+    return tag+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+  async function unpack(str){
+    var tag=str.charAt(0),b=str.slice(1).replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';
+    var bin=atob(b),u8=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+    if(tag==='z'){var ds=new DecompressionStream('deflate-raw'),wr=ds.writable.getWriter();wr.write(u8);wr.close();u8=new Uint8Array(await new Response(ds.readable).arrayBuffer());}
+    return JSON.parse(new TextDecoder().decode(u8));
+  }
+  function bundle(kind,data){
+    var c=JSON.parse(JSON.stringify(data)),exs=kind==='ses'?c.ex||[]:[c],sch=[],dr=[],seen={};
+    exs.forEach(function(e){delete e.st;delete e.tlId;
+      if(e.lib&&!seen['l'+e.lib]){seen['l'+e.lib]=1;var le=byId(e.lib);if(le)sch.push(JSON.parse(JSON.stringify(le)));}
+      if(e.drill&&!seen['d'+e.drill]){seen['d'+e.drill]=1;var d=window.__drillGet?window.__drillGet(e.drill):null;if(d)dr.push(d);}});
+    delete c.__ex;delete c.noclock;
+    return {v:1,k:kind,d:c,sch:sch,dr:dr};
+  }
+  function exAsSes(e){return {title:e.name||e.type,ex:[e],__ex:e,noclock:true};}
+  function fname(t){return ((t||'Séance').replace(/[\\\/:*?"<>|]+/g,' ').trim().slice(0,50)||'Séance')+'.pdf';}
+  async function sendPdf(s,out){
+    if(!s.ex||!s.ex.length){out('Cette séance n’a pas encore d’exercice.');return;}
+    try{
+      var blob=await pdfBlob(s),name=fname(s.title),f=new File([blob],name,{type:'application/pdf'});
+      if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:name});out('PDF prêt : choisis l’application d’envoi.');}catch(err){if(err&&err.name!=='AbortError')throw err;}}
+      else{var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},5000);out('PDF téléchargé : envoie-le depuis tes fichiers.');}
+    }catch(err){out('Création du PDF impossible ('+(err&&err.message||'erreur')+').');}
+  }
+  async function shareLink(kind,data,title,out){
+    try{
+      var url=location.href.split('#')[0]+'#imp='+await pack(bundle(kind,data));
+      if(navigator.share){try{await navigator.share({title:title,text:(kind==='ses'?'Séance':'Exercice')+' « '+title+' » : ouvre ce lien dans Tactique Training Féline pour l’ajouter à ta bibliothèque.',url:url});out('Lien prêt à envoyer.');return;}catch(err){if(err&&err.name==='AbortError')return;}}
+      try{await navigator.clipboard.writeText(url);out('Lien copié : colle-le dans WhatsApp ou un message.');}catch(_){window.prompt('Copie ce lien :',url);}
+    }catch(err){out('Création du lien impossible ('+(err&&err.message||'erreur')+').');}
+  }
+  var impP=null;
+  function impShow(p){
+    impP=null;$('#impOk').disabled=true;
+    if(!p||!p.d||(p.k!=='ses'&&p.k!=='ex')){$('#impPrev').textContent='Aucune séance ni exercice reconnu dans ce lien ou ce PDF.';return;}
+    impP=p;
+    $('#impPrev').textContent=p.k==='ses'?'Séance « '+(p.d.title||'Sans titre')+' » · '+(p.d.ex||[]).length+' exercice(s) → sera ajoutée à tes séances.':'Exercice « '+(p.d.name||p.d.type)+' » → sera ajouté à ta bibliothèque d’exercices.';
+    $('#impOk').disabled=false;
+  }
+  async function impFromText(t){
+    try{var m=/#imp=([A-Za-z0-9_-]+)/.exec(t)||/^\s*([pz][A-Za-z0-9_-]{8,})\s*$/.exec(t);if(!m){impShow(null);return;}impShow(await unpack(m[1]));}catch(_){impShow(null);}
+  }
+  function openImp(txt){$('#impBox').hidden=false;$('#impTxt').value=txt||'';$('#impPrev').textContent='';$('#impOk').disabled=true;impP=null;if(txt)impFromText(txt);}
+  $('#impX').addEventListener('click',function(){$('#impBox').hidden=true;});
+  $('#impRead').addEventListener('click',function(){impFromText($('#impTxt').value);});
+  $('#impTxt').addEventListener('input',function(){impFromText(this.value);});
+  $('#impFile').addEventListener('change',async function(){
+    var f=this.files&&this.files[0];this.value='';if(!f)return;
+    try{var str=new TextDecoder('latin1').decode(new Uint8Array(await f.arrayBuffer())),m=/%HBAPP1:([A-Za-z0-9_-]+)/.exec(str);impShow(m?await unpack(m[1]):null);}catch(_){impShow(null);}
+  });
+  $('#impOk').addEventListener('click',function(){
+    var p=impP;if(!p)return;load();tlLoad();
+    var map={},dmap={};
+    (p.sch||[]).forEach(function(x){var c=JSON.parse(JSON.stringify(x)),nid=sid();map[x.id]=nid;c.id=nid;c.updated=Date.now();LIB.unshift(c);});
+    if((p.sch||[]).length){try{writeLib();if(window.renderLib)renderLib();}catch(_){}}
+    (p.dr||[]).forEach(function(d){if(window.__drillPut)dmap[d.id]=window.__drillPut(d);});
+    function fix(e){e.id=sid();delete e.st;delete e.tlId;e.lib=e.lib?(map[e.lib]||''):'';e.drill=e.drill?(dmap[e.drill]||''):'';if(!Array.isArray(e.teams))e.teams=defTeams();}
+    var m;
+    if(p.k==='ses'){var c=p.d;c.id=sid();(c.ex||[]).forEach(fix);c.updated=Date.now();SES.push(c);store();m='Séance « '+(c.title||'Sans titre')+' » ajoutée à tes séances.';}
+    else{var e=p.d;fix(e);TL.items.unshift({id:sid(),kind:'ex',theme:'',title:e.name||e.type,data:e,updated:Date.now()});tlStore();m='Exercice « '+(e.name||e.type)+' » ajouté à ta bibliothèque d’exercices.';}
+    $('#impBox').hidden=true;impP=null;bsMsg(m);msg(m);renderAll();bsRender();
+  });
+  $('#bsImp').addEventListener('click',function(){openImp('');});
+  $('#sImp').addEventListener('click',function(){openImp('');});
+  $('#sLink').addEventListener('click',function(){var s=cs();if(!s)return;if(!s.ex.length){msg('Ajoute d’abord au moins un exercice.');return;}shareLink('ses',s,s.title||'Séance',msg);});
+  function checkImpHash(){var h=location.hash||'';if(/^#imp=/.test(h)){var t=h;location.hash='#page=bibses';openImp(t);}}
+  window.addEventListener('hashchange',checkImpHash);
   function bsMsg(t){$('#bsMsg').textContent=t||'';}
   function bsRender(){
     load();tlLoad();
@@ -5716,6 +5824,8 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
       sel.addEventListener('change',function(){if(r.mine){r.s.theme=sel.value;store();}else{r.it.theme=sel.value;tlStore();}bsRender();});a.appendChild(sel);
       function bt(l,fn,cls){var b=document.createElement('button');b.type='button';b.className='btn'+(cls?' '+cls:'');b.textContent=l;b.addEventListener('click',fn);a.appendChild(b);return b;}
       bt('📄 Voir le PDF',function(){if(!ex.length){bsMsg('Cette séance n’a pas encore d’exercice.');return;}pdfView(r.s);},'primary');
+      bt('\uD83D\uDCE4 PDF',function(){sendPdf(r.s,bsMsg);});
+      bt('\uD83D\uDD17 Lien',function(){shareLink('ses',r.s,r.title,bsMsg);});
       if(r.mine)bt('Modifier',function(){cur=r.s.id;try{localStorage.setItem('hb-sess-cur',r.s.id);}catch(_){}location.hash='#page=seance';if(window.__applyPage)window.__applyPage();});
       else bt('Utiliser (nouvelle séance)',function(){var c=JSON.parse(JSON.stringify(r.it.data));c.id=sid();c.date=new Date().toISOString().slice(0,10);c.ex.forEach(function(e){e.id=sid();});c.updated=Date.now();SES.push(c);cur=c.id;store();try{localStorage.setItem('hb-sess-cur',c.id);}catch(_){}location.hash='#page=seance';if(window.__applyPage)window.__applyPage();});
       if(!r.mine){var ar=0;bt('Supprimer',function(ev){var x=ev.currentTarget;if(!ar){ar=1;x.textContent='Confirmer';setTimeout(function(){ar=0;x.textContent='Supprimer';},2500);return;}TL.items=TL.items.filter(function(z){return z.id!==r.it.id;});tlStore();bsRender();},'danger');}
@@ -5724,14 +5834,15 @@ document.addEventListener('touchend',function(e){var n=Date.now();if(n-lastTap<3
   }
   $('#bsSearch').addEventListener('input',bsRender);
   window.__bsShow=function(){if(/^#page=bibses/.test(location.hash||''))bsRender();};
+  checkImpHash();
   /* ===== mode terrain indépendant ===== */
-  var TK='handball-terrain-v1',TT=null;
+  var TKT='handball-terrain-v1',TT=null;
   var TDEF=['Tirs','Arrêts gardienne','Neutralisations','Pertes de balle'];
-  function tLoad(){var o=null;try{o=JSON.parse(localStorage.getItem(TK)||'null');}catch(_){}
+  function tLoad(){var o=null;try{o=JSON.parse(localStorage.getItem(TKT)||'null');}catch(_){}
     if(!o||typeof o!=='object')o={};
     o.a=o.a||'Rose';o.b=o.b||'Bleu';o.ca=o.ca||'#ed1680';o.cb=o.cb||'#1c3f8c';o.min=(+o.min>=0&&o.min!=null)?+o.min:15;if(o.min===0&&!('min' in o))o.min=15;
     o.sc=o.sc&&o.sc.length===2?o.sc:[0,0];o.c=o.c||{};o.sl=(o.sl&&o.sl.length)?o.sl:TDEF.slice();o.ev=o.ev||[];TT=o;return o;}
-  function tSave(){try{localStorage.setItem(TK,JSON.stringify(TT));}catch(_){}}
+  function tSave(){try{localStorage.setItem(TKT,JSON.stringify(TT));}catch(_){}}
   function tElapsed(){return Math.max(0,Math.round(TT.min*60-run.left));}
   function tLog(k,ti,d){TT.ev.push({t:tElapsed(),k:k,m:ti,d:d});if(TT.ev.length>2000)TT.ev.shift();}
   function tCount(k,ti){if(k==='\u0000score')return TT.sc[ti];TT.c[k]=TT.c[k]||[0,0];return TT.c[k][ti];}
