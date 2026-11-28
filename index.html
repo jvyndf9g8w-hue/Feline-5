@@ -6067,7 +6067,7 @@ hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle
   function parse(v,t){v=String(v).trim();if(t==='n')return Math.max(1,parseInt(v,10)||1);var m=v.match(/^(\d+)\s*[:.,hm]\s*(\d{1,2})/);if(m)return parseInt(m[1],10)*60+Math.min(59,parseInt(m[2],10));return Math.max(0,parseInt(v,10)||0);}
   function build(){ph=[];if(C.prep>0)ph.push({n:'Préparer',d:C.prep,c:'#fcff3c',k:'p'});
     for(var s=1;s<=C.series;s++){for(var r=1;r<=C.reps;r++){ph.push({n:'Effort',d:C.work,c:'#9bff48',k:'w',s:s,r:r});
-      if(r<C.reps&&C.rest>0)ph.push({n:'Récup',d:C.rest,c:'#3fb4f0',k:'r',s:s,r:r});}
+      if((r<C.reps||s<C.series)&&C.rest>0)ph.push({n:'Récup',d:C.rest,c:'#3fb4f0',k:'r',s:s,r:r});}
       if(s<C.series&&C.srest>0)ph.push({n:'Repos séries',d:C.srest,c:'#ff9f43',k:'s',s:s});}}
   function totalLeft(){var t=left;for(var i=idx+1;i<ph.length;i++)t+=ph[i].d;return t;}
   function serLeft(){var t=left;for(var i=idx+1;i<ph.length&&ph[i].k!=='s';i++)t+=ph[i].d;return ph[idx]&&ph[idx].k==='s'?0:t;}
@@ -6081,7 +6081,7 @@ hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle
     m.onclick=function(){step(-1)};p.onclick=function(){step(1)};
     inp.onchange=function(){C[f[0]]=parse(inp.value,f[2]);show();chg();};inp.onfocus=function(){try{inp.select()}catch(_){}};
     show();r.appendChild(m);r.appendChild(inp);r.appendChild(p);d.appendChild(l);d.appendChild(r);h.appendChild(d);if(f[0]==='reps'){var e=document.createElement('div');e.className='pc';e.innerHTML='<label>Temps d\u2019une série</label><div class="pr"><b id="pmaSerT" style="font-size:26px;color:#fff"></b></div>';h.appendChild(e);}});serT();}
-  function serT(){var el=$('#pmaSerT');if(el)el.textContent=fmt(C.reps*C.work+Math.max(0,C.reps-1)*C.rest);}
+  function serT(){var el=$('#pmaSerT');if(el)el.textContent=fmt(C.reps*(C.work+C.rest));}
   function chg(){save();serT();if(!on&&(idx===0||done)){reset();}}
   function show(){var p=ph[idx];
     if(!p){$('#pmaPn').textContent='Terminé';$('#pmaPt').textContent='00:00';$('#pmaPh').style.background='#fff';$('#pmaNn').textContent='Bravo !';$('#pmaNt').textContent='';$('#pmaRem').textContent='0';$('#pmaRemT').textContent='00:00';$('#pmaTot').textContent='00:00';$('#pmaSub').textContent='';return;}
