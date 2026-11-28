@@ -902,6 +902,53 @@ body.kwork #sessBanner{display:none!important}
 #testPage .tfil{display:flex;gap:8px;align-items:center;margin-bottom:6px;font-weight:700}
 #testPage .ivt td,#testPage .ivt th{text-align:left}
 #testPage .ivt td.sm{font-size:12px;color:#cfdcff}
+.devbtn{flex:none;align-self:flex-start;min-width:40px;height:40px;padding:0 10px;border-radius:12px;border:1px solid rgba(121,146,204,.7);background:rgba(255,255,255,.12);color:#fff;font:800 15px/1 inherit;font-family:inherit;cursor:pointer}
+body.phone .devbtn{background:#7992CC;color:#0e2347}
+/* ===== affichage téléphone ===== */
+body.phone{overflow-x:hidden}
+body.phone .wrap{max-width:100%;min-width:0;padding-left:0;padding-right:0}
+body.phone .wrap>*{min-width:0;max-width:100%}
+html:has(body.phone.hwork),body.phone.hwork{height:auto;min-height:100dvh;overflow:auto}
+body.phone.hwork{overflow-x:hidden}
+body.phone.hwork .wrap,body.phone.hwork #homePage{height:auto;overflow:visible}
+body.phone.hwork #homePage{grid-template-rows:none;gap:10px}
+body.phone.hwork .hh{gap:8px;align-items:center}
+body.phone.hwork .devbtn{align-self:center}
+body.phone.hwork .hname h1{white-space:normal;font-size:19px}
+body.phone.hwork .hname h1 br{display:inline}
+body.phone.hwork .hname p{letter-spacing:.1em;font-size:8px}
+body.phone.hwork .hlogo{width:36px;height:42px}
+body.phone.hwork .hheroes{display:grid;grid-template-columns:1fr;gap:8px}
+body.phone.hwork .hhero{flex-direction:column;align-items:flex-start;padding:12px 14px}
+body.phone.hwork .hhero>svg,body.phone.hwork .hhero .htab{display:none}
+body.phone.hwork .hhero h2{font-size:21px!important}
+body.phone.hwork .hhero p{font-size:13px}
+body.phone.hwork .hcta{padding:10px 14px;font-size:.8em}
+body.phone.hwork .hgrid2{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:8px}
+body.phone.hwork .hgrid2>.ht2,body.phone.hwork .hgrid2>.ht2:nth-child(n+4),body.phone.hwork .hgrid2>.ht2.hterr:nth-child(n){grid-column:auto;min-height:118px;margin:0}
+body.phone.hwork .hgrid2>.ht2.hterr:nth-child(n){display:grid;align-content:end;padding:12px 14px 16px;gap:3px}
+body.phone.hwork .hterr .ti{position:absolute;left:14px;top:12px;width:38px;height:38px}
+body.phone.hwork .hterr .hterrt{display:grid;margin-top:44px;flex:none}
+body.phone.hwork .hterr b{font-size:15px}
+body.phone.hwork .hdirect{display:none}
+body.phone.hwork{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))!important}
+body.phone .snav{flex-wrap:wrap;gap:6px}
+body.phone .snav .btn,body.phone .snav strong{font-size:14px}
+body.phone .panel{padding:10px}
+body.phone #pmaPage .pphase .pt{font-size:21vw}
+body.phone #pmaPage .pphase .pn{font-size:9vw}
+body.phone #pmaPage .pnext .pt{font-size:11vw}
+body.phone #pmaPage .pcfg{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:8px}
+body.phone #pmaPage .pc input{width:64px;font-size:20px}
+body.phone #pmaPage .pc button{width:34px;height:34px}
+body.phone #pmaPage .pgo{width:80px;height:80px}
+body.phone #pmaPage .pbot{grid-template-columns:1fr auto;gap:8px}
+body.phone #pmaPage .pside{grid-column:1/-1;justify-content:center}
+body.phone #testPage .tform #tsN{flex:1 1 100%}
+body.phone .ivt{min-width:480px}
+body.phone .sgrid{grid-template-columns:1fr 1fr}
+body.phone .sxb{grid-template-columns:1fr}
+body.phone .sxf{grid-template-columns:1fr}
 </style>
 
 <div class="wrap">
@@ -912,7 +959,7 @@ body.kwork #sessBanner{display:none!important}
 
 
   <section id="homePage" aria-label="Accueil">
-    <div class="hh"><span class="hlogo"></span><span class="hsep"></span><div class="hname"><h1>Tactique<br> Training<br> <em>Féline</em></h1><p>Coaching &bull; Handball &bull; Performance</p></div></div>
+    <div class="hh"><button type="button" class="devbtn" id="devBtn" aria-label="Basculer affichage téléphone / iPad" title="Affichage téléphone / iPad">&#128241;</button><span class="hlogo"></span><span class="hsep"></span><div class="hname"><h1>Tactique<br> Training<br> <em>Féline</em></h1><p>Coaching &bull; Handball &bull; Performance</p></div></div>
     <div class="hheroes">
     <div class="hhero"><div class="hhtxt"><span class="hpill">Accès rapide</span><h2>Créer un schéma tactique</h2><p>Dessiner, animer et préparer tes systèmes de jeu.</p><div class="hbtns"><a class="hcta" href="#page=main">&#9654; Ouvrir l&rsquo;atelier tactique &rarr;</a><button type="button" class="hcta ghost" id="hFs">&#9974; Grand écran</button></div></div><svg viewBox="0 0 360 230" aria-hidden="true" class="htab"><rect x="14" y="14" width="332" height="202" rx="22" fill="#0d2550" stroke="#7992CC" stroke-width="5"/><rect x="26" y="26" width="308" height="178" rx="12" fill="#143466" stroke="#3A5CAF" stroke-width="2"/><g fill="none" stroke="#7992CC" stroke-width="2.4"><path d="M60 190V70h240v120"/><path d="M130 70a50 50 0 00100 0" stroke-dasharray="6 5"/><path d="M110 70a70 70 0 00140 0" stroke="#5576C6"/></g><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M110 150l32-34 28-18"/><path d="M200 150l-14-30 4-28"/><path d="M250 138l-30-24"/></g><g fill="#143466" stroke="#fff" stroke-width="2.6"><circle cx="110" cy="150" r="7"/><circle cx="170" cy="98" r="7"/><circle cx="200" cy="150" r="7"/><circle cx="190" cy="92" r="7"/><circle cx="250" cy="138" r="7"/><circle cx="220" cy="114" r="7"/></g><path d="M300 120l46-48" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg></div>
     <div class="hhero hhero2"><div class="hhtxt"><span class="hpill">Accès rapide</span><h2>Créer une séance d&rsquo;entraînement</h2><p>Construire, modifier et lancer tes séances.</p><div class="hbtns"><button type="button" class="hcta" id="hNewSes">&#43; Nouvelle séance</button><a class="hcta ghost" href="#page=seance">&#9998; Modifier une séance</a></div></div><svg viewBox="0 0 120 120" class="htab" aria-hidden="true"><g fill="none" stroke="#7992CC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="16" width="72" height="92" rx="10" fill="#0d2550"/><path d="M46 16v-6h28v6"/><path d="M40 46h12M40 66h12M40 86h12" stroke="#fff"/><path d="M60 46h20M60 66h20M60 86h14"/></g></svg></div>
@@ -6212,6 +6259,15 @@ hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle
   $('#tsF').onchange=render;
   window.__tsShow=function(){if(!/^#page=tests/.test(location.hash||''))return;if(!$('#tsD').value)$('#tsD').value=today();render();};
   window.__tsShow();
+})();
+
+/* ===== affichage téléphone / iPad ===== */
+(function(){
+  var K='hb-device',b=document.getElementById('devBtn');
+  function get(){try{return localStorage.getItem(K)==='phone';}catch(_){return false;}}
+  function set(p){document.body.classList.toggle('phone',p);b.innerHTML=p?'iPad':'&#128241;';b.title=p?'Revenir à l’affichage iPad':'Passer à l’affichage téléphone';}
+  set(get());
+  b.onclick=function(){var p=!document.body.classList.contains('phone');try{localStorage.setItem(K,p?'phone':'ipad');}catch(_){}set(p);window.scrollTo(0,0);};
 })();
 </script>
 <script>
