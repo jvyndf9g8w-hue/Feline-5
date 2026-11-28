@@ -892,6 +892,16 @@ body.iwork #sessBanner{display:none!important}
 .ivt td.d small{font-size:12px;font-weight:700;color:#cfdcff}
 .ivt .x{border:0;background:#7992CC;color:#0e2347;border-radius:50%;width:28px;height:28px;font-weight:800;cursor:pointer}
 .ivnote{font-size:13px;opacity:.85;margin:0}
+#testPage{display:none;gap:10px;color:#fff}
+body.kwork #testPage{display:grid}
+body.kwork .wrap>*:not(#testPage){display:none!important}
+body.kwork #sessBanner{display:none!important}
+#testPage .tform{display:flex;gap:8px;flex-wrap:wrap;background:rgba(20,52,102,.92);border-radius:16px;padding:10px}
+#testPage .tform input,#testPage .tform select,#testPage .tfil select{font:700 16px inherit;font-family:inherit;border:2px solid #5576C6;border-radius:8px;background:#fff;color:#143466;padding:8px;min-width:0}
+#testPage .tform #tsAdd{background:#7992CC;color:#0e2347;font-weight:800}#testPage .tform #tsN{flex:1;min-width:130px}#testPage .tform #tsV{width:90px}
+#testPage .tfil{display:flex;gap:8px;align-items:center;margin-bottom:6px;font-weight:700}
+#testPage .ivt td,#testPage .ivt th{text-align:left}
+#testPage .ivt td.sm{font-size:12px;color:#cfdcff}
 </style>
 
 <div class="wrap">
@@ -923,14 +933,21 @@ body.iwork #sessBanner{display:none!important}
     <div class="panel" style="display:grid;gap:10px"><div class="libhead"><h2>Choisis la séance à lancer</h2></div><div class="hrow" id="fList"></div></div>
   </section>
 
+  <section id="testPage" aria-label="Résultats des tests">
+    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><a class="btn" href="#page=pma">&#9201; PMA</a><a class="btn" href="#page=indiv">&#128100; Individualisation</a><strong>Résultats tests</strong></div>
+    <div class="tform"><input type="date" id="tsD"><input type="text" id="tsN" list="tsNames" placeholder="Joueuse"><datalist id="tsNames"></datalist><select id="tsT"><option>VMA</option><option>VIFT</option></select><input type="text" inputmode="decimal" id="tsV" placeholder="km/h"><button type="button" class="btn" id="tsAdd">+ Ajouter</button></div>
+    <div class="ivwrap"><div class="tfil"><label>Filtrer :</label><select id="tsF"><option value="">Toutes les joueuses</option></select></div><table class="ivt" id="tsTab"></table></div>
+    <p class="ivnote">Le dernier test (par date) de chaque joueuse met automatiquement à jour sa VMA ou sa VIFT dans « Individualisation ».</p>
+  </section>
+
   <section id="indivPage" aria-label="Individualisation du joueur">
-    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><a class="btn" href="#page=pma">&#9201; PMA</a><strong>Individualisation du joueur</strong><span class="grow"></span><button type="button" class="btn" id="ivAddCol">+ Format</button><button type="button" class="btn" id="ivAddP">+ Joueuse</button></div>
+    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><a class="btn" href="#page=pma">&#9201; PMA</a><a class="btn" href="#page=tests">&#128202; Tests</a><strong>Individualisation du joueur</strong><span class="grow"></span><button type="button" class="btn" id="ivAddCol">+ Format</button><button type="button" class="btn" id="ivAddP">+ Joueuse</button></div>
     <div class="ivwrap"><table class="ivt" id="ivT"></table></div>
     <p class="ivnote">Distance par effort = vitesse (km/h) &divide; 3,6 &times; % &times; durée de l&rsquo;effort. VIFT pour le 30-15, VMA pour les autres formats : choisis la référence dans chaque colonne.</p>
   </section>
 
   <section id="pmaPage" aria-label="PMA Intermittent">
-    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><strong>PMA &ndash; Intermittent</strong><span class="grow"></span><a class="btn" href="#page=indiv">&#128100; Individualisation</a><button type="button" class="btn" id="pmaCfgBtn">&#9881; Réglages</button></div>
+    <div class="snav"><a class="btn" href="#page=home">&larr; Accueil</a><strong>PMA &ndash; Intermittent</strong><span class="grow"></span><a class="btn" href="#page=indiv">&#128100; Individualisation</a><a class="btn" href="#page=tests">&#128202; Résultats tests</a><button type="button" class="btn" id="pmaCfgBtn">&#9881; Réglages</button></div>
     <div class="pcfg" id="pmaCfg"></div>
     <div class="pinfo"><strong id="pmaTot">00:00</strong><span id="pmaSub" style="opacity:.85"></span></div>
     <div class="pphase" id="pmaPh"><div class="pn" id="pmaPn">Prêt</div><div class="pt" id="pmaPt">00:00</div></div>
@@ -4385,7 +4402,7 @@ $('#fsLibClose').addEventListener('click',closeFsLib);
   }
   function apply(){
     var vw=/^#page=video/.test(location.hash||'');
-    document.body.classList.toggle('vwork',vw);vwHost(vw);document.body.classList.toggle('zwork',/^#page=vlib/.test(location.hash||''));document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));document.body.classList.toggle('ywork',/^#page=bibses/.test(location.hash||''));if(window.__bsShow)window.__bsShow();var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));document.body.classList.toggle('pwork',/^#page=pma/.test(hh));document.body.classList.toggle('iwork',/^#page=indiv/.test(hh));if(window.__ivShow)window.__ivShow();if(window.__pmaShow)window.__pmaShow();if(window.__fieldShow)window.__fieldShow();
+    document.body.classList.toggle('vwork',vw);vwHost(vw);document.body.classList.toggle('zwork',/^#page=vlib/.test(location.hash||''));document.body.classList.toggle('bwork',/^#page=biblio/.test(location.hash||''));document.body.classList.toggle('ywork',/^#page=bibses/.test(location.hash||''));if(window.__bsShow)window.__bsShow();var hh=location.hash||'';var hm=/^#page=home/.test(hh)||((hh===''||hh==='#')&&!/[?&]s=/.test(location.search||''));document.body.classList.toggle('hwork',hm);document.body.classList.toggle('twork',/^#page=terrain/.test(hh));document.body.classList.toggle('pwork',/^#page=pma/.test(hh));document.body.classList.toggle('iwork',/^#page=indiv/.test(hh));document.body.classList.toggle('kwork',/^#page=tests/.test(hh));if(window.__tsShow)window.__tsShow();if(window.__ivShow)window.__ivShow();if(window.__pmaShow)window.__pmaShow();if(window.__fieldShow)window.__fieldShow();
     document.body.classList.toggle('swork',/^#page=seance/.test(location.hash||''));
     document.body.classList.toggle('xwork',/^#page=exo/.test(location.hash||''));
     if(window.__sessShow)window.__sessShow();
@@ -6165,8 +6182,36 @@ hint("Glisse une joueuse ou le ballon. « + Étape » copie la position actuelle
     upd();}
   $('#ivAddP').onclick=function(){M.ps.push({n:'',vma:'',vift:''});save();render();var a=document.querySelectorAll('#ivT .nm');if(a.length)a[a.length-1].focus();};
   $('#ivAddCol').onclick=function(){M.cols.push({s:30,p:100,r:'VMA'});save();render();};
+  window.__ivNames=function(){return M.ps.map(function(p){return p.n}).filter(Boolean);};
+  window.__ivSet=function(n,k,v){var q=null;M.ps.forEach(function(p){if((p.n||'').trim().toLowerCase()===n.trim().toLowerCase())q=p;});if(!q){q={n:n.trim(),vma:'',vift:''};M.ps.push(q);}q[k]=String(v);save();};
   window.__ivShow=function(){if(/^#page=indiv/.test(location.hash||''))render();};
   window.__ivShow();
+})();
+
+/* ===== Résultats tests ===== */
+(function(){
+  var K='hb-tests-v1',$=function(q){return document.querySelector(q)};
+  var R=[];try{R=JSON.parse(localStorage.getItem(K)||'[]')||[];}catch(_){R=[];}
+  function save(){try{localStorage.setItem(K,JSON.stringify(R));}catch(_){}}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+  function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+  function fr(d){var m=String(d).match(/^(\d{4})-(\d\d)-(\d\d)$/);return m?m[3]+'/'+m[2]+'/'+m[1]:d;}
+  function sync(){var best={};R.forEach(function(r){var k=r.n.toLowerCase()+'|'+r.t;if(!best[k]||r.d>=best[k].d)best[k]=r;});
+    for(var k in best){var r=best[k];if(window.__ivSet)window.__ivSet(r.n,r.t==='VIFT'?'vift':'vma',r.v);}}
+  function render(){
+    var F=$('#tsF'),cur=F.value,names=[];R.forEach(function(r){if(names.indexOf(r.n)<0)names.push(r.n);});names.sort();
+    F.innerHTML='<option value="">Toutes les joueuses</option>';names.forEach(function(n){var o=el('option',null,n);o.value=n;F.appendChild(o);});F.value=names.indexOf(cur)>=0?cur:'';
+    var dl=$('#tsNames');dl.innerHTML='';var all=names.slice();(window.__ivNames?window.__ivNames():[]).forEach(function(n){if(all.indexOf(n)<0)all.push(n);});all.forEach(function(n){var o=document.createElement('option');o.value=n;dl.appendChild(o);});
+    var T=$('#tsTab');T.innerHTML='';var h=el('tr');['Date','Joueuse','Test','Résultat',''].forEach(function(x){h.appendChild(el('th',null,x));});T.appendChild(h);
+    R.map(function(r,i){return {r:r,i:i};}).filter(function(o){return !F.value||o.r.n===F.value;}).sort(function(a,b){return a.r.d<b.r.d?1:a.r.d>b.r.d?-1:0;}).forEach(function(o){
+      var r=o.r,tr=el('tr');tr.appendChild(el('td',null,fr(r.d)));tr.appendChild(el('td',null,r.n));tr.appendChild(el('td',null,r.t));tr.appendChild(el('td',null,r.v+' km/h'));
+      var td=el('td'),x=el('button','x','×');x.type='button';x.title='Supprimer';x.onclick=function(){R.splice(o.i,1);save();render();};td.appendChild(x);tr.appendChild(td);T.appendChild(tr);});
+    if(!R.length){var tr=el('tr'),td=el('td','sm','Aucun test enregistré.');td.colSpan=5;tr.appendChild(td);T.appendChild(tr);}}
+  $('#tsAdd').onclick=function(){var n=$('#tsN').value.trim(),v=parseFloat($('#tsV').value.replace(',','.')),d=$('#tsD').value||today();if(!n||!(v>0)){(!n?$('#tsN'):$('#tsV')).focus();return;}
+    R.push({d:d,n:n,t:$('#tsT').value,v:Math.round(v*100)/100});save();sync();$('#tsV').value='';render();};
+  $('#tsF').onchange=render;
+  window.__tsShow=function(){if(!/^#page=tests/.test(location.hash||''))return;if(!$('#tsD').value)$('#tsD').value=today();render();};
+  window.__tsShow();
 })();
 </script>
 <script>
